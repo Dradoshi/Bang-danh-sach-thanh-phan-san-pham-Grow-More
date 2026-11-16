@@ -182,7 +182,7 @@ dialog .dact{margin:12px -14px -14px;bottom:-14px;padding:10px 14px calc(10px + 
 </button></div></nav></header>
 <main>
 <section class="card"><div class="sr"><span data-i="search"></span><input id="q" placeholder="Tìm MSPB hoặc tên sản phẩm" autocomplete="off"></div>
-<div class="fr"><button class="chip on" data-f="all">Tất cả</button><button class="chip" data-f="root">Bón rễ</button><button class="chip" data-f="leaf">Bón lá</button><button class="chip" data-f="hot" title="Chỉ hiển thị sản phẩm được đánh dấu ưu tiên in">★ Sản phẩm hay in</button><button class="chip" data-f="miss" title="Sản phẩm còn thiếu ít nhất một trường: tên, loại phân bón, phương thức sử dụng, TCCS, thành phần hoặc quốc gia sản xuất">Thiếu dữ liệu</button><label class="fcw" title="Lọc theo quốc gia sản xuất đã được xác nhận cho từng sản phẩm"><select id="fc"></select></label></div>
+<div class="fr"><button class="chip on" data-f="all">Tất cả</button><button class="chip" data-f="root">Bón rễ</button><button class="chip" data-f="leaf">Bón lá</button><button class="chip" data-f="hot" title="Chỉ hiển thị sản phẩm được đánh dấu ưu tiên in">★ Ưu tiên in</button><button class="chip" data-f="miss" title="Sản phẩm còn thiếu ít nhất một trường: tên, loại phân bón, phương thức sử dụng, TCCS, thành phần hoặc quốc gia sản xuất">Thiếu dữ liệu</button><label class="fcw" title="Lọc theo quốc gia sản xuất đã được xác nhận cho từng sản phẩm"><select id="fc"></select></label></div>
 <div class="mbd" id="mbd" hidden></div><div class="cr" id="cnt"></div><ul id="list"></ul>
 <div class="lf"><label class="chk" title="Khi chọn sản phẩm đã xác nhận quốc gia, tự đổi quốc gia đang dùng trên nhãn theo sản phẩm đó."><input type="checkbox" id="fol"> Tự đổi quốc gia nhãn theo sản phẩm</label><button id="bAll" hidden></button></div></section>
 <section class="card" id="prev"></section>
@@ -229,7 +229,7 @@ const lab=()=>{const b=$('#bAll'),n=filt().filter(hasProductData).length;delete 
 const MF=[['n','Tên sản phẩm','tên SP'],['l','Loại phân bón','loại phân bón'],['x','Phương thức sử dụng','phương thức'],['t','TCCS','TCCS'],['v','Thành phần','thành phần']];
 const missList=p=>MF.filter(([k])=>k==='v'?!(p.v||[]).some(v=>v!=null&&String(v).trim()!==''):!String(p[k]||'').trim()).map(([k,t,s])=>({k,t,s}));
 /* Quốc gia sản xuất đã xác nhận cũng là thông tin bắt buộc: thêm vào cùng danh sách để nhãn dòng, bộ đếm và bộ lọc luôn khớp nhau */
-const cMiss={k:'c',t:'Quốc gia sản xuất',s:'quốc gia sản xuất'};
+const cMiss={k:'c',t:'Quốc gia sản xuất',s:'quốc gia SX'};
 const missAll=p=>{const L=missList(p);if(!String(p.c||'').trim())L.push(cMiss);return L};
 const miss=p=>missAll(p).length>0;
 const liMiss=p=>{const L=missAll(p);if(!L.length)return'';return`<small class="mi">${ic('alert')}${hasProductData(p)?'Thiếu: '+L.map(x=>x.s).join(', '):'Chưa nhập dữ liệu'}</small>`};
@@ -252,7 +252,7 @@ function renderList(){renderFc();const L=filt(),u=$('#list');u.classList.toggle(
 $('#list').innerHTML=L.map((p,i)=>`<li class="${p.m===S.sel?'on':''}${miss(p)?' mw':''}" data-m="${p.m}" style="--n:${Math.min(i,14)}"${liTitle(p)}><b>${p.m}</b><span class="nm"><strong>${esc(p.n)||'(chưa có tên)'}</strong>${liMiss(p)}</span>${p.c?`<em class="cc" title="Đã xác nhận quốc gia sản xuất: ${esc(p.c)}">${esc(p.c)}</em>`:''}<button class="st ${p.h?'h':''}" data-s="${p.m}" title="Bật/tắt SP hay in">★</button></li>`).join('')||'<li class="e">Không có kết quả</li>';
 const populated=L.filter(hasProductData).length,totalPopulated=S.P.filter(hasProductData).length,empty=L.length-populated;$('#cnt').innerHTML=`<span><b>${populated}</b> / ${totalPopulated} sản phẩm có dữ liệu${empty?` · ${empty} dòng trống`:''}</span><span class="kbh"></span>`;
 $('#sub').textContent='Công cụ chuẩn bị nội dung nhãn Heineken · '+S.P.length+' SP';
-{const K=S.P.filter(miss).length,mb=document.querySelector('.chip[data-f="miss"]');if(mb){mb.innerHTML='Thiếu thông tin+(K?` <b class="cn">${K}</b>`:'');mb.classList.toggle('has',K>0);mb.title=K?`${K} sản phẩm còn thiếu ít nhất một trường: tên, loại phân bón, phương thức sử dụng, TCCS, thành phần hoặc quốc gia sản xuất`:'Không có sản phẩm nào thiếu thông tin'}}
+{const K=S.P.filter(miss).length,mb=document.querySelector('.chip[data-f="miss"]');if(mb){mb.innerHTML='Thiếu dữ liệu'+(K?` <b class="cn">${K}</b>`:'');mb.classList.toggle('has',K>0);mb.title=K?`${K} sản phẩm còn thiếu ít nhất một trường: tên, loại phân bón, phương thức sử dụng, TCCS, thành phần hoặc quốc gia sản xuất`:'Không có sản phẩm nào thiếu thông tin'}}
 renderMbd();lab()}
 function renderMbd(){const m=$('#mbd');if(cf!=='miss'){m.hidden=true;return}
 const A=S.P.filter(miss),n=[...MF,[cMiss.k,cMiss.t,cMiss.s]].map(([k,t,sh])=>({k,t,n:A.filter(p=>missAll(p).some(x=>x.k===k)).length})).filter(x=>x.n);

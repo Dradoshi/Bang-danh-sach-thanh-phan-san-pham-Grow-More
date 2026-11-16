@@ -243,7 +243,7 @@ const fOrd=()=>F.map((f,i)=>i).sort((a,b)=>F[a][1]-F[b][1]||a-b);
 const colL=n=>{let s='';n++;while(n>0){const m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=Math.floor((n-1)/26)}return s};
 const toRows=()=>{const o=fOrd(),n=F.length,g=Array(n+7).fill(null);g[0]='THÔNG TIN SP';
 [1,2,3,4].forEach(k=>{const j=o.findIndex(i=>F[i][1]===k);if(j>=0)g[3+j]=GN[k-1].toUpperCase()});
-g[3+n]='THÔNG TIN THÊM CỦA SP';g[5+n]='CÁC SẢN PHẨM LÀM NHÃN';g[6+n]='QUỐC GIA SX ĐÃ XÁC NHẬN';
+g[3+n]='THÔNG TIN THÊM CỦA SP';g[5+n]='CÁC SẢN PHẨM LÀM NHÃN';g[6+n]='QUỐC GIA SẢN XUẤT ĐÃ XÁC NHẬN';
 return[['BẢNG DỮ LIỆU DANH SÁCH MSPB'],[],g,['MSPB','Tên sản phẩm','Loại phân bón',...o.map(i=>F[i][0]),'Phương thức sử dụng','TCCS','Danh sách sản phẩm làm nhãn','Quốc gia sản xuất đã xác nhận'],...S.P.map(p=>[p.m,p.n||null,p.l||null,...o.map(i=>p.v[i]||null),p.x||null,p.t||null,!!p.h,p.c||null])]};
 const cell=v=>v==null||String(v).trim()===''?null:typeof v==='number'?v.toLocaleString('de-DE',{maximumFractionDigits:6}):String(v).trim();
 function fromRows(R){const nf=x=>String(x==null?'':x).normalize('NFC').trim().toLowerCase(),hi=R.findIndex(r=>nf(r[0])==='mspb'),H=hi<0?[]:R[hi].map(nf),
@@ -421,7 +421,7 @@ return`<div class="cv"><span>${esc(f[0])}</span><div><input data-k="v${i}" input
 openD(isNew?'Thêm sản phẩm':'Sửa sản phẩm '+p.m,`<div class="fg">${I('m','MSPB (tối đa 5 số)',p.m,'inputmode="numeric" maxlength="5"')}${I('n','Tên sản phẩm',p.n)}${I('l','Loại phân bón ▾',p.l,'list="dl-l" placeholder="Chọn hoặc gõ mới"')}${I('x','Phương thức sử dụng ▾',p.x,'list="dl-x" placeholder="Chọn hoặc gõ mới"')}${I('t','TCCS (Tiêu chuẩn cơ sở)',p.t,'placeholder="vd 06:2023/UNI"')}<label>Quốc gia SX đã xác nhận<select data-k="c"><option value="">Chưa xác nhận quốc gia sản xuất</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select></label></div>
 ${DL('dl-l',uniq(S.P.map(q=>q.l)))}${DL('dl-x',uniq(['BÓN RỄ','BÓN LÁ',...S.P.map(q=>q.x)]))}${DL('dl-un',UN)}
 <label class="chk"><input type="checkbox" id="eh" ${p.h?'checked':''}> SP hay in (★)</label>
-<p class="e hint">Cần thêm chất mới? Bấm <b>＋ Thêm thành phần</b> ở nhóm tương ứng — thành phần mới có sẵn cho mọi sản phẩm, không cần làm lại tool. Mục đầu tiên của ô đơn vị là đơn vị mặc định.</p>
+<p class="e hint">HDSD: Cần thêm chất mới? Bấm <b>＋ Thêm thành phần</b> ở nhóm tương ứng. Mục đầu tiên của ô đơn vị là đơn vị mặc định.</p>
 ${GN.map((n,gi)=>{const c=F.filter(f=>f[1]==gi+1).length;return`<div class="gh"><span>${n}</span><button type="button" class="ga" data-g="${gi+1}" title="Thêm thành phần mới vào nhóm ${n}">＋ Thêm thành phần</button></div><div class="cg" data-g="${gi+1}" style="--c:${cols(c)}">${F.map((f,i)=>f[1]==gi+1?CV(f,i,p.v[i]):'').join('')}</div><div class="addf" data-g="${gi+1}" hidden><input class="an" maxlength="60" placeholder="Tên thành phần mới, vd Natri (Na)" aria-label="Tên thành phần mới"><input class="au" list="dl-un" maxlength="12" value="${gi==2?'ppm':'%'}" placeholder="Đơn vị mặc định" aria-label="Đơn vị mặc định"><button type="button" class="pri ay">Thêm</button><button type="button" class="ax">Hủy</button></div>`}).join('')}`,()=>{
 const open=[...dlg.querySelectorAll('.addf:not([hidden]) .an')].find(x=>x.value.trim());if(open){note(`Bạn đang nhập thành phần mới «${open.value.trim()}» — bấm «Thêm» (hoặc «Hủy») trước khi lưu sản phẩm.`);open.focus();return false}
 const g=k=>dlg.querySelector(`[data-k="${k}"]`).value.trim(),m=g('m');

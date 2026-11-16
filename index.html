@@ -100,7 +100,7 @@ ul,main>section,dialog{scrollbar-width:thin;scrollbar-color:var(--line) transpar
 <nav class="tb"><label class="ctw" title="Địa chỉ / nơi sản xuất được in vào Heiniken. SP chưa xác nhận quốc gia sẽ dùng tạm quốc gia này."><span data-i="globe"></span>Heiniken theo quốc gia<select id="ct"></select><em class="tag" id="ctTag" hidden></em></label>
 <button id="bN"><span data-i="plus"></span>Thêm SP</button><button id="bC"><span data-i="layers"></span>Quốc gia &amp; câu kết</button><button id="bB"><span data-i="sheet"></span>Excel &amp; sao lưu</button><button id="bS"><span data-i="down"></span>Chữ hạ thấp</button></nav></header>
 <main>
-<section class="card"><div class="sr"><span data-i="search"></span><input id="q" placeholder="Tìm MSPB hoặc tên SP  ( / )" autocomplete="off"></div>
+<section class="card"><div class="sr"><span data-i="search"></span><input id="q" placeholder="Tìm MSPB hoặc tên SP" autocomplete="off"></div>
 <div class="fr"><button class="chip on" data-f="all">Tất cả</button><button class="chip" data-f="root">Bón rễ</button><button class="chip" data-f="leaf">Bón lá</button><button class="chip" data-f="hot">★ Hay in</button><button class="chip" data-f="miss">Thiếu thông tin</button><label class="fcw" title="Lọc theo quốc gia đã xác nhận"><select id="fc"></select></label></div>
 <div class="cr" id="cnt"></div><ul id="list"></ul>
 <div class="lf"><label class="chk"><input type="checkbox" id="fol"> Tự chuyển quốc gia theo SP đã xác nhận</label><button id="bAll" hidden></button></div></section>
@@ -157,19 +157,19 @@ if(!p){b.innerHTML='<p class="e">Chọn một MSPB ở danh sách bên trái.</p
 const r=build(p,S),sd=subHTML(r.out),G=['ĐA LƯỢNG','TRUNG LƯỢNG','VI LƯỢNG','THÀNH PHẦN PHỤ'],ok=p.c&&p.c===S.ctry,
 sec=(t,m)=>`<div class="eb"><span>${t}</span><i></i>${m||''}</div>`,cb=(id)=>`<button id="${id}">${ic('copy')}Chép</button>`,
 words=r.out.trim().split(/\s+/).length,
-sel=`<select id="pc" title="Đổi quốc gia đã xác nhận"><option value="">— Chưa xác nhận —</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select>`,
+sel=`<select id="pc" title="Đổi quốc gia đã xác nhận"><option value="">Chưa xác nhận quốc gia</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select>`,
 st=ok?`<div class="cst">${ic('chk')}<span>Đã xác nhận quốc gia:</span>${sel}</div>`
-:`<div class="cst w">${ic('alert')}<span>${p.c?`Đã xác nhận «${esc(p.c)}» nhưng nhãn đang dùng «${esc(S.ctry)}»:`:`Chưa xác nhận quốc gia – nhãn đang <u>tạm</u> dùng «${esc(S.ctry)}»:`}</span>${sel}<button id="pcOk" class="lk">✓ Xác nhận «${esc(S.ctry)}»</button>${p.c?`<button id="pcUse" class="lk">Dùng «${esc(p.c)}»</button>`:''}</div>`,
+:`<div class="cst w">${ic('alert')}<span>${p.c?`Đã xác nhận «${esc(p.c)}» nhưng nhãn đang dùng «${esc(S.ctry)}»:`:`Chưa xác nhận quốc gia vui lòng <u><b>xác nhận</b></u> «${esc(S.ctry)}»:`}</span>${sel}<button id="pcOk" class="lk">✓ Xác nhận «${esc(S.ctry)}»</button>${p.c?`<button id="pcUse" class="lk">Dùng «${esc(p.c)}»</button>`:''}</div>`,
 rc=(S.rec||[]).filter(m=>m!==S.sel&&S.P.some(x=>x.m===m)).slice(0,6);
 b.innerHTML=`<div class="ph"><div class="pt"><div class="id">MSPB ${esc(p.m)}</div><h2>${esc(p.n)||'(chưa có tên)'}</h2>
 <div class="sub">${[p.l,p.x,p.t&&'TCCS '+p.t].filter(Boolean).map(esc).join(' · ')||'—'}</div>${st}</div>
 <div class="pa"><button id="hs" class="hs ${p.h?'h':''}" title="Bật/tắt SP hay in">★</button><button id="bD">${ic('dup')}Nhân bản</button><button id="bE">${ic('pen')}Sửa</button><button id="cp" class="pri">${ic('copy')}Sao chép Heiniken</button></div></div>
 ${rc.length?`<div class="rec">${ic('hist')} Vừa xem: ${rc.map(m=>`<button class="chip" data-r="${m}">${m}</button>`).join('')}</div>`:''}
-${sec('Heiniken hoàn chỉnh',`<span class="m">${ok?'':'⚠ chưa xác nhận quốc gia · '}${r.out.length} ký tự · ${words} từ</span>`)}<div class="out ${ok?'':'w'}">${esc(r.out)}</div>
+${sec('Heiniken hoàn chỉnh (địa chỉ + thành phần)',`<span class="m">${ok?'':''}${r.out.length} ký tự · ${words} từ</span>`)}<div class="out ${ok?'':'w'}">${esc(r.out)}</div>
 ${sec('Thành phần')}<div class="gs">${G.map((n,gi)=>{const a=r.it.filter(x=>x.g==gi+1);return`<div class="g"><h4>${n}</h4>${a.map(x=>`<div><span>${esc(F[x.i][0])}</span><b>${esc(x.val)}</b></div>`).join('')||'<div class="n">—</div>'}</div>`}).join('')}</div>
-${sec('Thành phần hoàn chỉnh',cb('cp2'))}<div class="box">${esc(r.comp)||'—'}</div>
-${sec(`Địa chỉ / nơi sản xuất (${esc(S.ctry)})${ok?'':' · tạm'}`,cb('cp3'))}<div class="box">${esc(r.c)||'—'}</div>
-${sec(`Chữ hạ thấp trong Illustrator (${sd.n} chỗ)`,`<button id="sb">${ic('down')}Tuỳ chỉnh &amp; tải script</button>`)}<div class="box" style="--sd:${(sd.shift/5).toFixed(2)}em">${sd.h}</div>
+${sec('Thành phần làm heiniken',cb('cp2'))}<div class="box">${esc(r.comp)||'—'}</div>
+${sec(`Địa chỉ nơi sản xuất (${esc(S.ctry)})${ok?'':' · Yêu cầu xác nhận trước khi sao chép tránh làm sai heiniken'}`,cb('cp3'))}<div class="box">${esc(r.c)||'—'}</div>
+${sec(`Thành phần để làm heiniken trong Illustrator (${sd.n} chỗ)`,`<button id="sb">${ic('down')}Tuỳ chỉnh &amp; tải script</button>`)}<div class="box" style="--sd:${(sd.shift/5).toFixed(2)}em">${sd.h}</div>
 <div class="e" style="font-size:13px;margin-top:6px">Phần chữ màu đỏ sẽ được hạ ${String(sd.shift).replace('.',',')} pt khi chạy script trong Illustrator.${jusCfg().on?' Script cũng tự căn đều hai bên (Justify).':''}</div>`;
 if(lastM!==p.m){lastM=p.m;[...b.children].forEach((c,i)=>c.style.setProperty('--n',i));b.classList.remove('anim');void b.offsetWidth;b.classList.add('anim');b.scrollTo({top:0,behavior:RM?'auto':'smooth'})}else b.classList.remove('anim');
 if(fl){fl=false;const o=$('.out');if(o)o.classList.add('fl')}
@@ -312,7 +312,7 @@ openD('Script Illustrator: hạ thấp chữ + Justify',`<p class="e" style="mar
 <div class="fg"><label>Độ hạ 1 mức – Baseline Shift (pt)<input id="sh" inputmode="decimal" value="${esc(String(c.shift).replace('.',','))}"></label></div>
 <label>Công thức cần hạ thấp (mỗi dòng một mẫu)<textarea id="sr" rows="8" spellcheck="false">${esc(c.rules.join('\n'))}</textarea></label>
 <p class="e" style="font-size:13px">Phần trong <b>[ ]</b> hạ 1 mức, trong <b>{ }</b> hạ 2 mức (như số 2 của H₂O). Không phân biệt hoa/thường; chỉ khớp khi đứng riêng, không dính vào chữ khác. Ví dụ: <b>P[2]O[5hh]</b>, <b>pH[H]{2}[O]</b>.</p>
-<div class="bar">Căn đều hai bên (Justify) – gộp chung vào script</div>
+<div class="bar">Script căn đều hai bên (Justify) và chỉnh thành phần hóa học để làm heiniken</div>
 <label class="chk"><input type="checkbox" id="ju" ${J.on?'checked':''}> Kèm căn đều hai bên (Justify) khi chạy script</label>
 <div id="jf"><div class="fg">${tri('jw','Word Spacing – Min / Desired / Max (%)',J.w)}${tri('jl','Letter Spacing – Min / Desired / Max (%)',J.l)}${tri('jg','Glyph Scaling – Min / Desired / Max (%)',J.g)}</div>
 <div class="fg"><label class="chk"><input type="checkbox" id="jx" ${J.last?'checked':''}> Căn đều cả dòng cuối (bỏ chọn = dòng cuối căn trái)</label>

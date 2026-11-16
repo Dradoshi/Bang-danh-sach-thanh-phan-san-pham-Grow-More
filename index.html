@@ -1,67 +1,109 @@
 <!DOCTYPE html>
-<html lang="vi"><head><meta charset="utf-8"><title>Bảng danh sách thành phần sản phẩm Grow More</title>
+<html lang="vi"><head><meta charset="utf-8"><title>Tool làm Heiniken</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
-:root{--bg:#f6f1f0;--card:#fff;--fg:#2a1d1c;--mut:#7a6664;--line:#e3d2d0;--acc:#b84a47;--tint:#f6e3e2;--on:#fff;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1514;--card:#271e1d;--fg:#f3e9e8;--mut:#b49c99;--line:#44302e;--acc:#d9625f;--tint:#3a2524;--on:#1b1514;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#1b1514;--card:#271e1d;--fg:#f3e9e8;--mut:#b49c99;--line:#44302e;--acc:#d9625f;--tint:#3a2524;--on:#1b1514;color-scheme:dark}
+:root{--bg:#f6f1f0;--card:#fff;--fg:#2a1d1c;--mut:#7a6664;--line:#e3d2d0;--acc:#b84a47;--tint:#f6e3e2;--on:#fff;--bd2:#e2b9b6;--wbg:#fbefd9;--wfg:#8a5206;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1514;--card:#271e1d;--fg:#f3e9e8;--mut:#b49c99;--line:#44302e;--acc:#d9625f;--tint:#3a2524;--on:#1b1514;--bd2:#6a3a38;--wbg:#3a2e14;--wfg:#f0c060;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1b1514;--card:#271e1d;--fg:#f3e9e8;--mut:#b49c99;--line:#44302e;--acc:#d9625f;--tint:#3a2524;--on:#1b1514;--bd2:#6a3a38;--wbg:#3a2e14;--wfg:#f0c060;color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}html,body{height:100%}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;overflow:hidden}
-header{flex:none;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 16px}
-h1{margin:0;font-size:19px;color:var(--acc)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14.5px/1.5 'Be Vietnam Pro',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;overflow:hidden}
+.ic{width:15px;height:15px;flex:none;vertical-align:-2px}
+header{flex:none;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;padding:12px 16px}
+.logo{width:40px;height:40px;border-radius:12px;background:var(--acc);color:var(--on);display:grid;place-items:center}.logo .ic{width:20px;height:20px}
+.ttl{flex:1 1 260px;min-width:0}h1{margin:0;font-size:19px;line-height:1.25;color:var(--acc)}.ttl .e{font-size:13px}
+.tb{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 button,select,input,textarea{font:inherit;color:inherit}
-button{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 11px;cursor:pointer}
-button:hover{border-color:var(--acc)}button.pri{background:var(--acc);color:var(--on);border-color:var(--acc)}
-main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(300px,26%) 1fr;gap:14px;padding:0 16px 16px}
+button{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 12px;cursor:pointer;font-size:13px;font-weight:500}
+button:hover{border-color:var(--acc)}button.pri{background:var(--acc);color:var(--on);border-color:var(--acc);font-weight:600}
+main{flex:1;min-height:0;display:grid;grid-template-columns:clamp(490px,36vw,560px) 1fr;gap:14px;padding:0 16px 16px}
 main>section{min-height:0;overflow-y:auto}
 main>section:first-child{display:flex;flex-direction:column;overflow:hidden}
-
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}#prev{padding:18px 22px}
 label{display:block;font-size:13px;color:var(--mut);margin-bottom:8px}
 input:not([type=checkbox]),select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 9px;margin-top:3px;color:var(--fg)}
 .chk{display:flex;gap:8px;align-items:center;color:var(--fg)}.chk input{width:auto;margin:0}
-ul{list-style:none;margin:8px 0 0;padding:0;flex:1;min-height:120px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
-li{display:flex;gap:8px;align-items:center;padding:7px 9px;cursor:pointer;border-bottom:1px solid var(--line)}
+.sr{position:relative;margin:0}.sr .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--mut);margin:0}.sr input{margin:0;height:40px;padding-left:36px;border-radius:12px;background:var(--card)}
+.fr{display:flex;flex-wrap:nowrap;gap:4px;align-items:center;margin:10px 0 8px}
+.chip{border-radius:999px;padding:2px 9px;font-size:12px;white-space:nowrap;background:var(--card);border:1px solid var(--line);color:var(--mut);font-weight:500}.chip.on{background:var(--acc);color:var(--on);border-color:var(--acc);font-weight:600}
+.fcw{display:inline-flex;align-items:center;gap:5px;margin:0;flex:1 1 0;min-width:0;max-width:150px;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:12px;color:var(--mut);background:var(--card)}.fcw select{width:100%;min-width:0;border:0;background:transparent;margin:0;padding:0;font-size:12px;color:var(--fg);text-overflow:ellipsis}
+.cr{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--mut);margin:2px 2px 8px}.cr b{color:var(--fg)}
+ul{list-style:none;margin:0;padding:0;flex:1;min-height:120px;overflow-y:auto;border:1px solid var(--line);border-radius:12px}
+li{display:flex;gap:8px;align-items:center;padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--line)}
 li:last-child{border:0}li:hover{background:var(--tint)}li.on{background:var(--acc);color:var(--on)}
-li b{font-variant-numeric:tabular-nums}li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-li.e{cursor:default;color:var(--mut)}.st{border:0;background:none;padding:0 2px;color:var(--line);font-size:17px}.st.h{color:#e0a800}
-.bar{background:var(--acc);color:var(--on);font-weight:700;text-align:center;padding:7px;border-radius:8px;margin:12px 0 8px;letter-spacing:.3px}
-.bar:first-child{margin-top:0}
-.kv{display:grid;grid-template-columns:170px 1fr;gap:4px 10px}.kv b{color:var(--acc)}
-.gs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
-.g h4{margin:0 0 4px;font-size:13px;background:var(--tint);padding:5px 8px;border-radius:6px}
-.g div{display:flex;justify-content:space-between;gap:8px;padding:3px 8px;border-bottom:1px solid var(--line);font-size:14px}
-.g div b{white-space:nowrap}.g .n{color:var(--mut)}
-.box{background:var(--tint);border-radius:8px;padding:10px 12px;word-break:break-word}
-#out{min-height:150px;resize:vertical}.e{color:var(--mut)}
+li b{font:500 12.5px ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;color:var(--mut)}li.on b{color:inherit}li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+li.e{cursor:default;color:var(--mut)}.st{border:0;background:none;padding:0 2px;color:var(--line);font-size:17px}.st.h{color:#f0b400}
+.cc{flex:none;font-style:normal;font-size:11px;line-height:16px;border:1px solid currentColor;border-radius:9px;padding:0 6px;color:var(--acc);white-space:nowrap;max-width:96px;overflow:hidden;text-overflow:ellipsis}li.on .cc{color:var(--on)}
+.lf{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;font-size:12px}.lf .chk{margin:0;font-size:12px;color:var(--mut)}#bAll{font-size:12px;padding:3px 9px;border-radius:999px}
+.ctw{display:flex;align-items:center;gap:8px;margin:0;background:var(--tint);border:1px solid var(--acc);border-radius:12px;padding:5px 10px 5px 12px;color:var(--acc);font-weight:600;font-size:13px}
+.ctw select{width:auto;min-width:130px;margin:0;font-weight:600;padding:4px 8px;background:var(--card)}
+.ctw[data-k=w]{background:var(--wbg);border-color:var(--wfg);color:var(--wfg)}
+.tag{font-style:normal;font-size:11px;font-weight:600;padding:1px 8px;border-radius:999px;background:var(--card);border:1px solid currentColor;white-space:nowrap}
+.ph{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:flex-start}.pt{flex:1 1 320px;min-width:0}.pa{display:flex;gap:8px;flex-wrap:wrap}
+.id{font:600 12px ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;letter-spacing:.14em;color:var(--acc)}
+h2{margin:2px 0 2px;font-size:23px;line-height:1.25}.sub{color:var(--mut);font-size:14px}
+.hs{width:38px;padding:0;justify-content:center;font-size:18px;color:var(--line)}.hs.h{color:#f0b400}
+.cst{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin-top:6px;font-size:13px;font-weight:600;color:var(--acc)}
+.cst select{width:auto;max-width:150px;border:0;background:transparent;font-weight:700;margin:0;padding:0 2px;color:inherit;cursor:pointer}
+.cst.w{color:var(--wfg);background:var(--wbg);border-radius:10px;padding:6px 10px}.lk{padding:2px 10px;border-radius:999px;font-size:12px;color:var(--wfg);border-color:var(--wfg);background:var(--card)}
+.rec{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px;font-size:12px;color:var(--mut)}.rec .chip{font:500 12px ui-monospace,Menlo,Consolas,monospace;background:var(--tint);border-color:transparent;color:var(--fg)}
+.eb{display:flex;align-items:center;gap:10px;margin:22px 0 10px;font-size:11px;letter-spacing:.16em;font-weight:700;color:var(--acc);text-transform:uppercase}.eb i{flex:1;border-top:1px dashed var(--line)}.eb .m{color:var(--mut);letter-spacing:0;font-weight:500;font-size:12px;text-transform:none}
+.eb button{padding:2px 9px;font-size:12px;letter-spacing:0;text-transform:none;color:var(--fg)}
+.out{background:var(--tint);border:1.5px solid var(--bd2);border-radius:14px;padding:16px 18px;font-size:15.5px;line-height:1.6;word-break:break-word}.out.w{border-color:var(--wfg)}
+.box{background:var(--tint);border-radius:12px;padding:12px 14px;word-break:break-word}
+.gs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.g{border:1px solid var(--line);border-radius:12px;overflow:hidden}.g h4{margin:0 0 4px;font-size:12px;letter-spacing:.04em;background:var(--tint);padding:6px 10px}
+.g div{display:flex;justify-content:space-between;gap:8px;padding:4px 10px;border-bottom:1px solid var(--line);font-size:14px}.g div b{white-space:nowrap}.g .n{color:var(--mut)}
+.bar{background:var(--acc);color:var(--on);font-weight:700;text-align:center;padding:7px;border-radius:8px;margin:12px 0 8px;letter-spacing:.3px}.bar:first-child{margin-top:0}
+.e{color:var(--mut)}
 dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--fg);width:min(760px,94vw);max-height:90vh;padding:16px;overflow:auto}
 dialog::backdrop{background:#0007}dialog h2{margin:0 0 10px;font-size:17px;color:var(--acc)}
 .fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 10px}.act{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
 .row{border:1px solid var(--line);border-radius:8px;padding:8px;margin-bottom:8px}
-.tb{flex:1 1 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px}
-.ctw{display:flex;align-items:center;gap:8px;margin:0;background:var(--tint);border:1px solid var(--acc);border-radius:10px;padding:5px 10px;color:var(--acc);font-weight:700;font-size:14px}
-.ctw select{width:auto;min-width:150px;margin:0;font-weight:600;padding:5px 8px}
-.sep{width:1px;align-self:stretch;background:var(--line);margin:0 4px}
-@media(max-width:820px){.sep{display:none}.ctw{flex:1 1 100%}html,body{height:auto}body{overflow:auto}main{flex:none;grid-template-columns:1fr}main>section{overflow:visible}main>section:first-child{display:block}ul{flex:none;max-height:50vh}}
 .cv span{display:block;font-size:13px;color:var(--mut)}.cv div{display:flex;gap:6px;margin-bottom:8px}.cv input{flex:1;min-width:0}.cv select{width:118px;flex:none}
 .gh{margin:12px 0 6px;font-size:13px;font-weight:700;background:var(--tint);color:var(--acc);padding:4px 8px;border-radius:6px}
 #msg{color:var(--acc);font-weight:600;margin-top:8px}#msg:empty{display:none}
 .sd{position:relative;top:var(--sd,.2em);color:var(--acc);font-weight:700}.sd2{position:relative;top:calc(var(--sd,.2em)*2);color:var(--acc);font-weight:700}
 .how p{margin:4px 0;font-size:13px}
-.cc{flex:none;font-style:normal;font-size:11px;line-height:16px;border:1px solid currentColor;border-radius:9px;padding:0 6px;color:var(--acc);white-space:nowrap;max-width:96px;overflow:hidden;text-overflow:ellipsis}li.on .cc{color:var(--on)}
-.pcw{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.pcw select{width:auto;min-width:150px;margin:0}.pcw .ok{color:var(--acc);font-weight:700}
-#bAll{width:100%;margin-top:6px;font-size:13px}
+@media(max-width:900px){html,body{height:auto}body{overflow:auto}main{flex:none;grid-template-columns:1fr}main>section{overflow:visible}main>section:first-child{display:block}ul{flex:none;max-height:50vh;overflow-y:auto}.fr{flex-wrap:wrap}.fcw{max-width:none;flex:1 1 140px}}
+
+/* ===== Animation ===== */
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes down{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes dlg{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes flash{from{background:var(--bd2)}to{background:var(--tint)}}
+header{animation:down .5s cubic-bezier(.2,.7,.2,1) both}
+main>section:nth-child(1){animation:up .5s .08s cubic-bezier(.2,.7,.2,1) both}
+main>section:nth-child(2){animation:up .5s .16s cubic-bezier(.2,.7,.2,1) both}
+#prev.anim>*{animation:up .42s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--n,0)*38ms)}
+ul.anim li{animation:up .32s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--n,0)*20ms)}
+.out.fl{animation:flash .8s ease-out}.cst{animation:fade .3s ease-out}.pop{animation:pop .35s ease-out}
+dialog[open]{animation:dlg .24s cubic-bezier(.2,.8,.2,1)}dialog[open]::backdrop{animation:fade .22s ease-out}
+button{transition:transform .15s,box-shadow .2s,background-color .2s,border-color .2s,color .2s}
+button:not(.st):not(.chip):hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(184,74,71,.18)}
+button:active{transform:scale(.96)!important;box-shadow:none}
+.chip:hover{border-color:var(--acc);color:var(--acc)}.chip.on:hover{color:var(--on)}
+.st{transition:transform .15s,color .2s}.st:hover{transform:scale(1.28)}
+.hs{transition:transform .15s,color .2s,border-color .2s}.hs:hover:not(.h){color:#f0b400}
+li{transition:background-color .2s,color .2s}
+.logo{transition:transform .4s cubic-bezier(.3,1.4,.5,1)}.logo:hover{transform:rotate(-9deg) scale(1.08)}
+.ctw,.tag,.out,.box{transition:background-color .3s,border-color .3s,color .3s}
+input:not([type=checkbox]),select,textarea{transition:border-color .2s,box-shadow .2s}
+.sr input:focus,input:focus,select:focus,textarea:focus{outline:0;border-color:var(--acc);box-shadow:0 0 0 3px rgba(184,74,71,.16)}
+ul,main>section,dialog{scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script></head><body>
-<header><h1>Bảng danh sách thành phần sản phẩm Grow More</h1>
-<nav class="tb"><label class="ctw">🌍 Chọn quốc gia sản xuất:<select id="ct"></select></label><span class="sep"></span>
-<button id="bE">✏️ Sửa SP đang chọn</button> <button id="bN">＋ Thêm SP</button> <button id="bC">⚙️ Sửa quốc gia &amp; câu kết</button> <button id="bB">📊 Excel &amp; sao lưu</button> <button id="bS">🔽 Script Illustrator (hạ chữ + Justify)</button></nav></header>
+<header><div class="logo" data-i="tag"></div><div class="ttl"><h1>Bảng danh sách thành phần sản phẩm Grow More</h1><div class="e" id="sub"></div></div>
+<nav class="tb"><label class="ctw" title="Địa chỉ / nơi sản xuất được in vào Heiniken. SP chưa xác nhận quốc gia sẽ dùng tạm quốc gia này."><span data-i="globe"></span>Heiniken theo quốc gia<select id="ct"></select><em class="tag" id="ctTag" hidden></em></label>
+<button id="bN"><span data-i="plus"></span>Thêm SP</button><button id="bC"><span data-i="layers"></span>Quốc gia &amp; câu kết</button><button id="bB"><span data-i="sheet"></span>Excel &amp; sao lưu</button><button id="bS"><span data-i="down"></span>Chữ hạ thấp</button></nav></header>
 <main>
-<section class="card"><label class="chk"><input type="checkbox" id="hot"> Chỉ hiện SP hay in (★)</label>
-<label>🌍 Lọc theo quốc gia đã xác nhận<select id="fc"></select></label>
-<label>Tìm MSPB hoặc tên SP<input id="q" placeholder="vd: 8737 hoặc Organic" autocomplete="off"></label>
-<label class="chk"><input type="checkbox" id="fol"> Tự chuyển quốc gia khi chọn SP đã xác nhận</label>
-<div class="e" id="cnt"></div><button id="bAll" hidden></button><ul id="list"></ul></section>
+<section class="card"><div class="sr"><span data-i="search"></span><input id="q" placeholder="Tìm MSPB hoặc tên SP  ( / )" autocomplete="off"></div>
+<div class="fr"><button class="chip on" data-f="all">Tất cả</button><button class="chip" data-f="root">Bón rễ</button><button class="chip" data-f="leaf">Bón lá</button><button class="chip" data-f="hot">★ Hay in</button><button class="chip" data-f="miss">Thiếu thông tin</button><label class="fcw" title="Lọc theo quốc gia đã xác nhận"><span data-i="globe"></span><select id="fc"></select></label></div>
+<div class="cr" id="cnt"></div><ul id="list"></ul>
+<div class="lf"><label class="chk"><input type="checkbox" id="fol"> Tự chuyển quốc gia theo SP đã xác nhận</label><button id="bAll" hidden></button></div></section>
 <section class="card" id="prev"></section>
 </main>
 <dialog id="dlg"></dialog>
@@ -86,39 +128,63 @@ if(!S||!S.P)S=clone({P:D.P,C:D.C,foot:D.foot,sel:'08737',ctry:'Mỹ'});
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const cur=()=>S.P.find(p=>p.m===S.sel);
 /* Quốc gia đã xác nhận: p.c = tên quốc gia (rỗng = chưa xác nhận) */
+const I={search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',plus:'<path d="M5 12h14M12 5v14"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>',copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',pen:'<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',layers:'<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',sheet:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/>',down:'<path d="M12 15V3m0 12-4-4m4 4 4-4M5 21h14"/>',tag:'<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>',chk:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',alert:'<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',hist:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',dup:'<rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2"/>'};
+const ic=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
+let cf='all',animList=true,lastM=null,fl=false;const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const lab=()=>{const b=$('#bAll'),n=filt().length;delete b.dataset.a;b.hidden=!n;b.textContent=`✓ Xác nhận «${S.ctry}» cho ${n} SP`};
+const miss=p=>!p.n||!p.l||!p.x||!p.t||!p.v.some(v=>v!=null&&String(v).trim()!=='');
+const chipOk=p=>cf==='all'||(cf==='hot'&&p.h)||(cf==='root'&&/BÓN RỄ/i.test(p.x||''))||(cf==='leaf'&&/BÓN LÁ/i.test(p.x||''))||(cf==='miss'&&miss(p));
+/* Quốc gia đã xác nhận: p.c = tên quốc gia (rỗng = chưa xác nhận) */
 function renderFc(){const s=$('#fc'),v=s.value,n={};S.P.forEach(p=>{const k=p.c||'__none';n[k]=(n[k]||0)+1});
-s.innerHTML=`<option value="">Tất cả (${S.P.length})</option><option value="__none">Chưa xác nhận (${n.__none||0})</option>`+S.C.map(c=>`<option value="${esc(c.n)}">✓ ${esc(c.n)} (${n[c.n]||0})</option>`).join('');
+s.innerHTML=`<option value="">Mọi quốc gia</option><option value="__none">Chưa xác nhận (${n.__none||0})</option>`+S.C.map(c=>`<option value="${esc(c.n)}">✓ ${esc(c.n)} (${n[c.n]||0})</option>`).join('');
 s.value=[...s.options].some(o=>o.value===v)?v:''}
-function filt(){const q=$('#q').value.trim().toLowerCase(),hot=$('#hot').checked,f=$('#fc').value;
-return S.P.filter(p=>(!hot||p.h)&&(!f||(f==='__none'?!p.c:p.c===f))&&(!q||p.m.includes(q)||p.m===pad(q)||(p.n||'').toLowerCase().includes(q)))}
+function filt(){const q=$('#q').value.trim().toLowerCase(),f=$('#fc').value;
+return S.P.filter(p=>chipOk(p)&&(!f||(f==='__none'?!p.c:p.c===f))&&(!q||p.m.includes(q)||p.m===pad(q)||(p.n||'').toLowerCase().includes(q)))}
 const follow=()=>{const p=cur();if(S.fol!==false&&p&&p.c&&p.c!==S.ctry&&S.C.some(x=>x.n===p.c)){S.ctry=p.c;return true}return false};
-function renderList(){renderFc();const hot=$('#hot').checked,f=$('#fc').value,L=filt();
-$('#list').innerHTML=L.map(p=>`<li class="${p.m===S.sel?'on':''}" data-m="${p.m}"><b>${p.m}</b><span>${esc(p.n)||'(chưa có tên)'}</span>${p.c?`<em class="cc" title="Đã xác nhận quốc gia sản xuất: ${esc(p.c)}">${esc(p.c)}</em>`:''}<button class="st ${p.h?'h':''}" data-s="${p.m}" title="Bật/tắt SP hay in">★</button></li>`).join('')||'<li class="e">Không có kết quả</li>';
-$('#cnt').textContent=L.length+' / '+S.P.length+' sản phẩm'+(hot?' hay in':'')+(f?(f==='__none'?' · chưa xác nhận quốc gia':' · đã xác nhận '+f):'');
-const b=$('#bAll');delete b.dataset.a;b.hidden=!L.length;b.textContent=`✓ Xác nhận «${S.ctry}» cho ${L.length} SP đang hiện`}
+function pick(m){S.sel=m;S.rec=[m,...(S.rec||[]).filter(x=>x!==m)].slice(0,8);const ch=follow();save();
+document.querySelectorAll('#list li.on').forEach(x=>x.classList.remove('on'));const li=document.querySelector(`#list li[data-m="${m}"]`);if(li)li.classList.add('on');
+renderCt();lab();renderPrev()}
+function renderList(){renderFc();const L=filt(),u=$('#list');u.classList.toggle('anim',animList);animList=false;
+$('#list').innerHTML=L.map((p,i)=>`<li class="${p.m===S.sel?'on':''}" data-m="${p.m}" style="--n:${Math.min(i,14)}"><b>${p.m}</b><span>${esc(p.n)||'(chưa có tên)'}</span>${p.c?`<em class="cc" title="Đã xác nhận quốc gia sản xuất: ${esc(p.c)}">${esc(p.c)}</em>`:''}<button class="st ${p.h?'h':''}" data-s="${p.m}" title="Bật/tắt SP hay in">★</button></li>`).join('')||'<li class="e">Không có kết quả</li>';
+$('#cnt').innerHTML=`<span><b>${L.length}</b> / ${S.P.length} sản phẩm</span><span>↑↓ để chọn · Enter để chép</span>`;
+$('#sub').textContent='Tổng hợp Heiniken · '+S.P.length+' sản phẩm';
+lab()}
 function renderPrev(){const p=cur(),b=$('#prev');
 if(!p){b.innerHTML='<p class="e">Chọn một MSPB ở danh sách bên trái.</p>';return}
-const r=build(p,S),sd=subHTML(r.out),G=['ĐA LƯỢNG','TRUNG LƯỢNG','VI LƯỢNG','THÀNH PHẦN PHỤ'];
-b.innerHTML=`<div class="bar">BẢNG THÀNH PHẦN HEINIKEN</div>
-<div class="kv"><b>MSPB:</b><span>${esc(p.m)}</span><b>Tên sản phẩm:</b><span>${esc(p.n)}</span><b>Phương thức sử dụng:</b><span>${esc(p.x)}</span><b>Loại phân bón:</b><span>${esc(p.l)}</span><b>TCCS:</b><span>${esc(p.t)}</span>
-<b>Quốc gia SX (xác nhận):</b><span class="pcw"><select id="pc"><option value="">— Chưa xác nhận —</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select>${p.c&&p.c===S.ctry?'<span class="ok">✓ Đã xác nhận</span>':`<button id="pcOk" class="pri">✓ Xác nhận «${esc(S.ctry)}»</button>`}${p.c&&p.c!==S.ctry?`<button id="pcUse">Dùng «${esc(p.c)}»</button>`:''}</span></div>
-<div class="bar">THÀNH PHẦN</div><div class="gs">${G.map((n,gi)=>{const a=r.it.filter(x=>x.g==gi+1);return`<div class="g"><h4>${n}</h4>${a.map(x=>`<div><span>${esc(F[x.i][0])}</span><b>${esc(x.val)}</b></div>`).join('')||'<div class="n">—</div>'}</div>`}).join('')}</div>
-<div class="bar">THÀNH PHẦN HOÀN CHỈNH</div><div class="box">${esc(r.comp)||'—'}</div>
-<div class="bar">ĐỊA CHỈ / NƠI SẢN XUẤT (${esc(S.ctry)})</div><div class="box">${esc(r.c)||'—'}</div>
-<div class="bar">HEINIKEN HOÀN CHỈNH</div><textarea id="out" readonly>${esc(r.out)}</textarea>
-<div class="act"><button id="cp" class="pri">Sao chép</button></div>
-<div class="bar">CHỮ HẠ THẤP TRONG ILLUSTRATOR (${sd.n} chỗ)</div><div class="box" style="--sd:${(sd.shift/5).toFixed(2)}em">${sd.h}</div>
-<div class="act" style="justify-content:space-between;align-items:center"><span class="e" style="font-size:13px">Phần chữ màu đỏ sẽ được hạ ${String(sd.shift).replace('.',',')} pt khi chạy script trong Illustrator.${jusCfg().on?' Script cũng tự căn đều hai bên (Justify).':''}</span><button id="sb">🔽 Tuỳ chỉnh &amp; tải script</button></div>`;
-$('#cp').onclick=e=>copy(r.out,e.target);$('#sb').onclick=subDlg;
-const setC=v=>{p.c=v;if(v&&S.fol!==false)S.ctry=v;save();renderCt();render()};
+const r=build(p,S),sd=subHTML(r.out),G=['ĐA LƯỢNG','TRUNG LƯỢNG','VI LƯỢNG','THÀNH PHẦN PHỤ'],ok=p.c&&p.c===S.ctry,
+sec=(t,m)=>`<div class="eb"><span>${t}</span><i></i>${m||''}</div>`,cb=(id)=>`<button id="${id}">${ic('copy')}Chép</button>`,
+words=r.out.trim().split(/\s+/).length,
+sel=`<select id="pc" title="Đổi quốc gia đã xác nhận"><option value="">— Chưa xác nhận —</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select>`,
+st=ok?`<div class="cst">${ic('chk')}<span>Đã xác nhận quốc gia:</span>${sel}</div>`
+:`<div class="cst w">${ic('alert')}<span>${p.c?`Đã xác nhận «${esc(p.c)}» nhưng nhãn đang dùng «${esc(S.ctry)}»:`:`Chưa xác nhận quốc gia – nhãn đang <u>tạm</u> dùng «${esc(S.ctry)}»:`}</span>${sel}<button id="pcOk" class="lk">✓ Xác nhận «${esc(S.ctry)}»</button>${p.c?`<button id="pcUse" class="lk">Dùng «${esc(p.c)}»</button>`:''}</div>`,
+rc=(S.rec||[]).filter(m=>m!==S.sel&&S.P.some(x=>x.m===m)).slice(0,6);
+b.innerHTML=`<div class="ph"><div class="pt"><div class="id">MSPB ${esc(p.m)}</div><h2>${esc(p.n)||'(chưa có tên)'}</h2>
+<div class="sub">${[p.l,p.x,p.t&&'TCCS '+p.t].filter(Boolean).map(esc).join(' · ')||'—'}</div>${st}</div>
+<div class="pa"><button id="hs" class="hs ${p.h?'h':''}" title="Bật/tắt SP hay in">★</button><button id="bD">${ic('dup')}Nhân bản</button><button id="bE">${ic('pen')}Sửa</button><button id="cp" class="pri">${ic('copy')}Sao chép Heiniken</button></div></div>
+${rc.length?`<div class="rec">${ic('hist')} Vừa xem: ${rc.map(m=>`<button class="chip" data-r="${m}">${m}</button>`).join('')}</div>`:''}
+${sec('Heiniken hoàn chỉnh',`<span class="m">${ok?'':'⚠ chưa xác nhận quốc gia · '}${r.out.length} ký tự · ${words} từ</span>`)}<div class="out ${ok?'':'w'}">${esc(r.out)}</div>
+${sec('Thành phần')}<div class="gs">${G.map((n,gi)=>{const a=r.it.filter(x=>x.g==gi+1);return`<div class="g"><h4>${n}</h4>${a.map(x=>`<div><span>${esc(F[x.i][0])}</span><b>${esc(x.val)}</b></div>`).join('')||'<div class="n">—</div>'}</div>`}).join('')}</div>
+${sec('Thành phần hoàn chỉnh',cb('cp2'))}<div class="box">${esc(r.comp)||'—'}</div>
+${sec(`Địa chỉ / nơi sản xuất (${esc(S.ctry)})${ok?'':' · tạm'}`,cb('cp3'))}<div class="box">${esc(r.c)||'—'}</div>
+${sec(`Chữ hạ thấp trong Illustrator (${sd.n} chỗ)`,`<button id="sb">${ic('down')}Tuỳ chỉnh &amp; tải script</button>`)}<div class="box" style="--sd:${(sd.shift/5).toFixed(2)}em">${sd.h}</div>
+<div class="e" style="font-size:13px;margin-top:6px">Phần chữ màu đỏ sẽ được hạ ${String(sd.shift).replace('.',',')} pt khi chạy script trong Illustrator.${jusCfg().on?' Script cũng tự căn đều hai bên (Justify).':''}</div>`;
+if(lastM!==p.m){lastM=p.m;[...b.children].forEach((c,i)=>c.style.setProperty('--n',i));b.classList.remove('anim');void b.offsetWidth;b.classList.add('anim');b.scrollTo({top:0,behavior:RM?'auto':'smooth'})}else b.classList.remove('anim');
+if(fl){fl=false;const o=$('.out');if(o)o.classList.add('fl')}
+const setC=v=>{p.c=v;if(v&&S.fol!==false)S.ctry=v;save();fl=true;render()};
+$('#cp').onclick=e=>copy(r.out,e.currentTarget);$('#cp2').onclick=e=>copy(r.comp,e.currentTarget);$('#cp3').onclick=e=>copy(r.c,e.currentTarget);$('#sb').onclick=subDlg;
+$('#hs').onclick=()=>{p.h=!p.h;save();render()};$('#bE').onclick=()=>editP(false);
+$('#bD').onclick=()=>{const c=clone(p);c.m='';c.n=(c.n||'')+' (bản sao)';c.h=false;editP(true,c)};
 $('#pc').onchange=e=>setC(e.target.value);
 if($('#pcOk'))$('#pcOk').onclick=()=>setC(S.ctry);
-if($('#pcUse'))$('#pcUse').onclick=()=>{S.ctry=p.c;save();renderCt();renderPrev()}}
-function copy(t,b){const o=b.dataset.o||(b.dataset.o=b.textContent),ok=()=>{b.textContent='Đã chép ✓';setTimeout(()=>b.textContent=o,1300)};
+if($('#pcUse'))$('#pcUse').onclick=()=>{S.ctry=p.c;save();fl=true;render()};
+b.querySelectorAll('[data-r]').forEach(x=>x.onclick=()=>pick(x.dataset.r))}
+function copy(t,b){const o=b.dataset.o||(b.dataset.o=b.innerHTML),ok=()=>{b.textContent='Đã chép ✓';b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');setTimeout(()=>b.innerHTML=o,1300)};
 const fb=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()};
 try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}}
-function renderCt(){$('#ct').innerHTML=S.C.map(c=>`<option>${esc(c.n)}</option>`).join('');$('#ct').value=S.ctry}
-const render=()=>{renderList();renderPrev()};
+function renderCt(){const s=$('#ct'),p=cur(),t=$('#ctTag');s.innerHTML=S.C.map(c=>`<option>${esc(c.n)}</option>`).join('');s.value=S.ctry;
+let x='',k='';if(p){if(!p.c){x='tạm · SP chưa xác nhận';k='w'}else if(p.c!==S.ctry){x='khác quốc gia đã xác nhận';k='w'}else{x='✓ đã xác nhận';k='ok'}}
+if(t.textContent!==x){t.textContent=x;t.classList.remove('pop');void t.offsetWidth;t.classList.add('pop')}t.hidden=!x;$('.ctw').dataset.k=k}
+const render=()=>{renderCt();renderList();renderPrev()};
 const dlg=$('#dlg');
 function openD(title,body,onSave,extra){dlg.innerHTML=`<h2>${title}</h2><div>${body}</div><div id="msg"></div><div class="act">${extra||''}<button id="no">Đóng</button>${onSave?'<button id="ok" class="pri">Lưu</button>':''}</div>`;
 $('#no').onclick=()=>dlg.close();if(onSave)$('#ok').onclick=()=>{if(onSave()!==false)dlg.close()};dlg.showModal()}
@@ -281,7 +347,7 @@ else{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([d]
 note('Đã xuất '+S.P.length+' sản phẩm.'+over())}catch(e){if(!e||e.code!=='declined')note('Không xuất được: '+((e&&e.message)||e))}}
 async function importX(f){if(!window.XLSX)return note('Chưa tải được thư viện Excel (cần kết nối mạng).');
 try{const r=parseWb(XLSX.read(await f.arrayBuffer(),{type:'array'}));applyData(r.P,r.C,r.foot)}catch(e){note('Không đọc được file: '+(e.message||e))}}
-function editP(isNew){const p=isNew?{m:'',n:'',l:'',v:F.map(()=>null),x:'BÓN RỄ',t:'',h:false,c:''}:cur();if(!p)return;
+function editP(isNew,base){const p=isNew?(base||{m:'',n:'',l:'',v:F.map(()=>null),x:'BÓN RỄ',t:'',h:false,c:''}):cur();if(!p)return;
 const uniq=a=>[...new Set(a.filter(Boolean))].sort((a,b)=>a.localeCompare(b)),
 DL=(id,a)=>`<datalist id="${id}">${a.map(x=>`<option value="${esc(x)}">`).join('')}</datalist>`,
 I=(k,l,v,ex='')=>`<label>${l}<input data-k="${k}" value="${esc(v)}" ${ex}></label>`,
@@ -323,14 +389,20 @@ $('#fi').onchange=e=>{const f=e.target.files[0];if(f)importX(f);e.target.value='
 $('#bt').onclick=e=>{copy(toRows().slice(4).map(r=>r.map(x=>x==null?'':typeof x==='boolean'?(x?'TRUE':'FALSE'):x).join('\t')).join('\n'),e.target);note('Dán vào ô A5 của sheet Short SP.'+over())};
 $('#tl').onclick=()=>{try{applyData(fromRows($('#tp').value.split(/\r?\n/).map(l=>l.split('\t'))))}catch(e){note('Không đọc được: '+(e.message||e))}};
 $('#rs').onclick=e=>{if(sure(e.target,'Bấm lần nữa để xóa mọi chỉnh sửa')){S={...clone({P:D.P,C:D.C,foot:D.foot}),sel:'08737',ctry:'Mỹ'};save();renderCt();render();note('Đã khôi phục dữ liệu Excel gốc.')}}}
-$('#ct').onchange=e=>{S.ctry=e.target.value;save();renderPrev()};
-$('#q').oninput=$('#hot').onchange=$('#fc').onchange=renderList;
-$('#fol').checked=S.fol!==false;$('#fol').onchange=e=>{S.fol=e.target.checked;if(S.fol)follow();save();renderCt();renderPrev()};
+$('#ct').onchange=e=>{S.ctry=e.target.value;save();fl=true;renderCt();lab();renderPrev()};
+$('#q').oninput=renderList;$('#fc').onchange=()=>{animList=true;renderList()};
+document.querySelectorAll('.chip[data-f]').forEach(b=>b.onclick=()=>{cf=b.dataset.f;animList=true;document.querySelectorAll('.chip[data-f]').forEach(x=>x.classList.toggle('on',x===b));renderList()});
+$('#fol').checked=S.fol!==false;$('#fol').onchange=e=>{S.fol=e.target.checked;if(S.fol)follow();save();renderCt();lab();renderPrev()};
 $('#bAll').onclick=e=>{const b=e.target,L=filt();if(!L.length)return;
 if(!b.dataset.a){b.dataset.a=1;b.textContent=`Bấm lần nữa để gán «${S.ctry}» cho ${L.length} SP`;setTimeout(()=>{if(b.dataset.a)renderList()},3000);return}
 L.forEach(p=>p.c=S.ctry);save();render()};
-$('#list').onclick=e=>{const s=e.target.closest('[data-s]');if(s){const p=S.P.find(x=>x.m===s.dataset.s);p.h=!p.h;save();renderList();return}
-const li=e.target.closest('li[data-m]');if(li){S.sel=li.dataset.m;follow();save();renderCt();render()}};
-$('#bE').onclick=()=>editP(false);$('#bN').onclick=()=>editP(true);$('#bC').onclick=editC;$('#bB').onclick=backup;$('#bS').onclick=subDlg;
-follow();renderCt();render();
+$('#list').onclick=e=>{const s=e.target.closest('[data-s]');if(s){const p=S.P.find(x=>x.m===s.dataset.s);p.h=!p.h;save();renderList();renderPrev();return}
+const li=e.target.closest('li[data-m]');if(li)pick(li.dataset.m)};
+$('#bN').onclick=()=>editP(true);$('#bC').onclick=editC;$('#bB').onclick=backup;$('#bS').onclick=subDlg;
+document.addEventListener('keydown',e=>{if(dlg.open||e.ctrlKey||e.metaKey||e.altKey)return;const t=e.target,g=t.tagName,typing=(g==='INPUT'&&t.type!=='checkbox')||g==='TEXTAREA'||g==='SELECT';
+if(e.key==='/'&&!typing){e.preventDefault();$('#q').focus();return}
+if((e.key==='ArrowDown'||e.key==='ArrowUp')&&g!=='SELECT'&&g!=='TEXTAREA'){const L=filt();if(!L.length)return;e.preventDefault();let i=L.findIndex(p=>p.m===S.sel);i=e.key==='ArrowDown'?Math.min(L.length-1,i+1):Math.max(0,i<0?0:i-1);pick(L[i].m);const li=$('#list li.on');if(li)li.scrollIntoView({block:'nearest',behavior:RM?'auto':'smooth'})}
+else if(e.key==='Enter'&&(g!=='INPUT'||t.id==='q')&&g!=='BUTTON'&&g!=='SELECT'&&g!=='TEXTAREA'&&$('#cp')){e.preventDefault();copy(build(cur(),S).out,$('#cp'))}});
+document.querySelectorAll('[data-i]').forEach(e=>e.innerHTML=ic(e.dataset.i));
+follow();render();
 </script></body></html>

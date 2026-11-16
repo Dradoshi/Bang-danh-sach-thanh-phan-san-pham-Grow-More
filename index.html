@@ -134,7 +134,7 @@ ul,main>section,dialog{scrollbar-width:thin;scrollbar-color:var(--line) transpar
 <header><div class="logo" data-i="tag"></div><div class="ttl"><h1>Danh sách sản phẩm Grow More</h1><div class="e" id="sub"></div><div class="gw" id="gw"></div></div>
 <nav class="tb"><label class="ctw" title="Quốc gia được dùng để lấy thông tin sản xuất trên nội dung nhãn. Với sản phẩm chưa xác nhận, hệ thống tạm dùng quốc gia đang chọn."><span data-i="globe"></span>Quốc gia trên nhãn<select id="ct"></select><em class="tag" id="ctTag" hidden></em></label>
 <button id="bN"><span data-i="plus"></span>Thêm sản phẩm mới</button><button id="bF" title="Thêm, đổi tên, đổi đơn vị, sắp xếp hoặc xóa thành phần dinh dưỡng"><span data-i="list"></span>Quản lý thành phần</button><button id="bC"><span data-i="layers"></span>Cài đặt quốc gia sản xuất và NSX&HSD
-</button><button id="bB"><span data-i="sheet"></span>Excel &amp; sao lưu</button><button id="bS"><span data-i="down"></span>Script Illustrator: hạ thấp chữ + Justify
+</button><button id="bB"><span data-i="sheet"></span>Excel &amp; sao lưu</button><button id="bS"><span data-i="down"></span>Script Illustrator: Hạ thấp chữ + Justify
 </button></nav></header>
 <main>
 <section class="card"><div class="sr"><span data-i="search"></span><input id="q" placeholder="Tìm MSPB hoặc tên sản phẩm" autocomplete="off"></div>
@@ -415,7 +415,7 @@ return{shift:sh,rules,jus:J}}
 function subDlg(){const c=subCfg(),J=c.jus,jt=()=>dlg.querySelectorAll('#jf input').forEach(x=>x.disabled=!$('#ju').checked),
 setJ=o=>{$('#ju').checked=o.on;[0,1,2].forEach(i=>{$('#jw'+i).value=o.w[i];$('#jl'+i).value=o.l[i];$('#jg'+i).value=o.g[i]});$('#jx').checked=o.last;$('#ja').checked=o.al;$('#jp').value=o.alp;jt()},
 tri=(id,t,a)=>`<div class="cv"><span>${t}</span><div>${[0,1,2].map(i=>`<input id="${id}${i}" inputmode="decimal" value="${esc(String(a[i]).replace('.',','))}">`).join('')}</div></div>`;
-openD('Script Illustrator: hạ thấp chữ + Justify',`<p class="e" style="margin-top:0">Chữ thường không mang được định dạng hạ thấp, nên nút <b>Sao chép</b> vẫn dán chữ thường vào Illustrator. Sau khi dán, chạy script bên dưới để tự hạ thấp 2, 5hh, ts, H2O… (Baseline Shift) như mẫu. Script này cũng tự <b>căn đều hai bên (Justify)</b> nếu bạn bật ở dưới, nên chỉ cần chạy 1 lần.</p>
+openD('Script Illustrator: Hạ thấp chữ + Justify',`<p class="e" style="margin-top:0">Chữ thường không mang được định dạng hạ thấp, nên nút <b>Sao chép</b> vẫn dán chữ thường vào Illustrator. Sau khi dán, chạy script bên dưới để tự hạ thấp 2, 5hh, ts, H2O… (Baseline Shift) như mẫu. Script này cũng tự <b>căn đều hai bên (Justify)</b> nếu bạn bật ở dưới, nên chỉ cần chạy 1 lần.</p>
 <div class="fg"><label>Độ hạ 1 mức – Baseline Shift (pt)<input id="sh" inputmode="decimal" value="${esc(String(c.shift).replace('.',','))}"></label></div>
 <label>Công thức cần hạ thấp (mỗi dòng một mẫu)<textarea id="sr" rows="8" spellcheck="false">${esc(c.rules.join('\n'))}</textarea></label>
 <p class="e" style="font-size:13px">Phần trong <b>[ ]</b> hạ 1 mức, trong <b>{ }</b> hạ 2 mức (như số 2 của H₂O). Không phân biệt hoa/thường; chỉ khớp khi đứng riêng, không dính vào chữ khác. Ví dụ: <b>P[2]O[5hh]</b>, <b>pH[H]{2}[O]</b>.</p>

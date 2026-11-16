@@ -180,7 +180,7 @@ document.querySelectorAll('#list li.on').forEach(x=>x.classList.remove('on'));co
 renderCt();lab();renderPrev()}
 function renderList(){renderFc();const L=filt(),u=$('#list');u.classList.toggle('anim',animList);animList=false;
 $('#list').innerHTML=L.map((p,i)=>`<li class="${p.m===S.sel?'on':''}" data-m="${p.m}" style="--n:${Math.min(i,14)}"><b>${p.m}</b><span>${esc(p.n)||'(chưa có tên)'}</span>${p.c?`<em class="cc" title="Đã xác nhận quốc gia sản xuất: ${esc(p.c)}">${esc(p.c)}</em>`:''}<button class="st ${p.h?'h':''}" data-s="${p.m}" title="Bật/tắt SP hay in">★</button></li>`).join('')||'<li class="e">Không có kết quả</li>';
-const populated=L.filter(hasProductData).length,totalPopulated=S.P.filter(hasProductData).length,empty=L.length-populated;$('#cnt').innerHTML=`<span><b>${populated}</b> / ${totalPopulated} sản phẩm có dữ liệu${empty?` · ${empty} dòng trống`:''}</span><span></span>`;
+const populated=L.filter(hasProductData).length,totalPopulated=S.P.filter(hasProductData).length,empty=L.length-populated;$('#cnt').innerHTML=`<span><b>${populated}</b> / ${totalPopulated} sản phẩm có dữ liệu${empty?` · ${empty} Sản phẩm thiếu thông tin yêu cầu kiểm tra lại`:''}</span><span></span>`;
 $('#sub').textContent='Công cụ chuẩn bị nội dung nhãn Heineken · '+S.P.length+' SP';
 lab()}
 function renderPrev(){const p=cur(),b=$('#prev');

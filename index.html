@@ -203,7 +203,7 @@ const w=$('.ckl')||$('.cst.w');if(w){w.scrollIntoView({block:'nearest',behavior:
 toast('⚠ Chưa nên chép: còn thiếu '+names+'. Xử lý ở khung cảnh báo, hoặc bấm lần nữa để vẫn chép.');
 b._gt=setTimeout(()=>{delete b.dataset.g;b.classList.remove('armed');b.innerHTML=o},5000)}
 function renderGw(){const A=S.P.filter(hasProductData),nc=A.filter(p=>!p.c).length,nm=A.filter(miss).length;
-$('#gw').innerHTML=(nc?`<button class="lk" data-g="c" title="Bấm để chỉ hiện các sản phẩm chưa xác nhận quốc gia">⚠ ${nc} SP chưa xác nhận quốc gia</button>`:`<span class="okc">✓ Mọi SP đều đã xác nhận quốc gia</span>`)+(nm?`<button class="lk" data-g="m" title="Bấm để chỉ hiện các sản phẩm còn thiếu dữ liệu">⚠ ${nm} SP thiếu dữ liệu</button>`:'')}
+$('#gw').innerHTML=(nc?`<button class="lk" data-g="c" title="Bấm để chỉ hiện các sản phẩm chưa xác nhận quốc gia">⚠ ${nc} Sản phẩm chưa xác nhận quốc gia</button>`:`<span class="okc">✓ Mọi SP đều đã xác nhận quốc gia</span>`)+(nm?`<button class="lk" data-g="m" title="Bấm để chỉ hiện các sản phẩm còn thiếu dữ liệu">⚠ ${nm} Sản phẩm thiếu dữ liệu</button>`:'')}
 const chipOk=p=>cf==='all'||(cf==='hot'&&p.h)||(cf==='root'&&/BÓN RỄ/i.test(p.x||''))||(cf==='leaf'&&/BÓN LÁ/i.test(p.x||''))||(cf==='miss'&&miss(p));
 /* Quốc gia đã xác nhận: p.c = tên quốc gia (rỗng = chưa xác nhận) */
 function fit(s){const o=s.options[s.selectedIndex];if(!o)return;const cs=getComputedStyle(s),m=document.createElement('span');

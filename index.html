@@ -157,9 +157,9 @@ if(!p){b.innerHTML='<p class="e">Chọn một MSPB ở danh sách bên trái.</p
 const r=build(p,S),sd=subHTML(r.out),G=['ĐA LƯỢNG','TRUNG LƯỢNG','VI LƯỢNG','THÀNH PHẦN PHỤ'],ok=p.c&&p.c===S.ctry,
 sec=(t,m)=>`<div class="eb"><span>${t}</span><i></i>${m||''}</div>`,cb=(id)=>`<button id="${id}">${ic('copy')}Chép</button>`,
 words=r.out.trim().split(/\s+/).length,
-sel=`<select id="pc" title="Đổi quốc gia đã xác nhận"><option value="">Chưa xác nhận quốc gia</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select>`,
+sel=`<select id="pc" title="Đổi quốc gia đã xác nhận"><option value="">Chưa xác nhận quốc gia sản xuất</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select>`,
 st=ok?`<div class="cst">${ic('chk')}<span>Đã xác nhận quốc gia:</span>${sel}</div>`
-:`<div class="cst w">${ic('alert')}<span>${p.c?`Đã xác nhận «${esc(p.c)}» nhưng nhãn đang dùng «${esc(S.ctry)}»:`:`Chưa xác nhận quốc gia vui lòng <u><b>xác nhận</b></u> «${esc(S.ctry)}»:`}</span>${sel}<button id="pcOk" class="lk">✓ Xác nhận «${esc(S.ctry)}»</button>${p.c?`<button id="pcUse" class="lk">Dùng «${esc(p.c)}»</button>`:''}</div>`,
+:`<div class="cst w">${ic('alert')}<span>${p.c?`Đã xác nhận «${esc(p.c)}» nhưng nhãn đang dùng «${esc(S.ctry)}»:`:`Chưa xác nhận quốc gia vui lòng <u><b>xác nhận</b></u>`}</span>${sel}<button id="pcOk" class="lk">✓ Xác nhận quốc gia sản xuất là «${esc(S.ctry)}»</button>${p.c?`<button id="pcUse" class="lk">Dùng «${esc(p.c)}»</button>`:''}</div>`,
 rc=(S.rec||[]).filter(m=>m!==S.sel&&S.P.some(x=>x.m===m)).slice(0,6);
 b.innerHTML=`<div class="ph"><div class="pt"><div class="id">MSPB ${esc(p.m)}</div><h2>${esc(p.n)||'(chưa có tên)'}</h2>
 <div class="sub">${[p.l,p.x,p.t&&'TCCS '+p.t].filter(Boolean).map(esc).join(' · ')||'—'}</div>${st}</div>
@@ -185,7 +185,7 @@ function copy(t,b){const o=b.dataset.o||(b.dataset.o=b.innerHTML),ok=()=>{b.text
 const fb=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()};
 try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}}
 function renderCt(){const s=$('#ct'),p=cur(),t=$('#ctTag');s.innerHTML=S.C.map(c=>`<option>${esc(c.n)}</option>`).join('');s.value=S.ctry;
-let x='',k='';if(p){if(!p.c){x='tạm · SP chưa xác nhận';k='w'}else if(p.c!==S.ctry){x='khác quốc gia đã xác nhận';k='w'}else{x='✓ đã xác nhận';k='ok'}}
+let x='',k='';if(p){if(!p.c){x='Chưa xác nhận quốc gia sản xuất';k='w'}else if(p.c!==S.ctry){x='khác quốc gia đã xác nhận';k='w'}else{x='✓ đã xác nhận';k='ok'}}
 if(t.textContent!==x){t.textContent=x;t.classList.remove('pop');void t.offsetWidth;t.classList.add('pop')}t.hidden=!x;$('.ctw').dataset.k=k}
 const render=()=>{renderCt();renderList();renderPrev()};
 const dlg=$('#dlg');

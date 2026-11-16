@@ -16,7 +16,7 @@ header{flex:none;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;pa
 button,select,input,textarea{font:inherit;color:inherit}
 button{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 12px;cursor:pointer;font-size:13px;font-weight:500}
 button:hover{border-color:var(--acc)}button.pri{background:var(--acc);color:var(--on);border-color:var(--acc);font-weight:600}
-main{flex:1;min-height:0;display:grid;grid-template-columns:clamp(490px,36vw,560px) 1fr;gap:14px;padding:0 16px 16px}
+main{flex:1;min-height:0;display:grid;grid-template-columns:clamp(506px,36vw,560px) 1fr;gap:14px;padding:0 16px 16px}
 main>section{min-height:0;overflow-y:auto}
 main>section:first-child{display:flex;flex-direction:column;overflow:hidden}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}#prev{padding:18px 22px}
@@ -24,9 +24,9 @@ label{display:block;font-size:13px;color:var(--mut);margin-bottom:8px}
 input:not([type=checkbox]),select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 9px;margin-top:3px;color:var(--fg)}
 .chk{display:flex;gap:8px;align-items:center;color:var(--fg)}.chk input{width:auto;margin:0}
 .sr{position:relative;margin:0}.sr .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--mut);margin:0}.sr input{margin:0;height:40px;padding-left:36px;border-radius:12px;background:var(--card)}
-.fr{display:flex;flex-wrap:nowrap;gap:4px;align-items:center;margin:10px 0 8px}
-.chip{border-radius:999px;padding:2px 9px;font-size:12px;white-space:nowrap;background:var(--card);border:1px solid var(--line);color:var(--mut);font-weight:500}.chip.on{background:var(--acc);color:var(--on);border-color:var(--acc);font-weight:600}
-.fcw{display:inline-flex;align-items:center;gap:5px;margin:0;flex:1 1 0;min-width:0;max-width:150px;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:12px;color:var(--mut);background:var(--card)}.fcw select{width:100%;min-width:0;border:0;background:transparent;margin:0;padding:0;font-size:12px;color:var(--fg);text-overflow:ellipsis}
+.fr{display:flex;flex-wrap:wrap;gap:6px 4px;align-items:center;margin:10px 0 8px}
+.chip{border-radius:999px;padding:2px 7px;font-size:12px;white-space:nowrap;background:var(--card);border:1px solid var(--line);color:var(--mut);font-weight:500}.chip.on{background:var(--acc);color:var(--on);border-color:var(--acc);font-weight:600}
+.fcw{display:inline-flex;align-items:center;gap:5px;margin:0;flex:0 0 auto;min-width:0;max-width:100%;border:1px solid var(--line);border-radius:999px;padding:2px 8px;font-size:12px;color:var(--mut);background:var(--card)}.fcw select{width:100%;min-width:0;border:0;background:transparent;margin:0;padding:0;font-size:12px;color:var(--fg);text-overflow:ellipsis}
 .cr{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--mut);margin:2px 2px 8px}.cr b{color:var(--fg)}
 ul{list-style:none;margin:0;padding:0;flex:1;min-height:120px;overflow-y:auto;border:1px solid var(--line);border-radius:12px}
 li{display:flex;gap:8px;align-items:center;padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--line)}
@@ -65,7 +65,7 @@ dialog::backdrop{background:#0007}dialog h2{margin:0 0 10px;font-size:17px;color
 #msg{color:var(--acc);font-weight:600;margin-top:8px}#msg:empty{display:none}
 .sd{position:relative;top:var(--sd,.2em);color:var(--acc);font-weight:700}.sd2{position:relative;top:calc(var(--sd,.2em)*2);color:var(--acc);font-weight:700}
 .how p{margin:4px 0;font-size:13px}
-@media(max-width:900px){html,body{height:auto}body{overflow:auto}main{flex:none;grid-template-columns:1fr}main>section{overflow:visible}main>section:first-child{display:block}ul{flex:none;max-height:50vh;overflow-y:auto}.fr{flex-wrap:wrap}.fcw{max-width:none;flex:1 1 140px}}
+@media(max-width:900px){html,body{height:auto}body{overflow:auto}main{flex:none;grid-template-columns:1fr}main>section{overflow:visible}main>section:first-child{display:block}ul{flex:none;max-height:50vh;overflow-y:auto}.fr{flex-wrap:wrap}}
 
 /* ===== Animation ===== */
 @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -101,7 +101,7 @@ ul,main>section,dialog{scrollbar-width:thin;scrollbar-color:var(--line) transpar
 <button id="bN"><span data-i="plus"></span>Thêm SP</button><button id="bC"><span data-i="layers"></span>Quốc gia &amp; câu kết</button><button id="bB"><span data-i="sheet"></span>Excel &amp; sao lưu</button><button id="bS"><span data-i="down"></span>Chữ hạ thấp</button></nav></header>
 <main>
 <section class="card"><div class="sr"><span data-i="search"></span><input id="q" placeholder="Tìm MSPB hoặc tên SP  ( / )" autocomplete="off"></div>
-<div class="fr"><button class="chip on" data-f="all">Tất cả</button><button class="chip" data-f="root">Bón rễ</button><button class="chip" data-f="leaf">Bón lá</button><button class="chip" data-f="hot">★ Hay in</button><button class="chip" data-f="miss">Thiếu thông tin</button><label class="fcw" title="Lọc theo quốc gia đã xác nhận"><span data-i="globe"></span><select id="fc"></select></label></div>
+<div class="fr"><button class="chip on" data-f="all">Tất cả</button><button class="chip" data-f="root">Bón rễ</button><button class="chip" data-f="leaf">Bón lá</button><button class="chip" data-f="hot">★ Hay in</button><button class="chip" data-f="miss">Thiếu thông tin</button><label class="fcw" title="Lọc theo quốc gia đã xác nhận"><select id="fc"></select></label></div>
 <div class="cr" id="cnt"></div><ul id="list"></ul>
 <div class="lf"><label class="chk"><input type="checkbox" id="fol"> Tự chuyển quốc gia theo SP đã xác nhận</label><button id="bAll" hidden></button></div></section>
 <section class="card" id="prev"></section>
@@ -135,9 +135,12 @@ const lab=()=>{const b=$('#bAll'),n=filt().length;delete b.dataset.a;b.hidden=!n
 const miss=p=>!p.n||!p.l||!p.x||!p.t||!p.v.some(v=>v!=null&&String(v).trim()!=='');
 const chipOk=p=>cf==='all'||(cf==='hot'&&p.h)||(cf==='root'&&/BÓN RỄ/i.test(p.x||''))||(cf==='leaf'&&/BÓN LÁ/i.test(p.x||''))||(cf==='miss'&&miss(p));
 /* Quốc gia đã xác nhận: p.c = tên quốc gia (rỗng = chưa xác nhận) */
-function renderFc(){const s=$('#fc'),v=s.value,n={};S.P.forEach(p=>{const k=p.c||'__none';n[k]=(n[k]||0)+1});
-s.innerHTML=`<option value="">Mọi quốc gia</option><option value="__none">Chưa xác nhận (${n.__none||0})</option>`+S.C.map(c=>`<option value="${esc(c.n)}">✓ ${esc(c.n)} (${n[c.n]||0})</option>`).join('');
-s.value=[...s.options].some(o=>o.value===v)?v:''}
+function fit(s){const o=s.options[s.selectedIndex];if(!o)return;const cs=getComputedStyle(s),m=document.createElement('span');
+m.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;font:'+cs.fontStyle+' '+cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily;
+m.textContent=o.text;document.body.appendChild(m);s.style.width=Math.ceil(m.getBoundingClientRect().width)+26+'px';m.remove()}
+function renderFc(){const s=$('#fc'),v=s.value;
+s.innerHTML=`<option value="">Mọi quốc gia</option><option value="__none">Chưa xác nhận</option>`+S.C.map(c=>`<option value="${esc(c.n)}">${esc(c.n)}</option>`).join('');
+s.value=[...s.options].some(o=>o.value===v)?v:'';fit(s)}
 function filt(){const q=$('#q').value.trim().toLowerCase(),f=$('#fc').value;
 return S.P.filter(p=>chipOk(p)&&(!f||(f==='__none'?!p.c:p.c===f))&&(!q||p.m.includes(q)||p.m===pad(q)||(p.n||'').toLowerCase().includes(q)))}
 const follow=()=>{const p=cur();if(S.fol!==false&&p&&p.c&&p.c!==S.ctry&&S.C.some(x=>x.n===p.c)){S.ctry=p.c;return true}return false};
@@ -404,5 +407,5 @@ if(e.key==='/'&&!typing){e.preventDefault();$('#q').focus();return}
 if((e.key==='ArrowDown'||e.key==='ArrowUp')&&g!=='SELECT'&&g!=='TEXTAREA'){const L=filt();if(!L.length)return;e.preventDefault();let i=L.findIndex(p=>p.m===S.sel);i=e.key==='ArrowDown'?Math.min(L.length-1,i+1):Math.max(0,i<0?0:i-1);pick(L[i].m);const li=$('#list li.on');if(li)li.scrollIntoView({block:'nearest',behavior:RM?'auto':'smooth'})}
 else if(e.key==='Enter'&&(g!=='INPUT'||t.id==='q')&&g!=='BUTTON'&&g!=='SELECT'&&g!=='TEXTAREA'&&$('#cp')){e.preventDefault();copy(build(cur(),S).out,$('#cp'))}});
 document.querySelectorAll('[data-i]').forEach(e=>e.innerHTML=ic(e.dataset.i));
-follow();render();
+follow();render();if(document.fonts)document.fonts.ready.then(()=>fit($('#fc')));
 </script></body></html>

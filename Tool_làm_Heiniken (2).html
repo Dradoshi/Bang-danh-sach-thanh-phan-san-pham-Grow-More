@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><title>Tool làm Heiniken</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#f6f1f0;--card:#fff;--fg:#2a1d1c;--mut:#7a6664;--line:#e3d2d0;--acc:#b84a47;--tint:#f6e3e2;--on:#fff;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1514;--card:#271e1d;--fg:#f3e9e8;--mut:#b49c99;--line:#44302e;--acc:#d9625f;--tint:#3a2524;--on:#1b1514;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1b1514;--card:#271e1d;--fg:#f3e9e8;--mut:#b49c99;--line:#44302e;--acc:#d9625f;--tint:#3a2524;--on:#1b1514;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}html,body{height:100%}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;overflow:hidden}
+header{flex:none;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 16px}
+h1{margin:0;font-size:19px;color:var(--acc)}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 11px;cursor:pointer}
+button:hover{border-color:var(--acc)}button.pri{background:var(--acc);color:var(--on);border-color:var(--acc)}
+main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(300px,26%) 1fr;gap:14px;padding:0 16px 16px}
+main>section{min-height:0;overflow-y:auto}
+main>section:first-child{display:flex;flex-direction:column;overflow:hidden}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+label{display:block;font-size:13px;color:var(--mut);margin-bottom:8px}
+input:not([type=checkbox]),select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 9px;margin-top:3px;color:var(--fg)}
+.chk{display:flex;gap:8px;align-items:center;color:var(--fg)}.chk input{width:auto;margin:0}
+ul{list-style:none;margin:8px 0 0;padding:0;flex:1;min-height:120px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
+li{display:flex;gap:8px;align-items:center;padding:7px 9px;cursor:pointer;border-bottom:1px solid var(--line)}
+li:last-child{border:0}li:hover{background:var(--tint)}li.on{background:var(--acc);color:var(--on)}
+li b{font-variant-numeric:tabular-nums}li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+li.e{cursor:default;color:var(--mut)}.st{border:0;background:none;padding:0 2px;color:var(--line);font-size:17px}.st.h{color:#e0a800}
+.bar{background:var(--acc);color:var(--on);font-weight:700;text-align:center;padding:7px;border-radius:8px;margin:12px 0 8px;letter-spacing:.3px}
+.bar:first-child{margin-top:0}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:4px 10px}.kv b{color:var(--acc)}
+.gs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.g h4{margin:0 0 4px;font-size:13px;background:var(--tint);padding:5px 8px;border-radius:6px}
+.g div{display:flex;justify-content:space-between;gap:8px;padding:3px 8px;border-bottom:1px solid var(--line);font-size:14px}
+.g div b{white-space:nowrap}.g .n{color:var(--mut)}
+.box{background:var(--tint);border-radius:8px;padding:10px 12px;word-break:break-word}
+#out{min-height:150px;resize:vertical}.e{color:var(--mut)}
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--fg);width:min(760px,94vw);max-height:90vh;padding:16px;overflow:auto}
+dialog::backdrop{background:#0007}dialog h2{margin:0 0 10px;font-size:17px;color:var(--acc)}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 10px}.act{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
+.row{border:1px solid var(--line);border-radius:8px;padding:8px;margin-bottom:8px}
+.tb{flex:1 1 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+.ctw{display:flex;align-items:center;gap:8px;margin:0;background:var(--tint);border:1px solid var(--acc);border-radius:10px;padding:5px 10px;color:var(--acc);font-weight:700;font-size:14px}
+.ctw select{width:auto;min-width:150px;margin:0;font-weight:600;padding:5px 8px}
+.sep{width:1px;align-self:stretch;background:var(--line);margin:0 4px}
+@media(max-width:820px){.sep{display:none}.ctw{flex:1 1 100%}html,body{height:auto}body{overflow:auto}main{flex:none;grid-template-columns:1fr}main>section{overflow:visible}main>section:first-child{display:block}ul{flex:none;max-height:50vh}}
+.cv span{display:block;font-size:13px;color:var(--mut)}.cv div{display:flex;gap:6px;margin-bottom:8px}.cv input{flex:1;min-width:0}.cv select{width:118px;flex:none}
+.gh{margin:12px 0 6px;font-size:13px;font-weight:700;background:var(--tint);color:var(--acc);padding:4px 8px;border-radius:6px}
+#msg{color:var(--acc);font-weight:600;margin-top:8px}#msg:empty{display:none}
+.sd{position:relative;top:var(--sd,.2em);color:var(--acc);font-weight:700}.sd2{position:relative;top:calc(var(--sd,.2em)*2);color:var(--acc);font-weight:700}
+.how p{margin:4px 0;font-size:13px}
+.cc{flex:none;font-style:normal;font-size:11px;line-height:16px;border:1px solid currentColor;border-radius:9px;padding:0 6px;color:var(--acc);white-space:nowrap;max-width:96px;overflow:hidden;text-overflow:ellipsis}li.on .cc{color:var(--on)}
+.pcw{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.pcw select{width:auto;min-width:150px;margin:0}.pcw .ok{color:var(--acc);font-weight:700}
+#bAll{width:100%;margin-top:6px;font-size:13px}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script></head><body>
+<header><h1>Tool làm Heiniken</h1>
+<nav class="tb"><label class="ctw">🌍 Chọn quốc gia sản xuất:<select id="ct"></select></label><span class="sep"></span>
+<button id="bE">✏️ Sửa SP đang chọn</button> <button id="bN">＋ Thêm SP</button> <button id="bC">⚙️ Sửa quốc gia &amp; câu kết</button> <button id="bB">📊 Excel &amp; sao lưu</button> <button id="bS">🔽 Script Illustrator (hạ chữ + Justify)</button></nav></header>
+<main>
+<section class="card"><label class="chk"><input type="checkbox" id="hot"> Chỉ hiện SP hay in (★)</label>
+<label>🌍 Lọc theo quốc gia đã xác nhận<select id="fc"></select></label>
+<label>Tìm MSPB hoặc tên SP<input id="q" placeholder="vd: 8737 hoặc Organic" autocomplete="off"></label>
+<label class="chk"><input type="checkbox" id="fol"> Tự chuyển quốc gia khi chọn SP đã xác nhận</label>
+<div class="e" id="cnt"></div><button id="bAll" hidden></button><ul id="list"></ul></section>
+<section class="card" id="prev"></section>
+</main>
+<dialog id="dlg"></dialog>
+<script>
+const D={"F": [["Đạm tổng số (Nts)", 1, 1, "%"], ["Lân hữu hiệu (P2O5hh)", 1, 2, "%"], ["Kali hữu hiệu (K2Ohh)", 1, 3, "%"], ["Chất hữu cơ", 1, 4, "%"], ["Canxi (Ca)", 2, 1, "%"], ["Magie (Mg)", 2, 2, "%"], ["Lưu huỳnh (S)", 2, 3, "%"], ["Silic hữu hiệu (SiO2hh)", 2, 4, "%"], ["Bo (B)", 3, 4, "ppm"], ["Đồng (Cu)", 3, 6, "ppm"], ["Sắt (Fe)", 3, 1, "ppm"], ["Kẽm (Zn)", 3, 3, "ppm"], ["Mangan (Mn)", 3, 2, "ppm"], ["Molypsđen (Mo)", 3, 5, "ppm"], ["Độ ẩm", 4, 4, "%"], ["pHH2O", 4, 5, ""], ["Tỷ trọng", 4, 6, ""], ["Axit amin", 4, 1, "%"], ["Axit fulvic (axit fulvic)", 4, 2, "%"], ["Axit humic (axit humic)", 4, 3, "%"]], "P": [{"m": "08672", "n": "Phoska", "l": "Phân bón hỗn hợpPK", "v": [null, "52", "34", null, null, null, null, null, null, null, null, null, null, null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "44:2023/UNI", "h": false}, {"m": "08673", "n": "Grow More NPK 30-9-9 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["30", "9", "9", null, null, null, null, null, "150", null, "150", "150", "150", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "01:2023/UNI", "h": false}, {"m": "08674", "n": "Grow More NPK 12-12-18 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["12", "12", "18", null, null, "1,2", null, null, "150", null, "150", "150", "150", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08675", "n": "Grow More NPK 15-15-15 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["15", "15", "15", null, null, null, null, null, "150", null, "150", "150", "150", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "02:2023/UNI", "h": false}, {"m": "08676", "n": "Grow More NPK 15-9-20 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["15", "9", "20", null, null, null, null, null, "150", null, "150", "150", "150", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08677", "n": "Grow More Plantacote NPK 14-14-14 +7S", "l": "Phân bón hỗn hợpNPK", "v": ["14", "14", "14", null, null, null, "7", null, null, null, null, null, null, null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08678", "n": "Grow MorePlantacote NPK 13-13-13 +7S", "l": "Phân bón hỗn hợpNPK", "v": ["13", "13", "13", null, null, null, "7", null, null, null, null, null, null, null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08679", "n": "POLYCOTE NPK 14-14-14 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["14", "14", "14", null, null, null, null, null, "400", "200", "100", "100", "100", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08680", "n": "POLYCOTEN PK 23-9-13+TE", "l": "Phân bón hỗn hợpNPK", "v": ["23", "9", "13", null, null, null, null, null, "400", "200", "100", "100", "100", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08681", "n": "POLYCOTE NPK  15-5-20+TE", "l": "Phân bón hỗn hợpNPK", "v": ["15", "5", "20", null, null, null, null, null, "400", "200", "100", "100", "100", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08682", "n": "Grow More POLYCOTE NPK 28-8-8 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["28", "8", "8", null, null, null, null, null, "400", "200", "100", "100", "100", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08683", "n": "Grow More Ultramax", "l": "Phân bón trung lượng", "v": [null, null, null, null, "28", null, null, "5", null, null, null, null, null, null, "4", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08684", "n": "Grow More Rootone", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, "2.000", null, null, null, null, null, null, null, "1,013", null, null, null], "x": "BÓN RỄ", "t": "31:2023/UNI", "h": false}, {"m": "08685", "n": "Grow More NITCABOR", "l": "Phân canxi nitrat", "v": ["15", null, null, null, "18,6", null, null, null, null, null, null, null, null, null, "1", null, null, null, null, null], "x": "BÓN RỄ", "t": "11:2026/UNI", "h": false}, {"m": "08686", "n": "Rootplex Seaweed Extract", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, null, null, "30.000 mg/l", null, null, null, null, null, "1", null, null, null], "x": "BÓN RỄ", "t": "11:2024/UNI", "h": false}, {"m": "08687", "n": "Grow More Vitamax", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, null, null, "10.000 mg/l", null, null, null, null, null, "1,1", null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08688", "n": "Grow More Boron", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, "80.000 mg/l", null, null, null, null, null, null, null, "1,3", null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08689", "n": "Grow More lron", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, null, null, "50.000 mg/l", null, null, null, null, null, "1,2", null, null, null], "x": "BÓN RỄ", "t": "12:2024/UNI", "h": false}, {"m": "08691", "n": "Grow More Agrifos Optimus", "l": "Phân bón hỗn hợp PK", "v": [null, "30", "20", null, null, null, null, null, null, null, null, null, null, null, null, null, "1,4", null, null, null], "x": "BÓN RỄ", "t": "28:2023/UNI", "h": false}, {"m": "08692", "n": "Grow More Minors", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, null, null, "30.000 mg/l", null, null, null, null, null, "1,3", null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08693", "n": "Grow More D&P Si02-Ca 5-20", "l": "Phân bón trung lượng", "v": [null, null, null, null, "20", null, null, "5", null, null, null, null, null, null, "4", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08694", "n": "Grow MorePlantacote NPK 15-15-15 +1,5S", "l": "Phân bón hỗn hợpNPK", "v": ["15", "15", "15", null, null, null, "1,5", null, null, null, null, null, null, null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "01:2025/UNI", "h": false}, {"m": "08695", "n": "Grow More Plantacote NPK 19-6-12 +4,5S", "l": "Phân bón hỗn hợpNPK", "v": ["19", "6", "12", null, null, null, "4,5", null, null, null, null, null, null, null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08696", "n": "Kalimax", "l": "Phân kali suphat", "v": [null, null, "50", null, null, null, "17", null, null, null, null, null, null, null, "1", null, null, null, null, null], "x": "BÓN RỄ", "t": "12:2023/UNI", "h": false}, {"m": "08697", "n": "Grow More LIQUINOX START", "l": "Phân bón lá đa-vi lượng", "v": [null, "2", null, null, null, null, null, null, null, null, "1.000", null, null, null, null, "1", "1,1", null, null, null], "x": "BÓN LÁ", "t": "10:2026/UNI", "h": true}, {"m": "08698", "n": "Phosgard", "l": "Phân bón hỗn hợpPK", "v": [null, "25", "20", null, null, null, null, null, null, null, null, null, null, null, "5", "3", null, null, null, null], "x": "BÓN LÁ", "t": "29:2023/UNI", "h": false}, {"m": "08699", "n": "Fertaplex Agriplex", "l": "Phân bón lá PK-trung-vi lượng", "v": [null, "4", "4", null, null, "1", null, null, null, null, "50.000", "5.000", "5.000", null, null, "1", "1,4", null, null, null], "x": "BÓN LÁ", "t": "09:2026/UNI", "h": false}, {"m": "08700", "n": "Alaska Fish Emulsion", "l": "Phân bón lá NPK- trung lượng", "v": ["5", "1", "1", null, "0,01", "0,1", "0,5", null, null, null, null, null, null, null, null, "3,7", "1,1", null, null, null], "x": "BÓN LÁ", "t": "13:2023/UNI", "h": true}, {"m": "08701", "n": "Grow More NPK 6-30-30+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["6", "30", "30", null, null, null, null, null, "200", "500", "1.000", "500", null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "07:2026/UNI", "h": true}, {"m": "08702", "n": "Grow MoreNPK 15-30-15+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["15", "30", "15", null, null, null, null, null, "200", "500", "2.000", "500", null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "12:2026/UNI", "h": true}, {"m": "08703", "n": "Grow MoreNPK 20-20-20+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["20", "20", "20", null, null, null, null, null, "200", "500", "1.000", "500", null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "08:2026/UNI", "h": true}, {"m": "08704", "n": "Grow More NPK30-10-10+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["30", "10", "10", null, null, null, null, null, "200", "500", "1.000", null, null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "03:2026/UNI", "h": true}, {"m": "08705", "n": "Grow More NK 12-40 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["12", null, "40", null, "3", null, null, null, "100", "200", "1.000", "500", null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08706", "n": "Grow More Bloom", "l": "Phân bón lá NPK-vi lượng", "v": ["10", "55", "10", null, null, null, null, null, "100", null, null, null, null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "02:2026/UNI", "h": true}, {"m": "08707", "n": "Gro-Folan NPK 10-8-6+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["10", "8", "6", null, null, null, null, null, "100", "100", "200", "100", null, null, null, "5,1", "1,2", null, null, null], "x": "BÓN LÁ", "t": "04:2026/UNI", "h": true}, {"m": "08708", "n": "Gro-Folan NPK 4-17-5+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["4", "17", "5", null, null, null, null, null, "100", "100", "300", "100", null, null, null, "2,5", "1,1", null, null, null], "x": "BÓN LÁ", "t": "05:2026/UNI", "h": true}, {"m": "08709", "n": "Gro-Folan NPK 1-18-18+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["1", "18", "18", null, null, null, null, null, "100", "100", "300", "100", null, null, null, "7", "1,4", null, null, null], "x": "BÓN LÁ", "t": "06:2026/UNI", "h": true}, {"m": "08710", "n": "Foliage BoosterNK 5-2+TE", "l": "Phân bón lá NK- trung-vi lượng", "v": ["5", null, "2", null, null, null, "4", null, null, "100", "10.000", "40.000", null, null, null, "5,5", "1,1", null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08711", "n": "Rootplex", "l": "Phân bón lá đa lượng-vi lượng", "v": [null, "1", null, null, null, null, null, null, null, null, "30.000", "500", null, null, null, "3", "1,09", null, null, null], "x": "BÓN LÁ", "t": "01:2026/UNI", "h": true}, {"m": "08712", "n": "Grow More NPK 33-11-11 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["33", "11", "11", null, null, null, null, null, "500", null, "1.000", "500", "500", "500", "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "13:2023/UNI", "h": true}, {"m": "08713", "n": "Grow More NPK20-30-20 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["20", "30", "20", null, null, null, null, null, null, null, "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "14:2026/UNI", "h": true}, {"m": "08714", "n": "Grow More NPK10-15-10 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["10", "15", "10", null, null, null, null, null, null, null, "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "32:2023/UNI", "h": false}, {"m": "08715", "n": "Grow More NPK10-60-10 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["10", "60", "10", null, null, null, null, null, null, null, "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "30:2023/UNI", "h": false}, {"m": "08716", "n": "Grow More NPK5-30-5 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["5", "30", "5", null, null, null, null, null, null, null, "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08717", "n": "Grow More NPK 40-4-4 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["40", "4", "4", null, null, null, null, null, "200", "700", "3.300", "700", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08718", "n": "Grow More NPK 19-31-17 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["19", "31", "17", null, null, null, null, null, "200", "700", "3300", "700", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "33:2023/UNI", "h": false}, {"m": "08719", "n": "Grow More NPK 19-24-24 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["19", "24", "24", null, null, null, null, null, null, "500", "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08720", "n": "Grow More NPK 18-19-30 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["18", "19", "30", null, null, null, null, null, null, "500", "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08721", "n": "Grow More HUMMER H2", "l": "Phân bón lá sinh học-đa lượng", "v": [null, null, "2,56", null, null, null, null, null, null, null, null, null, null, null, null, "5", "1,1", null, "2,6", "14"], "x": "BÓN LÁ", "t": "27:2023/UNI", "h": true}, {"m": "08722", "n": "Grow More HUMMER H1", "l": "Phân bón lá đa-vi-lượng-sinh học", "v": ["3", "2", "2", null, null, null, null, null, null, "500", "1.000", "500", "500", null, null, "5", "1,1", null, "1,2", "6,3"], "x": "BÓN LÁ", "t": "10:2024/UNI", "h": true}, {"m": "08723", "n": "Grow More HUMMER H3", "l": "Phân bón lá NK-sinh học", "v": ["4", null, "8", null, null, null, null, null, null, null, null, null, null, null, null, "5", "1,1", null, "1,36", "7,3"], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08724", "n": "Grow More HUMMER", "l": "Phân bón lá sinh học", "v": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "5", "1,1", null, "7,78", "0,01"], "x": "BÓN LÁ", "t": "01:2024/UNI", "h": true}, {"m": "08725", "n": "Grow More Flower and Bloom", "l": "Phân bón hữu cơ-đa-vi lượng", "v": ["3", "6", "6", null, null, null, null, null, null, "1.000", "1.000", "1.000", "1.000", null, "18", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08726", "n": "Grow More Citrus and Orange", "l": "Phân bón hữu cơ-đa-vi lượng", "v": ["6", "3", "3", null, null, null, null, null, null, "1.000", "1.000", "1.000", "1.000", null, "18", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08727", "n": "Grow More All-Purpose Soil Builder", "l": "Phân bón hữu cơ-đa-vi lượng", "v": ["5", "5", "5", null, null, null, null, null, null, "1.000", "1.000", "1.000", "1.000", null, "18", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08728", "n": "Grow More Vegetarian", "l": "Phân bón hữu cơ-đa-vi lượng", "v": ["8", "2", "2", null, null, null, null, null, null, "1.000", "1.000", "1.000", "1.000", null, "18", "5", null, null, null, null], "x": "BÓN RỄ", "t": "09:2023/UNI", "h": false}, {"m": "08729", "n": "Grow More Fruit and Vegetable", "l": "Phân bón đa lượng-vi lượng", "v": ["4", "5", "3", null, null, null, null, null, null, "1.000", "1.000", "1.000", "1.000", null, "18", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08730", "n": "Grow More Bio-Cozyme", "l": "Phân bón lá đa-vi lượng- sinh học", "v": ["0,1", null, "5", null, null, null, null, null, null, null, "100.000", null, null, null, "15", "3", null, null, null, "8"], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08731", "n": "Jump Start Super Thrive", "l": "Phân bón lá NK-vi lượng", "v": ["0,1", null, "0,1", null, null, null, null, null, null, null, "1.000", "500", null, null, null, "5", "1,1", null, null, null], "x": "BÓN LÁ", "t": "19:2023/UNI", "h": true}, {"m": "08732", "n": "Grow More Indo Guano", "l": "Phân bón trung-vi lượng", "v": [null, "11", null, null, "17,8", null, null, "5", null, null, null, null, "5.000", null, "3", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08733", "n": "Grow More Hạ phèn", "l": "Phân bón trung-vi lượng", "v": [null, "10", null, null, "17,8", null, null, "5", null, null, null, null, "5.000", null, "3", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08734", "n": "Grow More Organic NPK8-4-4", "l": "Phân bón hữu cơ- khoáng", "v": ["8", "4", "4", "15", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "05:2024/UNI", "h": true}, {"m": "08735", "n": "Grow More OrganicNPK 6-3-3", "l": "Phân bón hữu cơ- khoáng", "v": ["6", "3", "3", "15", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "04:2024/UNI", "h": true}, {"m": "08736", "n": "Grow More Organic NPK 5-5-5", "l": "Phân bón hữu cơ- khoáng", "v": ["5", "5", "5", "15", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "03:2024/UNI", "h": true}, {"m": "08737", "n": "Grow More Organic NPK 4-5-3", "l": "Phân bón hữu cơ- khoáng", "v": ["4", "5", "3", "15", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "06:2023/UNI", "h": true}, {"m": "08738", "n": "Grow More Organic NPK 3-6-6", "l": "Phân bón hữu cơ- khoáng", "v": ["3", "6", "6", "15", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "06:2026/UNI", "h": true}, {"m": "08739", "n": "Grow More Fuego Soil", "l": "Phân bón hữu cơ- khoáng", "v": ["3", "2,5", "4,5", "18", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "08:2023/UNI", "h": false}, {"m": "08740", "n": "Grow More Osmocote NPK 17-17-17", "l": "Phân bón NPK-vi lượng", "v": ["17", "17", "17", "15", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08741", "n": "Grow More Osmocote NPK 17-14-14", "l": "Phân bón NPK-vi lượng", "v": ["17", "14", "14", "15", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08742", "n": "Grow More Osmocote NPK14-14-14", "l": "Phân bón NPK-vi lượng", "v": ["14", "14", "14", "15", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08743", "n": "Grow More Osmocote NPK 19-6-12", "l": "Phân bón NPK-vi lượng", "v": ["19", "6", "12", "18", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08744", "n": "Grow More Osmocote NPK 9-6-6", "l": "Phân bón NPK-vi lượng", "v": ["9", "6", "6", "20", null, null, "18,7", null, null, null, "20.000", null, null, null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08745", "n": "Grow More Osmocote NPK 18-6-12", "l": "Phân bón NPK-vi lượng", "v": ["18", "6", "12", "15", null, "1", null, null, "200", "500", "1.500", null, "600", "70", "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08746", "n": "Grow More Osmocote NPK 15-17-15", "l": "Phân bón NPK-vi lượng", "v": ["15", "17", "15", "15", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08747", "n": "Grow More Osmocote NPK 15-15-15", "l": "Phân bón NPK-vi lượng", "v": ["15", "15", "15", "15", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08748", "n": "Grow More Osmocote NPK 14-14-16", "l": "Phân bón NPK-vi lượng", "v": ["14", "14", "16", "18", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08749", "n": "", "l": "", "v": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "x": "", "t": "", "h": false}, {"m": "08750", "n": "", "l": "", "v": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "x": "", "t": "", "h": false}, {"m": "08751", "n": "Grow More Fuego Plus", "l": "Phân bón lá hữucơ- sinh học-đa lượng", "v": ["6", null, null, "16", null, null, null, null, null, null, null, null, null, null, "18", "3", null, "16", null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08752", "n": "Grow MoreFuego Copper", "l": "Phân bón lá sinh học nhiều thành phần", "v": ["3", null, null, "10", null, null, null, null, null, "6,2 %", null, null, null, null, "18", "3", null, "10", null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08753", "n": "Grow MoreFuego lodine", "l": "Phân bón lá hữu cơ- khoáng", "v": ["2", null, null, "21", null, null, null, null, null, null, null, null, null, null, "18", "3", null, null, null, null], "x": "BÓN LÁ", "t": "02:2024/UNI", "h": false}, {"m": "08754", "n": "Grow MoreFuego Calcium 6", "l": "Phân bón lá hữucơ- sinh học-đa lượng", "v": ["0,9", null, null, "1,6", "6", null, null, null, null, null, null, null, null, null, null, "3", "1,2", "5,5", null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "11057", "n": "Aminoquelant K", "l": "Phân bón lá NK-hữu cơ- sinh học", "v": ["1", null, "30", "7", null, null, null, null, null, null, null, null, null, null, null, "10,5", "1,50", "5", null, null], "x": "BÓN LÁ", "t": "36:2023/UNI", "h": true}, {"m": "11058", "n": "Aminoquelant Ca", "l": "Phân bón lá hữu cơ nhiều thành phần", "v": ["4,9", null, null, "6,8", "5,72", null, null, null, null, null, null, null, null, null, null, "5,2", "1,26", "4,6", null, null], "x": "BÓN LÁ", "t": "37:2023/UNI", "h": true}, {"m": "11059", "n": "Terra-Sorb Foliar", "l": "Phân bón lá hữu cơ nhiều thành phần", "v": ["2,1", null, null, "14,8", null, null, null, null, "190", null, null, "670", "460", null, null, "5,2", "1,09", "9,3", null, null], "x": "BÓN LÁ", "t": "35:2023/UNI", "h": true}, {"m": "11060", "n": "Terra-Sorb 4 Macro Radicular", "l": "Phân bón lá hữu cơ- sinh học-đa lượng", "v": ["3", "1", "2", "7", null, null, null, null, null, null, null, null, null, null, null, "5,2", "1,1", "4", null, null], "x": "BÓN RỄ", "t": "34:2023/UNI", "h": true}, {"m": "11061", "n": "Aminoalexin Optimus", "l": "Phân bón lá PK- sinh học", "v": [null, "30", "20", null, null, null, null, null, null, null, null, null, null, null, null, "5", "1,42", "4", null, null], "x": "BÓN LÁ", "t": "41:2023/UNI", "h": true}, {"m": "11062", "n": "Aminoquelant 05", "l": "Phân bón lá sinh học-đa lượng", "v": ["3", null, null, null, null, null, null, null, null, null, null, null, null, null, null, "7,2", "1,37", "5", null, null], "x": "BÓN LÁ", "t": "39:2023/UNI", "h": true}, {"m": "11063", "n": "Aminoquelant Fe", "l": "Phân bón lá đa lượng-vi lượng- sinh học", "v": ["2", null, null, null, null, null, null, null, null, null, "50.000", null, null, null, null, "4,3", "1,25", "5", null, null], "x": "BÓN LÁ", "t": "38:2023/UNI", "h": true}, {"m": "11064", "n": "Aminoquelant-Minors", "l": "Phân bón lá sinh học nhiều thành phần", "v": ["2,8", null, null, null, null, "0,5", null, null, "200", "100", "30.000", "10.000", "10.000", null, null, "4,5", "1,3", "5", null, null], "x": "BÓN LÁ", "t": "40:2023/UNI", "h": true}, {"m": "20867", "n": "Amino Quelant-Zn/Mn", "l": "Phân bón lá đa lượng-vi lượng-sinh học", "v": ["2", null, null, null, null, null, null, null, null, null, null, "50.000", "50.000", null, null, "5", "1,4", "5", null, null], "x": "BÓN LÁ", "t": "13:2024/UNI", "h": true}, {"m": "20868", "n": "Amino Quelant Zn", "l": "Phân bón lá đa lượng-vi lượng-sinh học", "v": ["2", null, null, null, null, null, null, null, null, null, null, "70.000", null, null, null, "5", "1,2", "5", null, null], "x": "BÓN LÁ", "t": "14:2024/UNI", "h": true}, {"m": "20869", "n": "Amino Quelant Mg", "l": "Phân bón lá đa lượng-trung lượng-sinh học", "v": ["8", null, null, null, null, "5,909", null, null, null, null, null, null, null, null, null, "4", "1,4", "6", null, null], "x": "BÓN LÁ", "t": "15:2024/UNI", "h": true}, {"m": "20870", "n": "Amurox", "l": "Phân bón lá trung lượng-sinh học", "v": [null, null, null, null, null, null, null, "8", null, null, null, null, null, null, null, "12", "1,2", "3,37", null, null], "x": "BÓN LÁ", "t": "16:2024/UNI", "h": true}], "C": [{"n": "Trung Quốc", "t": "SẢN XUẤT THEO TIÊU CHUẨN CỦA GROW MORE. NHẬP KHẨU VÀ PHÂN PHỐI: CÔNG TY TNHH UNIGREEN. ĐỊA CHỈ: TẦNG 1 - 49 ĐIỆN BIÊN PHỦ, P. TÂN ĐỊNH, TP. HỒ CHÍ MINH. ĐT: (0283)-755-9000. ĐÓNG GÓI TẠI CHI NHÁNH CÔNG TY TRÁCH NHIỆM HỮU HẠN UNIGREEN, KHU CÔNG NGHIỆP VĨNH LỘC 2, ẤP VOI LÁ, XÃ MỸ YÊN, TỈNH TÂY NINH. SẢN XUẤT BỞI GUANGDONG YUECHUANG ECOAGRICULTURE TECHNOLOGY CO., LTD, CHINA (TRUNG QUỐC)."}, {"n": "Mỹ", "t": "SẢN XUẤT TẠI GROW MORE U.S.A (HOA KỲ). NHẬP KHẨU VÀ PHÂN PHỐI BỞI CÔNG TY TNHH UNIGREEN. ĐỊA CHỈ: TẦNG 1 - 49 ĐIỆN BIÊN PHỦ, P. TÂN ĐỊNH, TP. HỒ CHÍ MINH. ĐT: (0283)-755-9000. ĐÓNG GÓI TẠI CN CÔNG TY TNHH UNIGREEN, KCN VĨNH LỘC 2, ẤP VOI LÁ, XÃ MỸ YÊN, TỈNH TÂY NINH."}, {"n": "Tây Ban Nha", "t": "SẢN XUẤT TẠI BIOIBÉRICA, SPAIN (TÂY BAN NHA). NK&PP: CÔNG TY TNHH UNIGREEN. ĐỊA CHỈ: TẦNG 1 - 49 ĐIỆN BIÊN PHỦ, P. TÂN ĐỊNH, TP. HỒ CHÍ MINH. ĐT: (0283)-755-9000. ĐÓNG GÓI TẠI CHI NHÁNH CÔNG TY TRÁCH NHIỆM HỮU HẠN UNIGREEN, KHU CÔNG NGHIỆP VĨNH LỘC 2, ẤP VOI LÁ, XÃ MỸ YÊN, TỈNH TÂY NINH."}], "foot": "NSX&HSD XEM TRÊN BAO BÌ."};
+/*LOGIC*/
+const F=D.F;
+const num=s=>{s=String(s).trim();const m=s.match(/^([\d.,]+)\s*(.*)$/);if(!m)return 0;const n=parseFloat(m[1].replace(/\./g,'').replace(',','.'));if(isNaN(n))return 0;const u=m[2].trim();return n*(u?({'%':1e4,'g/l':1e3,'g/kg':1e3,ppb:.001}[u]||1):1)};
+const fmt=(i,v)=>{v=String(v).trim();if(/\s/.test(v))return v;const u=F[i][3];return u==='%'?v+'%':u==='ppm'?v+' ppm':v};
+function items(p){const a=[];p.v.forEach((v,i)=>{if(v!=null&&String(v).trim()!=='')a.push({i,g:F[i][1],q:F[i][2],k:num(v),val:fmt(i,v),t:F[i][0]+': '+fmt(i,v)})});
+a.sort((x,y)=>x.g-y.g||(x.g==3?((x.i==10?0:1)-(y.i==10?0:1)||x.k-y.k):0)||x.q-y.q);return a}
+function build(p,S){const it=items(p),comp=[...new Set(it.map(x=>x.t))].join('; ');
+const c=((S.C.find(x=>x.n===S.ctry)||{}).t||'').trim(),x=(p.x||'').trim(),t=(p.t||'').trim();
+const out=[c,x?'PHƯƠNG THỨC SỬ DỤNG: '+x+'.':'',comp?'THÀNH PHẦN: '+comp+'.':'','MSPB: '+p.m+'.',t?'TCCS: '+t+'.':'',(S.foot||'').trim()].filter(Boolean).join(' ');
+return{it,comp,out,c}}
+/*END*/
+const $=s=>document.querySelector(s),KEY='heiniken-tool-v1';
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=m=>String(m).trim().padStart(5,'0'),clone=o=>JSON.parse(JSON.stringify(o));
+let S;try{const r=localStorage.getItem(KEY);S=r?JSON.parse(r):null}catch(e){}
+if(!S||!S.P)S=clone({P:D.P,C:D.C,foot:D.foot,sel:'08737',ctry:'Mỹ'});
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const cur=()=>S.P.find(p=>p.m===S.sel);
+/* Quốc gia đã xác nhận: p.c = tên quốc gia (rỗng = chưa xác nhận) */
+function renderFc(){const s=$('#fc'),v=s.value,n={};S.P.forEach(p=>{const k=p.c||'__none';n[k]=(n[k]||0)+1});
+s.innerHTML=`<option value="">Tất cả (${S.P.length})</option><option value="__none">Chưa xác nhận (${n.__none||0})</option>`+S.C.map(c=>`<option value="${esc(c.n)}">✓ ${esc(c.n)} (${n[c.n]||0})</option>`).join('');
+s.value=[...s.options].some(o=>o.value===v)?v:''}
+function filt(){const q=$('#q').value.trim().toLowerCase(),hot=$('#hot').checked,f=$('#fc').value;
+return S.P.filter(p=>(!hot||p.h)&&(!f||(f==='__none'?!p.c:p.c===f))&&(!q||p.m.includes(q)||p.m===pad(q)||(p.n||'').toLowerCase().includes(q)))}
+const follow=()=>{const p=cur();if(S.fol!==false&&p&&p.c&&p.c!==S.ctry&&S.C.some(x=>x.n===p.c)){S.ctry=p.c;return true}return false};
+function renderList(){renderFc();const hot=$('#hot').checked,f=$('#fc').value,L=filt();
+$('#list').innerHTML=L.map(p=>`<li class="${p.m===S.sel?'on':''}" data-m="${p.m}"><b>${p.m}</b><span>${esc(p.n)||'(chưa có tên)'}</span>${p.c?`<em class="cc" title="Đã xác nhận quốc gia sản xuất: ${esc(p.c)}">${esc(p.c)}</em>`:''}<button class="st ${p.h?'h':''}" data-s="${p.m}" title="Bật/tắt SP hay in">★</button></li>`).join('')||'<li class="e">Không có kết quả</li>';
+$('#cnt').textContent=L.length+' / '+S.P.length+' sản phẩm'+(hot?' hay in':'')+(f?(f==='__none'?' · chưa xác nhận quốc gia':' · đã xác nhận '+f):'');
+const b=$('#bAll');delete b.dataset.a;b.hidden=!L.length;b.textContent=`✓ Xác nhận «${S.ctry}» cho ${L.length} SP đang hiện`}
+function renderPrev(){const p=cur(),b=$('#prev');
+if(!p){b.innerHTML='<p class="e">Chọn một MSPB ở danh sách bên trái.</p>';return}
+const r=build(p,S),sd=subHTML(r.out),G=['ĐA LƯỢNG','TRUNG LƯỢNG','VI LƯỢNG','THÀNH PHẦN PHỤ'];
+b.innerHTML=`<div class="bar">BẢNG THÀNH PHẦN HEINIKEN</div>
+<div class="kv"><b>MSPB:</b><span>${esc(p.m)}</span><b>Tên sản phẩm:</b><span>${esc(p.n)}</span><b>Phương thức sử dụng:</b><span>${esc(p.x)}</span><b>Loại phân bón:</b><span>${esc(p.l)}</span><b>TCCS:</b><span>${esc(p.t)}</span>
+<b>Quốc gia SX (xác nhận):</b><span class="pcw"><select id="pc"><option value="">— Chưa xác nhận —</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select>${p.c&&p.c===S.ctry?'<span class="ok">✓ Đã xác nhận</span>':`<button id="pcOk" class="pri">✓ Xác nhận «${esc(S.ctry)}»</button>`}${p.c&&p.c!==S.ctry?`<button id="pcUse">Dùng «${esc(p.c)}»</button>`:''}</span></div>
+<div class="bar">THÀNH PHẦN</div><div class="gs">${G.map((n,gi)=>{const a=r.it.filter(x=>x.g==gi+1);return`<div class="g"><h4>${n}</h4>${a.map(x=>`<div><span>${esc(F[x.i][0])}</span><b>${esc(x.val)}</b></div>`).join('')||'<div class="n">—</div>'}</div>`}).join('')}</div>
+<div class="bar">THÀNH PHẦN HOÀN CHỈNH</div><div class="box">${esc(r.comp)||'—'}</div>
+<div class="bar">ĐỊA CHỈ / NƠI SẢN XUẤT (${esc(S.ctry)})</div><div class="box">${esc(r.c)||'—'}</div>
+<div class="bar">HEINIKEN HOÀN CHỈNH</div><textarea id="out" readonly>${esc(r.out)}</textarea>
+<div class="act"><button id="cp" class="pri">Sao chép</button></div>
+<div class="bar">CHỮ HẠ THẤP TRONG ILLUSTRATOR (${sd.n} chỗ)</div><div class="box" style="--sd:${(sd.shift/5).toFixed(2)}em">${sd.h}</div>
+<div class="act" style="justify-content:space-between;align-items:center"><span class="e" style="font-size:13px">Phần chữ màu đỏ sẽ được hạ ${String(sd.shift).replace('.',',')} pt khi chạy script trong Illustrator.${jusCfg().on?' Script cũng tự căn đều hai bên (Justify).':''}</span><button id="sb">🔽 Tuỳ chỉnh &amp; tải script</button></div>`;
+$('#cp').onclick=e=>copy(r.out,e.target);$('#sb').onclick=subDlg;
+const setC=v=>{p.c=v;if(v&&S.fol!==false)S.ctry=v;save();renderCt();render()};
+$('#pc').onchange=e=>setC(e.target.value);
+if($('#pcOk'))$('#pcOk').onclick=()=>setC(S.ctry);
+if($('#pcUse'))$('#pcUse').onclick=()=>{S.ctry=p.c;save();renderCt();renderPrev()}}
+function copy(t,b){const o=b.dataset.o||(b.dataset.o=b.textContent),ok=()=>{b.textContent='Đã chép ✓';setTimeout(()=>b.textContent=o,1300)};
+const fb=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()};
+try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}}
+function renderCt(){$('#ct').innerHTML=S.C.map(c=>`<option>${esc(c.n)}</option>`).join('');$('#ct').value=S.ctry}
+const render=()=>{renderList();renderPrev()};
+const dlg=$('#dlg');
+function openD(title,body,onSave,extra){dlg.innerHTML=`<h2>${title}</h2><div>${body}</div><div id="msg"></div><div class="act">${extra||''}<button id="no">Đóng</button>${onSave?'<button id="ok" class="pri">Lưu</button>':''}</div>`;
+$('#no').onclick=()=>dlg.close();if(onSave)$('#ok').onclick=()=>{if(onSave()!==false)dlg.close()};dlg.showModal()}
+/*XL*/
+const UN=['%','ppm','mg/l','g/l','g/kg','mg/kg','ppb'];
+const split=v=>{v=String(v==null?'':v).trim();const m=v.match(/^([\d.,]+)\s*(.*)$/);return m&&m[2].trim()?{n:m[1],u:m[2].trim()}:{n:v,u:''}};
+const toRows=()=>{const g=Array(27).fill(null);[[0,'THÔNG TIN SP'],[3,'ĐA LƯỢNG'],[7,'TRUNG LƯỢNG'],[11,'VI LƯỢNG'],[17,'THÀNH PHẦN PHỤ'],[23,'THÔNG TIN THÊM CỦA SP'],[25,'CÁC SẢN PHẨM LÀM NHÃN'],[26,'QUỐC GIA SX ĐÃ XÁC NHẬN']].forEach(([i,t])=>g[i]=t);
+return[['BẢNG DỮ LIỆU DANH SÁCH MSPB'],[],g,['MSPB','Tên sản phẩm','Loại phân bón',...F.map(f=>f[0]),'Phương thức sử dụng','TCCS','Danh sách sản phẩm làm nhãn','Quốc gia SX đã xác nhận'],...S.P.map(p=>[p.m,p.n||null,p.l||null,...p.v.map(x=>x||null),p.x||null,p.t||null,!!p.h,p.c||null])]};
+const cell=v=>v==null||String(v).trim()===''?null:typeof v==='number'?v.toLocaleString('de-DE',{maximumFractionDigits:6}):String(v).trim();
+function fromRows(R){const nf=x=>String(x==null?'':x).normalize('NFC').trim().toLowerCase(),hi=R.findIndex(r=>nf(r[0])==='mspb'),H=hi<0?[]:R[hi].map(nf),
+col=(k,d)=>{const j=H.indexOf(nf(k));return j<0?d:j},cn=col('Tên sản phẩm',1),cl=col('Loại phân bón',2),cx=col('Phương thức sử dụng',23),ct=col('TCCS',24),ch=col('Danh sách sản phẩm làm nhãn',25),cc=col('Quốc gia SX đã xác nhận',26),cv=F.map((f,i)=>col(f[0],3+i)),P=[];
+for(const r of R.slice(hi+1)){const m=String(r[0]==null?'':r[0]).trim();if(!/^\d{1,5}$/.test(m))continue;
+P.push({m:pad(m),n:cell(r[cn])||'',l:cell(r[cl])||'',v:cv.map(k=>cell(r[k])),x:cell(r[cx])||'',t:cell(r[ct])||'',h:r[ch]===true||/^(true|1|x)$/i.test(String(r[ch]).trim()),c:cell(r[cc])||''})}
+return P}
+function parseWb(wb){const nm=wb.SheetNames,f=k=>nm.find(n=>n.normalize('NFC').trim().toLowerCase()===k),aoa=n=>XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:null}),
+sp=f('short sp')||nm.find(n=>aoa(n).some(r=>String(r[0]==null?'':r[0]).trim().toLowerCase()==='mspb'));
+if(!sp)throw new Error('Không thấy sheet Short SP');
+const sx=f('sản xuất'),cd=f('cài đặt');
+return{P:fromRows(aoa(sp)),C:sx?aoa(sx).slice(1).filter(r=>r[0]&&r[1]).map(r=>({n:String(r[0]).trim(),t:String(r[1]).trim()})):[],foot:cd?(aoa(cd)[0]||[])[1]:null}}
+function buildWb(){const wb=XLSX.utils.book_new(),a=XLSX.utils.aoa_to_sheet(toRows());a['!cols']=[{wch:8},{wch:38},{wch:34}];
+XLSX.utils.book_append_sheet(wb,a,'Short SP');
+const b=XLSX.utils.aoa_to_sheet([['Quốc gia','Nội dung'],...S.C.map(c=>[c.n,c.t])]);b['!cols']=[{wch:16},{wch:120}];
+XLSX.utils.book_append_sheet(wb,b,'Sản xuất');XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Câu kết thúc',S.foot]]),'Cài đặt');return wb}
+/*XLEND*/
+/*SUB*/
+/* Chữ hạ thấp (Baseline Shift) cho Illustrator. [..] hạ 1 mức, {..} hạ 2 mức */
+const DEFSUB=['N[ts]','P[2]O[5hh]','P[2]O[5]','K[2]O[hh]','K[2]O','SiO[2hh]','SiO[2]','pH[H]{2}[O]'];
+const DEFJUS={on:true,w:[90,100,110],l:[-1,0,1],g:[98,100,102],last:true,al:true,alp:120};
+const jusCfg=()=>Object.assign({},DEFJUS,S.jus||{});
+const subCfg=()=>({shift:S.shift!=null?S.shift:1,rules:Array.isArray(S.sub)&&S.sub.length?S.sub:DEFSUB,jus:jusCfg()});
+/* findSub: viết kiểu ES3 vì được nhúng nguyên văn vào script .jsx của Illustrator */
+function findSub(text,rules){
+var low=text.toLowerCase(),res=[],r,i,ch,s,segs,cur,lv,lit,any,from,at,p,k,e;
+if(low.length!==text.length)low=text;
+function isL(c){return c!==''&&/[A-Za-z\u00C0-\u024F\u1E00-\u1EFF]/.test(c)}
+for(r=0;r<rules.length;r++){
+s=rules[r];segs=[];cur='';lv=0;lit='';any=false;
+for(i=0;i<s.length;i++){
+ch=s.charAt(i);
+if(ch==='['||ch==='{'){if(cur)segs.push([cur,lv]);cur='';lv=ch==='['?1:2}
+else if(ch===']'||ch==='}'){if(cur){segs.push([cur,lv]);any=true}cur='';lv=0}
+else cur+=ch}
+if(cur)segs.push([cur,lv]);
+for(k=0;k<segs.length;k++)lit+=segs[k][0];
+lit=lit.toLowerCase();
+if(!any||!lit)continue;
+from=0;
+while((at=low.indexOf(lit,from))>=0){
+if(isL(text.charAt(at-1))||isL(text.charAt(at+lit.length))){from=at+1;continue}
+p=at;
+for(k=0;k<segs.length;k++){e=p+segs[k][0].length;if(segs[k][1])res.push([p,e,segs[k][1]]);p=e}
+from=at+lit.length}}
+return res}
+function subHTML(text){const c=subCfg(),rg=findSub(text,c.rules),f=new Array(text.length).fill(0);
+rg.forEach(x=>{for(let i=x[0];i<x[1];i++)f[i]=Math.max(f[i],x[2])});
+let h='',cl=0;
+for(let i=0;i<text.length;i++){if(f[i]!==cl){if(cl)h+='</span>';if(f[i])h+='<span class="'+(f[i]>1?'sd2':'sd')+'">';cl=f[i]}h+=esc(text.charAt(i))}
+if(cl)h+='</span>';
+return{h,n:rg.length,shift:c.shift}}
+const asc=s=>s.replace(/[^\x00-\x7e]/g,c=>'\\u'+c.charCodeAt(0).toString(16).padStart(4,'0'));
+function jsxText(c){const J=c.jus,jo=!!(J&&J.on);return asc(`#target illustrator
+// Heiniken - ha thap chu (Baseline Shift)${jo?' + can deu hai ben (Justify)':''}. Chay: File > Scripts > Other Script...
+// SHIFT = so pt ha xuong cho 1 muc; muc 2 = gap doi.
+(function(){
+var SHIFT=${c.shift};
+var RULES=${JSON.stringify(c.rules)};
+var JUS=${jo?JSON.stringify({w:J.w,l:J.l,g:J.g,last:J.last,al:J.al,alp:J.alp}):'null'};
+${findSub.toString()}
+if(app.documents.length===0){alert("Hãy mở file Illustrator trước.");return}
+var doc=app.activeDocument,ranges=[],frs=[],sel=doc.selection,i,k,m;
+function add(it){var j;
+if(it.typename==="TextFrame"){ranges.push(it.textRange);frs.push(it)}
+else if(it.typename==="GroupItem")for(j=0;j<it.pageItems.length;j++)add(it.pageItems[j])}
+if(sel&&sel.typename==="TextRange"){ranges.push(sel.story.textRange);frs.push(null)}
+else if(sel&&sel.length){for(i=0;i<sel.length;i++)add(sel[i])}
+else{
+if(!confirm("Chưa chọn đối tượng nào. Áp dụng cho TẤT CẢ chữ trong file?"))return;
+for(i=0;i<doc.textFrames.length;i++){ranges.push(doc.textFrames[i].textRange);frs.push(doc.textFrames[i])}}
+var chars=0,frames=0,fail=0,jus=0,ovf=0;
+for(i=0;i<ranges.length;i++){
+try{
+var tr=ranges[i],rg=findSub(tr.contents,RULES),ch,n=0,pa,ca;
+if(JUS){pa=tr.paragraphAttributes;ca=tr.characterAttributes;
+pa.justification=JUS.last?Justification.FULLJUSTIFY:Justification.FULLJUSTIFYLASTLINELEFT;
+pa.minimumWordSpacing=JUS.w[0];pa.desiredWordSpacing=JUS.w[1];pa.maximumWordSpacing=JUS.w[2];
+pa.minimumLetterSpacing=JUS.l[0];pa.desiredLetterSpacing=JUS.l[1];pa.maximumLetterSpacing=JUS.l[2];
+pa.minimumGlyphScaling=JUS.g[0];pa.desiredGlyphScaling=JUS.g[1];pa.maximumGlyphScaling=JUS.g[2];
+ca.autoLeading=JUS.al;if(JUS.al)ca.autoLeadingAmount=JUS.alp;
+jus++;
+try{if(frs[i]&&frs[i].overflows)ovf++}catch(e2){}}
+ch=tr.characters;
+for(k=0;k<rg.length;k++)for(m=rg[k][0];m<rg[k][1];m++){ch[m].characterAttributes.baselineShift=-SHIFT*rg[k][2];n++}
+if(n){chars+=n;frames++}
+}catch(e){fail++}}
+var msg="Đã hạ thấp "+chars+" ký tự trong "+frames+" khung chữ.";
+if(JUS){msg+="\\nĐã căn đều (Justify) "+jus+" khung chữ.\\nWord Spacing: "+JUS.w.join(" / ")+"%\\nLetter Spacing: "+JUS.l.join(" / ")+"%\\nGlyph Scaling: "+JUS.g.join(" / ")+"%"+(JUS.al?"\\nAuto Leading: "+JUS.alp+"%":"");
+if(ovf)msg+="\\nKhung có thể tràn chữ: "+ovf}
+if(fail)msg+="\\nBỏ qua "+fail+" khung (có thể đang bị khóa).";
+alert(msg)
+})();
+`)}
+async function dlJsx(txt,fn){fn=fn||'Heiniken-ha-thap-chu.jsx';
+try{const d=new TextEncoder().encode(txt),dl=window.claude?await claude.use('downloads'):null;
+if(dl)await dl.save({filename:fn,data:d});
+else if(window.claude)return note('Trang này chưa cho tải file. Hãy bấm "Sao chép script", dán vào Notepad rồi lưu thành file .jsx (chọn All files để khỏi bị thêm .txt).');
+else{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([d],{type:'text/plain'}));a.download=fn;a.click()}
+note('Đã tải '+fn+'.')}catch(e){if(!e||e.code!=='declined')note('Không tải được: '+((e&&e.message)||e))}}
+function readSub(){const sh=parseFloat($('#sh').value.replace(',','.')),rules=$('#sr').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+if(!(sh>=0&&sh<=20)){note('Độ hạ nhập số từ 0 đến 20 (pt), vd 1 hoặc 0,8');return null}
+if(!rules.length){note('Cần ít nhất 1 công thức');return null}
+const bad=rules.find(x=>!/[\[{][^\[\]{}]+[\]}]/.test(x)||/[\[\]{}]/.test(x.replace(/[\[{][^\[\]{}]+[\]}]/g,'')));
+if(bad){note(`Dòng "${bad}" chưa đúng: đặt phần cần hạ thấp trong [ ] hoặc { }, vd P[2]O[5]`);return null}
+const nv=id=>parseFloat(String($(id).value).replace(',','.')),J={on:$('#ju').checked,w:[0,1,2].map(i=>nv('#jw'+i)),l:[0,1,2].map(i=>nv('#jl'+i)),g:[0,1,2].map(i=>nv('#jg'+i)),last:$('#jx').checked,al:$('#ja').checked,alp:nv('#jp')};
+if(J.on){const ck=(a,lo,hi,nm)=>{if(a.some(x=>isNaN(x)||x<lo||x>hi)||!(a[0]<=a[1]&&a[1]<=a[2])){note(`${nm}: nhập 3 số theo thứ tự Min ≤ Desired ≤ Max, trong khoảng ${lo} đến ${hi}`);return false}return true};
+if(!ck(J.w,0,1000,'Word Spacing')||!ck(J.l,-100,500,'Letter Spacing')||!ck(J.g,50,200,'Glyph Scaling'))return null;
+if(J.al&&!(J.alp>=1&&J.alp<=500)){note('Auto Leading nhập % từ 1 đến 500, vd 120');return null}}
+return{shift:sh,rules,jus:J}}
+function subDlg(){const c=subCfg(),J=c.jus,jt=()=>dlg.querySelectorAll('#jf input').forEach(x=>x.disabled=!$('#ju').checked),
+setJ=o=>{$('#ju').checked=o.on;[0,1,2].forEach(i=>{$('#jw'+i).value=o.w[i];$('#jl'+i).value=o.l[i];$('#jg'+i).value=o.g[i]});$('#jx').checked=o.last;$('#ja').checked=o.al;$('#jp').value=o.alp;jt()},
+tri=(id,t,a)=>`<div class="cv"><span>${t}</span><div>${[0,1,2].map(i=>`<input id="${id}${i}" inputmode="decimal" value="${esc(String(a[i]).replace('.',','))}">`).join('')}</div></div>`;
+openD('Script Illustrator: hạ thấp chữ + Justify',`<p class="e" style="margin-top:0">Chữ thường không mang được định dạng hạ thấp, nên nút <b>Sao chép</b> vẫn dán chữ thường vào Illustrator. Sau khi dán, chạy script bên dưới để tự hạ thấp 2, 5hh, ts, H2O… (Baseline Shift) như mẫu. Script này cũng tự <b>căn đều hai bên (Justify)</b> nếu bạn bật ở dưới, nên chỉ cần chạy 1 lần.</p>
+<div class="fg"><label>Độ hạ 1 mức – Baseline Shift (pt)<input id="sh" inputmode="decimal" value="${esc(String(c.shift).replace('.',','))}"></label></div>
+<label>Công thức cần hạ thấp (mỗi dòng một mẫu)<textarea id="sr" rows="8" spellcheck="false">${esc(c.rules.join('\n'))}</textarea></label>
+<p class="e" style="font-size:13px">Phần trong <b>[ ]</b> hạ 1 mức, trong <b>{ }</b> hạ 2 mức (như số 2 của H₂O). Không phân biệt hoa/thường; chỉ khớp khi đứng riêng, không dính vào chữ khác. Ví dụ: <b>P[2]O[5hh]</b>, <b>pH[H]{2}[O]</b>.</p>
+<div class="bar">Căn đều hai bên (Justify) – gộp chung vào script</div>
+<label class="chk"><input type="checkbox" id="ju" ${J.on?'checked':''}> Kèm căn đều hai bên (Justify) khi chạy script</label>
+<div id="jf"><div class="fg">${tri('jw','Word Spacing – Min / Desired / Max (%)',J.w)}${tri('jl','Letter Spacing – Min / Desired / Max (%)',J.l)}${tri('jg','Glyph Scaling – Min / Desired / Max (%)',J.g)}</div>
+<div class="fg"><label class="chk"><input type="checkbox" id="jx" ${J.last?'checked':''}> Căn đều cả dòng cuối (bỏ chọn = dòng cuối căn trái)</label>
+<label class="chk"><input type="checkbox" id="ja" ${J.al?'checked':''}> Tự động giãn dòng (Auto Leading)</label>
+<label>Auto Leading (%)<input id="jp" inputmode="decimal" value="${esc(String(J.alp).replace('.',','))}"></label></div></div>
+<div class="act" style="justify-content:flex-start;margin:0 0 8px"><button id="jd" class="pri">⬇ Tải script (.jsx)</button><button id="jc">Sao chép script</button></div>
+<div class="bar">Cách dùng trong Illustrator</div>
+<div class="how"><p><b>1.</b> Tải script một lần, lưu vào thư mục <b>Presets › Scripts</b> của Illustrator (mở lại Illustrator sẽ thấy ở File › Scripts). Hoặc chạy thẳng bằng File › Scripts › Other Script… (Ctrl+F12).</p>
+<p><b>2.</b> Bấm <b>Sao chép</b> ở tool, dán vào Illustrator.</p>
+<p><b>3.</b> Chọn khung chữ vừa dán (không chọn gì thì script hỏi để chạy cho cả file) rồi chạy script (1 lần xong cả hạ thấp chữ và Justify nếu đã bật). Làm lại bước 3 bao nhiêu lần cũng được; Ctrl+Z để hoàn tác.</p></div>`,
+()=>{const r=readSub();if(!r)return false;S.shift=r.shift;S.sub=r.rules;S.jus=r.jus;save();renderPrev()},
+'<button id="jr">Về mặc định</button>');
+$('#ju').onchange=jt;jt();$('#jd').onclick=()=>{const r=readSub();if(r)dlJsx(jsxText(r),r.jus.on?'Heiniken-ha-thap-chu-justify.jsx':'Heiniken-ha-thap-chu.jsx')};
+$('#jc').onclick=e=>{const r=readSub();if(r)copy(jsxText(r),e.target)};
+$('#jr').onclick=()=>{$('#sh').value='1';setJ(DEFJUS);$('#sr').value=DEFSUB.join('\n');note('Đã đặt về mặc định, bấm Lưu để áp dụng.')}}
+/*SUBEND*/
+const note=t=>{const m=$('#msg');if(m)m.textContent=t};
+function sure(b,t){if(b.dataset.a)return true;const o=b.textContent;b.dataset.a=1;b.textContent=t;setTimeout(()=>{delete b.dataset.a;b.textContent=o},3000);return false}
+const over=()=>S.P.length>493?' Lưu ý: công thức Excel chỉ đọc đến dòng 497 (493 SP).':'';
+function applyData(P,C,foot){const r=(($('#im')||{}).value)==='r',uq=(a,k)=>[...new Map(a.map(x=>[x[k],x])).values()];
+P=uq(P,'m');if(!P.length)throw new Error('Không có dòng sản phẩm hợp lệ (MSPB gồm 5 chữ số)');
+if(!r){const o=new Map(S.P.map(x=>[x.m,x]));P.forEach(p=>{if(!p.c&&o.has(p.m))p.c=o.get(p.m).c||''})}
+S.P=uq(r?P:[...S.P,...P],'m').sort((a,b)=>a.m.localeCompare(b.m));
+if(C&&C.length)S.C=uq(r?C:[...S.C,...C],'n');
+P.forEach(p=>{if(p.c&&!S.C.some(x=>x.n===p.c))S.C.push({n:p.c,t:''})});
+if(foot)S.foot=String(foot);
+if(!S.C.some(x=>x.n===S.ctry))S.ctry=S.C[0].n;
+if(!S.P.some(p=>p.m===S.sel))S.sel=null;
+save();renderCt();render();note(`Đã nhập ${P.length} sản phẩm`+(C&&C.length?` và ${C.length} quốc gia`:'')+'.')}
+async function exportX(){if(!window.XLSX)return note('Chưa tải được thư viện Excel (cần kết nối mạng).');
+try{const d=XLSX.write(buildWb(),{bookType:'xlsx',type:'array'}),fn='Heiniken-du-lieu.xlsx',dl=window.claude?await claude.use('downloads'):null;
+if(dl)await dl.save({filename:fn,data:d});
+else if(window.claude)return note('Trang này chưa cho tải file. Hãy dùng nút "Sao chép bảng" rồi dán vào Excel.');
+else{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([d]));a.download=fn;a.click()}
+note('Đã xuất '+S.P.length+' sản phẩm.'+over())}catch(e){if(!e||e.code!=='declined')note('Không xuất được: '+((e&&e.message)||e))}}
+async function importX(f){if(!window.XLSX)return note('Chưa tải được thư viện Excel (cần kết nối mạng).');
+try{const r=parseWb(XLSX.read(await f.arrayBuffer(),{type:'array'}));applyData(r.P,r.C,r.foot)}catch(e){note('Không đọc được file: '+(e.message||e))}}
+function editP(isNew){const p=isNew?{m:'',n:'',l:'',v:F.map(()=>null),x:'BÓN RỄ',t:'',h:false,c:''}:cur();if(!p)return;
+const uniq=a=>[...new Set(a.filter(Boolean))].sort((a,b)=>a.localeCompare(b)),
+DL=(id,a)=>`<datalist id="${id}">${a.map(x=>`<option value="${esc(x)}">`).join('')}</datalist>`,
+I=(k,l,v,ex='')=>`<label>${l}<input data-k="${k}" value="${esc(v)}" ${ex}></label>`,
+CV=(f,i,val)=>{const s=split(val),d=f[3],u=s.u===d?'':s.u,L=[...UN.filter(x=>x!==d),...(u&&!UN.includes(u)?[u]:[])];
+return`<div class="cv"><span>${esc(f[0])}</span><div><input data-k="v${i}" inputmode="decimal" placeholder="—" value="${esc(s.n)}"><select data-u="${i}"><option value="">${d?d+' (mặc định)':'(không đơn vị)'}</option>${L.map(x=>`<option${x===u?' selected':''}>${esc(x)}</option>`).join('')}</select></div></div>`};
+openD(isNew?'Thêm sản phẩm':'Sửa sản phẩm '+p.m,`<div class="fg">${I('m','MSPB (tối đa 5 số)',p.m,'inputmode="numeric" maxlength="5"')}${I('n','Tên sản phẩm',p.n)}${I('l','Loại phân bón ▾',p.l,'list="dl-l" placeholder="Chọn hoặc gõ mới"')}${I('x','Phương thức sử dụng ▾',p.x,'list="dl-x" placeholder="Chọn hoặc gõ mới"')}${I('t','TCCS',p.t,'placeholder="vd 06:2023/UNI"')}<label>Quốc gia SX đã xác nhận<select data-k="c"><option value="">— Chưa xác nhận —</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select></label></div>
+${DL('dl-l',uniq(S.P.map(q=>q.l)))}${DL('dl-x',uniq(['BÓN RỄ','BÓN LÁ',...S.P.map(q=>q.x)]))}
+<label class="chk"><input type="checkbox" id="eh" ${p.h?'checked':''}> SP hay in (★)</label>
+${['Đa lượng','Trung lượng','Vi lượng','Thành phần phụ'].map((n,gi)=>`<div class="gh">${n}</div><div class="fg">${F.map((f,i)=>f[1]==gi+1?CV(f,i,p.v[i]):'').join('')}</div>`).join('')}`,()=>{
+const g=k=>dlg.querySelector(`[data-k="${k}"]`).value.trim(),m=g('m');
+if(!/^\d{1,5}$/.test(m)){note('MSPB gồm 1–5 chữ số');return false}
+const id=pad(m);if(S.P.some(x=>x.m===id&&x!==p)){note('MSPB '+id+' đã tồn tại');return false}
+const v=[];for(let i=0;i<F.length;i++){const n=g('v'+i),u=dlg.querySelector(`[data-u="${i}"]`).value;
+if(n&&!/^\d[\d.,]*$/.test(n)){note(`"${F[i][0]}": chỉ nhập số (vd 4 · 0,5 · 30.000), đơn vị chọn ở ô bên cạnh`);return false}
+v.push(n?(u?n+' '+u:n):null)}
+const np={m:id,n:g('n'),l:g('l'),x:g('x'),t:g('t'),c:g('c'),h:$('#eh').checked,v};
+if(isNew)S.P.push(np);else S.P[S.P.indexOf(p)]=np;
+S.P.sort((a,b)=>a.m.localeCompare(b.m));S.sel=id;if(np.c&&S.fol!==false)S.ctry=np.c;save();renderCt();render()},
+isNew?'':'<button id="del">🗑 Xóa SP</button>');
+if(!isNew)$('#del').onclick=e=>{if(sure(e.target,'Bấm lần nữa để xóa')){S.P.splice(S.P.indexOf(p),1);S.sel=null;save();render();dlg.close()}}}
+function editC(){const row=c=>`<div class="row"><input data-n data-o="${esc(c.n)}" placeholder="Tên quốc gia" value="${esc(c.n)}"><textarea data-t rows="3" placeholder="Nội dung / địa chỉ sản xuất">${esc(c.t)}</textarea></div>`;
+openD('Quốc gia & câu kết',`<div id="cl">${S.C.map(row).join('')}</div><button id="ca">＋ Thêm quốc gia</button>
+<label style="margin-top:12px">Câu kết thúc (cuối Heiniken)<input id="ft" value="${esc(S.foot)}"></label>`,()=>{
+const rn={},c=[...dlg.querySelectorAll('.row')].map(r=>{const e=r.querySelector('[data-n]'),n=e.value.trim();if(e.dataset.o&&n&&e.dataset.o!==n)rn[e.dataset.o]=n;return{n,t:r.querySelector('[data-t]').value.trim()}}).filter(x=>x.n);
+if(!c.length){note('Cần ít nhất 1 quốc gia');return false}
+S.P.forEach(p=>{if(p.c&&rn[p.c])p.c=rn[p.c];if(p.c&&!c.some(x=>x.n===p.c))p.c=''});
+if(rn[S.ctry])S.ctry=rn[S.ctry];
+S.C=c;S.foot=$('#ft').value;if(!c.some(x=>x.n===S.ctry))S.ctry=c[0].n;save();renderCt();render()});
+$('#ca').onclick=()=>$('#cl').insertAdjacentHTML('beforeend',row({n:'',t:''}))}
+function backup(){openD('Excel & sao lưu',`<p class="e">Tool và file Excel dùng chung cấu trúc sheet <b>Short SP</b> (cột A:AA – cột AA là quốc gia SX đã xác nhận) và <b>Sản xuất</b>. Xuất ra để đưa vào Heiniken.xlsx, hoặc nhập trực tiếp từ Heiniken.xlsx / file đã xuất.</p>
+<label>Cách nhập<select id="im"><option value="m">Gộp theo MSPB (cập nhật SP trùng, thêm SP mới, giữ SP không có trong file)</option><option value="r">Thay thế toàn bộ bằng dữ liệu trong file</option></select></label>
+<div class="act" style="justify-content:flex-start;margin:0 0 8px"><button id="bx" class="pri">📤 Xuất ra Excel (.xlsx)</button><button id="bi">📥 Nhập từ Excel</button><button id="bt">📋 Sao chép bảng (dán vào sheet Short SP)</button></div>
+<input type="file" id="fi" accept=".xlsx,.xlsm,.xls" hidden>
+<div class="bar">Hoặc dán bảng đã copy từ Excel</div>
+<textarea id="tp" rows="4" placeholder="Copy vùng A5:AA… (hoặc từ dòng tiêu đề A4) của sheet Short SP rồi dán vào đây"></textarea>
+<div class="act"><button id="tl">Nạp dữ liệu đã dán</button></div>`,null,'<button id="rs">Khôi phục dữ liệu gốc</button>');
+$('#bx').onclick=exportX;$('#bi').onclick=()=>$('#fi').click();
+$('#fi').onchange=e=>{const f=e.target.files[0];if(f)importX(f);e.target.value=''};
+$('#bt').onclick=e=>{copy(toRows().slice(4).map(r=>r.map(x=>x==null?'':typeof x==='boolean'?(x?'TRUE':'FALSE'):x).join('\t')).join('\n'),e.target);note('Dán vào ô A5 của sheet Short SP.'+over())};
+$('#tl').onclick=()=>{try{applyData(fromRows($('#tp').value.split(/\r?\n/).map(l=>l.split('\t'))))}catch(e){note('Không đọc được: '+(e.message||e))}};
+$('#rs').onclick=e=>{if(sure(e.target,'Bấm lần nữa để xóa mọi chỉnh sửa')){S={...clone({P:D.P,C:D.C,foot:D.foot}),sel:'08737',ctry:'Mỹ'};save();renderCt();render();note('Đã khôi phục dữ liệu Excel gốc.')}}}
+$('#ct').onchange=e=>{S.ctry=e.target.value;save();renderPrev()};
+$('#q').oninput=$('#hot').onchange=$('#fc').onchange=renderList;
+$('#fol').checked=S.fol!==false;$('#fol').onchange=e=>{S.fol=e.target.checked;if(S.fol)follow();save();renderCt();renderPrev()};
+$('#bAll').onclick=e=>{const b=e.target,L=filt();if(!L.length)return;
+if(!b.dataset.a){b.dataset.a=1;b.textContent=`Bấm lần nữa để gán «${S.ctry}» cho ${L.length} SP`;setTimeout(()=>{if(b.dataset.a)renderList()},3000);return}
+L.forEach(p=>p.c=S.ctry);save();render()};
+$('#list').onclick=e=>{const s=e.target.closest('[data-s]');if(s){const p=S.P.find(x=>x.m===s.dataset.s);p.h=!p.h;save();renderList();return}
+const li=e.target.closest('li[data-m]');if(li){S.sel=li.dataset.m;follow();save();renderCt();render()}};
+$('#bE').onclick=()=>editP(false);$('#bN').onclick=()=>editP(true);$('#bC').onclick=editC;$('#bB').onclick=backup;$('#bS').onclick=subDlg;
+follow();renderCt();render();
+</script></body></html>

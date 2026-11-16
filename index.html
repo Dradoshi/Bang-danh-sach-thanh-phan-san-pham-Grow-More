@@ -95,6 +95,7 @@ input:not([type=checkbox]),select,textarea{transition:border-color .2s,box-shado
 .sr input:focus,input:focus,select:focus,textarea:focus{outline:0;border-color:var(--acc);box-shadow:0 0 0 3px rgba(184,74,71,.16)}
 ul,main>section,dialog{scrollbar-width:thin;scrollbar-color:var(--line) transparent}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script></head><body>
 <header><div class="logo" data-i="tag"></div><div class="ttl"><h1>Bảng danh sản phẩm Grow More</h1><div class="e" id="sub"></div></div>
@@ -134,7 +135,7 @@ const cur=()=>S.P.find(p=>p.m===S.sel);
 const I={search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',plus:'<path d="M5 12h14M12 5v14"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>',copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',pen:'<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',layers:'<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',sheet:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/>',down:'<path d="M12 15V3m0 12-4-4m4 4 4-4M5 21h14"/>',tag:'<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>',chk:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',alert:'<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',hist:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',dup:'<rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2"/>'};
 const ic=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
 let cf='all',animList=true,lastM=null,fl=false;const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
-const lab=()=>{const b=$('#bAll'),n=filt().length;delete b.dataset.a;b.hidden=!n;b.textContent=`✓ Xác nhận «${S.ctry}» cho ${n} SP`};
+const lab=()=>{const b=$('#bAll'),n=filt().length;delete b.dataset.a;b.hidden=!n;b.textContent=`Xác nhận nhanh cho ${n} sản phẩm sản xuất là: ${S.ctry}`};
 const miss=p=>!p.n||!p.l||!p.x||!p.t||!p.v.some(v=>v!=null&&String(v).trim()!=='');
 const chipOk=p=>cf==='all'||(cf==='hot'&&p.h)||(cf==='root'&&/BÓN RỄ/i.test(p.x||''))||(cf==='leaf'&&/BÓN LÁ/i.test(p.x||''))||(cf==='miss'&&miss(p));
 /* Quốc gia đã xác nhận: p.c = tên quốc gia (rỗng = chưa xác nhận) */

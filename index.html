@@ -76,13 +76,14 @@ dialog.wide .fg{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 .addf input,.addf select,.frow input,.frow select{margin:0;width:auto;min-width:0}
 .addf .an,.addf #nn{flex:1 1 200px}.addf .au,.addf #nu{flex:0 0 130px}.addf #ng{flex:0 0 172px}.addf button{padding:5px 12px}
 .frow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:6px;border-radius:8px}.frow.nw{animation:flash 1.2s ease-out}
-.frow .fn{flex:1 1 200px}.frow .fu{flex:0 0 96px}.frow .fgp{flex:0 0 172px}
+.frow .fn{flex:1 1 190px}.frow .fl{flex:1 1 170px}.frow .fu{flex:0 0 96px}.frow .fgp{flex:0 0 172px}
 .fb{display:flex;gap:4px;flex:none}.fb button{padding:4px 9px;min-width:32px;justify-content:center}.fb button:disabled{opacity:.35;cursor:default;pointer-events:none}.fb [data-a=del]{color:var(--acc)}
 .hint{font-size:12.5px;margin:2px 0 8px}
 /* Thanh nút Lưu/Đóng luôn nằm dưới đáy hộp thoại, kèm dòng thông báo — không bị cuộn mất khi form dài */
 dialog .dact{position:sticky;bottom:-16px;z-index:2;margin:12px -16px -16px;padding:10px 16px;background:var(--card);border-top:1px solid var(--line);align-items:center}
 .dact #msg{flex:1 1 220px;margin:0;text-align:left;font-size:13px;line-height:1.35;color:var(--acc);font-weight:600}.dact #msg:empty{display:none}
 .sd{position:relative;top:var(--sd,.2em);color:var(--acc);font-weight:700}.sd2{position:relative;top:calc(var(--sd,.2em)*2);color:var(--acc);font-weight:700}
+.gs .sd,.gs .sd2{color:inherit;font-weight:inherit}
 .how p{margin:4px 0;font-size:13px}
 @media(max-width:900px){html,body{height:auto}body{overflow:auto}main{flex:none;grid-template-columns:1fr}main>section{overflow:visible}main>section:first-child{display:block}ul{flex:none;max-height:50vh;overflow-y:auto}.fr{flex-wrap:wrap}}
 
@@ -114,27 +115,12 @@ input:not([type=checkbox]),select,textarea{transition:border-color .2s,box-shado
 ul,main>section,dialog{scrollbar-width:thin;scrollbar-color:var(--line) transparent}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
 
-
-/* ===== Cảnh báo ===== */
-.gw{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.gw .lk{padding:2px 10px}.okc{font-size:12px;font-weight:600;color:var(--acc)}
-.ckl{margin-top:8px;border:1px solid var(--wfg);background:var(--wbg);color:var(--wfg);border-radius:10px;padding:8px 12px;font-size:13px}
-.ckl b{display:block;margin-bottom:3px}.ckl b .ic{margin-right:4px}.ckl .ci{padding:2px 0;font-weight:500}.ckl .lk{margin-left:8px}
-.rdy{margin-top:8px;font-size:13px;font-weight:600;color:var(--acc);display:flex;align-items:center;gap:6px}
-.mk{background:var(--wfg);color:var(--on);border-radius:6px;padding:0 6px;font-size:.82em;font-weight:700;user-select:none;-webkit-user-select:none;white-space:nowrap}
-.tmpc{text-decoration:underline dashed var(--wfg);text-underline-offset:4px}.wt{color:var(--wfg)}.emp{color:var(--wfg);font-weight:600}.box.w{background:var(--wbg)}
-.warnb,button.armed,.eb button.armed{background:var(--wfg)!important;border-color:var(--wfg)!important;color:var(--on)!important}
-.wi{font-style:normal;color:var(--wfg);font-size:13px;flex:none}li.on .wi{color:var(--on)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--wfg);flex:none;opacity:.85}li.on .dot{background:var(--on)}
-.warnline{margin:0 0 10px;padding:8px 12px;border-radius:10px;background:var(--wbg);color:var(--wfg);font-weight:600;font-size:13px}
-.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);max-width:min(560px,92vw);background:var(--wfg);color:var(--on);padding:10px 16px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:99}.toast.on{opacity:1;transform:translate(-50%,0)}
-@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-.shake{animation:shake .4s}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script></head><body>
-<header><div class="logo" data-i="tag"></div><div class="ttl"><h1>Danh sách sản phẩm Grow More</h1><div class="e" id="sub"></div><div class="gw" id="gw"></div></div>
+<header><div class="logo" data-i="tag"></div><div class="ttl"><h1>Danh sách sản phẩm Grow More</h1><div class="e" id="sub"></div></div>
 <nav class="tb"><label class="ctw" title="Quốc gia được dùng để lấy thông tin sản xuất trên nội dung nhãn. Với sản phẩm chưa xác nhận, hệ thống tạm dùng quốc gia đang chọn."><span data-i="globe"></span>Quốc gia trên nhãn<select id="ct"></select><em class="tag" id="ctTag" hidden></em></label>
 <button id="bN"><span data-i="plus"></span>Thêm sản phẩm mới</button><button id="bF" title="Thêm, đổi tên, đổi đơn vị, sắp xếp hoặc xóa thành phần dinh dưỡng"><span data-i="list"></span>Quản lý thành phần</button><button id="bC"><span data-i="layers"></span>Cài đặt quốc gia sản xuất và NSX&HSD
-</button><button id="bB"><span data-i="sheet"></span>Excel &amp; sao lưu</button><button id="bS"><span data-i="down"></span>Script Illustrator: Hạ thấp chữ + Justify
+</button><button id="bB"><span data-i="sheet"></span>Excel &amp; sao lưu</button><button id="bS"><span data-i="down"></span>Script Illustrator: hạ thấp chữ + Justify
 </button></nav></header>
 <main>
 <section class="card"><div class="sr"><span data-i="search"></span><input id="q" placeholder="Tìm MSPB hoặc tên sản phẩm" autocomplete="off"></div>
@@ -149,10 +135,12 @@ const D={"F": [["Đạm tổng số (Nts)", 1, 1, "%"], ["Lân hữu hiệu (P2O
 /*LOGIC*/
 let F=D.F; /* danh sách thành phần: nay lưu trong S.F (có thể thêm/sửa/xóa), xem initF() */
 const num=s=>{s=String(s).trim();const m=s.match(/^([\d.,]+)\s*(.*)$/);if(!m)return 0;const n=parseFloat(m[1].replace(/\./g,'').replace(',','.'));if(isNaN(n))return 0;const u=m[2].trim();return n*(u?({'%':1e4,'g/l':1e3,'g/kg':1e3,ppb:.001}[u]||1):1)};
+const subD=s=>String(s).replace(/[\u2080-\u2089]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x2080+48));
+const lblN=i=>subD(F[i][5]||F[i][0]); /* tên in lên nhãn: F[i][5] nếu có, không thì tên thành phần (₂→2) */
 const hasU=v=>/[A-Za-z%\u00B5\u00C0-\u1EF9]/.test(v);
 const fmt=(i,v)=>{v=String(v).trim();if(hasU(v))return v;const u=F[i][3];return u==='%'?v+'%':u?v+' '+u:v};
 const numF=(i,v)=>{const s=String(v).trim(),u=F[i][3];return num(u&&!hasU(s)?s+' '+u:s)};
-function items(p){const a=[];p.v.forEach((v,i)=>{if(!F[i])return;if(v!=null&&String(v).trim()!=='')a.push({i,g:F[i][1],q:F[i][2],k:numF(i,v),val:fmt(i,v),t:F[i][0]+': '+fmt(i,v)})});
+function items(p){const a=[];p.v.forEach((v,i)=>{if(!F[i])return;if(v!=null&&String(v).trim()!=='')a.push({i,g:F[i][1],q:F[i][2],k:numF(i,v),val:fmt(i,v),t:lblN(i)+': '+fmt(i,v)})});
 a.sort((x,y)=>x.g-y.g||(x.g==3?((F[x.i][4]?0:1)-(F[y.i][4]?0:1)||x.k-y.k):0)||x.q-y.q);return a}
 function build(p,S){const it=items(p),comp=[...new Set(it.map(x=>x.t))].join('; ');
 const c=((S.C.find(x=>x.n===S.ctry)||{}).t||'').trim(),x=(p.x||'').trim(),t=(p.t||'').trim();
@@ -165,9 +153,10 @@ const pad=m=>String(m).trim().padStart(5,'0'),clone=o=>JSON.parse(JSON.stringify
 const GN=['Đa lượng','Trung lượng','Vi lượng','Thành phần phụ'];
 let S;try{const r=localStorage.getItem(KEY);S=r?JSON.parse(r):null}catch(e){}
 if(!S||!S.P)S=clone({P:D.P,C:D.C,F:D.F,foot:D.foot,sel:'08737',ctry:'Mỹ'});
-/* Mỗi thành phần: [tên, nhóm 1-4, thứ tự trên nhãn, đơn vị mặc định, cờ "xếp đầu nhóm" (chỉ Sắt)]. Dữ liệu cũ chưa có S.F sẽ tự lấy từ D.F. */
+/* Mỗi thành phần: [tên, nhóm 1-4, thứ tự trên nhãn, đơn vị mặc định, cờ "xếp đầu nhóm" (chỉ Sắt), tên in trên nhãn (rỗng = như tên)]. Dữ liệu cũ chưa có S.F sẽ tự lấy từ D.F. */
 function initF(){if(!Array.isArray(S.F)||!S.F.length)S.F=clone(D.F);
-S.F.forEach(f=>{if(f[4]===undefined)f[4]=/\(Fe\)/.test(f[0])?1:0});
+S.F.forEach(f=>{if(f[4]===undefined)f[4]=/\(Fe\)/.test(f[0])?1:0;
+if(f[5]===undefined)f[5]=/^pH\s*\(H[\u20822]O\)$/i.test(f[0])?'pHH2O':''});
 F=S.F;S.P.forEach(p=>{if(!Array.isArray(p.v))p.v=[];while(p.v.length<F.length)p.v.push(null)})}
 initF();
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
@@ -179,31 +168,6 @@ let cf='all',animList=true,lastM=null,fl=false;const RM=matchMedia('(prefers-red
 const hasProductData=p=>!!((p.n||'').trim()||(p.l||'').trim()||(p.x||'').trim()||(p.t||'').trim()||(p.v||[]).some(v=>v!=null&&String(v).trim()!==''));
 const lab=()=>{const b=$('#bAll'),n=filt().filter(hasProductData).length;delete b.dataset.a;b.hidden=!n;b.title=`Gán ${S.ctry} làm quốc gia sản xuất đã xác nhận cho ${n} sản phẩm có dữ liệu đang hiển thị. Các dòng trống không bị thay đổi.`;b.textContent=`Gán ${S.ctry} cho ${n} SP`;};
 const miss=p=>!p.n||!p.l||!p.x||!p.t||!p.v.some(v=>v!=null&&String(v).trim()!=='');
-/* ===== Cảnh báo trước khi chép: những gì làm nội dung nhãn bị thiếu / sai ===== */
-const addrOf=()=>((S.C.find(x=>x.n===S.ctry)||{}).t||'').trim(),blank=v=>!String(v==null?'':v).trim();
-function issues(p){const a=[];
-if(!hasProductData(p)){a.push({k:'empty',s:'dữ liệu sản phẩm',t:'Sản phẩm chưa nhập dữ liệu nào – nội dung nhãn gần như trống.',fx:'edit'});return a}
-if(!p.c)a.push({k:'country',s:'quốc gia sản xuất',t:'Chưa xác nhận quốc gia sản xuất của sản phẩm – nhãn đang tạm dùng «'+S.ctry+'», có thể sai nước.'});
-else if(p.c!==S.ctry)a.push({k:'country',s:'quốc gia sản xuất',t:'Sản phẩm đã xác nhận «'+p.c+'» nhưng nhãn đang dùng «'+S.ctry+'» – địa chỉ trên nhãn sẽ sai nước.'});
-if(!addrOf())a.push({k:'addr',s:'địa chỉ sản xuất',t:'Quốc gia «'+S.ctry+'» chưa có nội dung sản xuất / NSX&HSD – nhãn sẽ thiếu địa chỉ.',fx:'cset'});
-if(blank(p.x))a.push({k:'x',s:'phương thức sử dụng',t:'Thiếu phương thức sử dụng (BÓN RỄ / BÓN LÁ) – nhãn sẽ thiếu mục này.',fx:'edit'});
-if(!items(p).length)a.push({k:'comp',s:'thành phần',t:'Chưa nhập thành phần nào – nhãn sẽ thiếu mục THÀNH PHẦN.',fx:'edit'});
-if(blank(p.t))a.push({k:'tccs',s:'TCCS',t:'Thiếu TCCS – nhãn sẽ thiếu mục TCCS.',fx:'edit'});
-if(blank(S.foot))a.push({k:'foot',s:'câu kết thúc',t:'Chưa có dòng ghi chú cuối nhãn (vd NSX&HSD xem trên bao bì).',fx:'cset'});
-return a}
-const gapTxt=p=>{if(!hasProductData(p))return'';const a=[];if(blank(p.x))a.push('phương thức');if(!items(p).length)a.push('thành phần');if(blank(p.t))a.push('TCCS');return a.join(', ')};
-let _tt;function toast(m){let t=$('#toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=m;t.classList.add('on');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),4800)}
-/* Chép có chốt chặn: còn thiếu thì lần bấm đầu chỉ cảnh báo, bấm lần 2 trong 5 giây mới chép */
-function guarded(b,t,keys){const p=cur(),iss=p?issues(p).filter(i=>!keys||keys.includes(i.k)):[];
-if(!iss.length){copy(t,b);return}
-const names=iss.map(i=>i.s).join(', ');
-if(b.dataset.g){clearTimeout(b._gt);delete b.dataset.g;b.classList.remove('armed');copy(t,b,'Đã chép ⚠ còn thiếu');toast('⚠ Đã chép nhưng nội dung còn thiếu: '+names+'.');return}
-const o=b.dataset.o||(b.dataset.o=b.innerHTML);b.dataset.g=1;b.classList.add('armed');b.innerHTML=ic('alert')+'Còn thiếu – bấm lần nữa để vẫn chép';
-const w=$('.ckl')||$('.cst.w');if(w){w.scrollIntoView({block:'nearest',behavior:RM?'auto':'smooth'});w.classList.remove('shake');void w.offsetWidth;w.classList.add('shake')}
-toast('⚠ Chưa nên chép: còn thiếu '+names+'. Xử lý ở khung cảnh báo, hoặc bấm lần nữa để vẫn chép.');
-b._gt=setTimeout(()=>{delete b.dataset.g;b.classList.remove('armed');b.innerHTML=o},5000)}
-function renderGw(){const A=S.P.filter(hasProductData),nc=A.filter(p=>!p.c).length,nm=A.filter(miss).length;
-$('#gw').innerHTML=(nc?`<button class="lk" data-g="c" title="Bấm để chỉ hiện các sản phẩm chưa xác nhận quốc gia">⚠ ${nc} Sản phẩm chưa xác nhận quốc gia</button>`:`<span class="okc">✓ Mọi SP đều đã xác nhận quốc gia</span>`)+(nm?`<button class="lk" data-g="m" title="Bấm để chỉ hiện các sản phẩm còn thiếu dữ liệu">⚠ ${nm} Sản phẩm thiếu dữ liệu</button>`:'')}
 const chipOk=p=>cf==='all'||(cf==='hot'&&p.h)||(cf==='root'&&/BÓN RỄ/i.test(p.x||''))||(cf==='leaf'&&/BÓN LÁ/i.test(p.x||''))||(cf==='miss'&&miss(p));
 /* Quốc gia đã xác nhận: p.c = tên quốc gia (rỗng = chưa xác nhận) */
 function fit(s){const o=s.options[s.selectedIndex];if(!o)return;const cs=getComputedStyle(s),m=document.createElement('span');
@@ -219,46 +183,40 @@ function pick(m){S.sel=m;S.rec=[m,...(S.rec||[]).filter(x=>x!==m)].slice(0,8);co
 document.querySelectorAll('#list li.on').forEach(x=>x.classList.remove('on'));const li=document.querySelector(`#list li[data-m="${m}"]`);if(li)li.classList.add('on');
 renderCt();lab();renderPrev()}
 function renderList(){renderFc();const L=filt(),u=$('#list');u.classList.toggle('anim',animList);animList=false;
-$('#list').innerHTML=L.map((p,i)=>`<li class="${p.m===S.sel?'on':''}" data-m="${p.m}" style="--n:${Math.min(i,14)}"><b>${p.m}</b><span>${esc(p.n)||'(chưa có tên)'}</span>${gapTxt(p)?`<i class="wi" title="Thiếu: ${esc(gapTxt(p))}">⚠</i>`:''}${p.c?`<em class="cc" title="Đã xác nhận quốc gia sản xuất: ${esc(p.c)}">${esc(p.c)}</em>`:(hasProductData(p)?'<i class="dot" title="Chưa xác nhận quốc gia sản xuất"></i>':'')}<button class="st ${p.h?'h':''}" data-s="${p.m}" title="Bật/tắt SP hay in">★</button></li>`).join('')||'<li class="e">Không có kết quả</li>';
-const populated=L.filter(hasProductData).length,totalPopulated=S.P.filter(hasProductData).length,empty=L.length-populated;$('#cnt').innerHTML=`<span><b>${populated}</b> / ${totalPopulated} sản phẩm có dữ liệu${empty?` · ${empty} Sản phẩm thiếu thông tin yêu cầu kiểm tra lại`:''}</span><span></span>`;
+$('#list').innerHTML=L.map((p,i)=>`<li class="${p.m===S.sel?'on':''}" data-m="${p.m}" style="--n:${Math.min(i,14)}"><b>${p.m}</b><span>${esc(p.n)||'(chưa có tên)'}</span>${p.c?`<em class="cc" title="Đã xác nhận quốc gia sản xuất: ${esc(p.c)}">${esc(p.c)}</em>`:''}<button class="st ${p.h?'h':''}" data-s="${p.m}" title="Bật/tắt SP hay in">★</button></li>`).join('')||'<li class="e">Không có kết quả</li>';
+const populated=L.filter(hasProductData).length,totalPopulated=S.P.filter(hasProductData).length,empty=L.length-populated;$('#cnt').innerHTML=`<span><b>${populated}</b> / ${totalPopulated} sản phẩm có dữ liệu${empty?` · ${empty} dòng trống`:''}</span><span>↑↓ để chọn · Enter để chép</span>`;
 $('#sub').textContent='Công cụ chuẩn bị nội dung nhãn Heineken · '+S.P.length+' SP';
-renderGw();lab()}
+lab()}
 function renderPrev(){const p=cur(),b=$('#prev');
 if(!p){b.innerHTML='<p class="e">Chọn một MSPB ở danh sách bên trái.</p>';return}
 const r=build(p,S),sd=subHTML(r.out),G=['ĐA LƯỢNG','TRUNG LƯỢNG','VI LƯỢNG','THÀNH PHẦN PHỤ'],ok=p.c&&p.c===S.ctry,
-sec=(t,m)=>`<div class="eb"><span>${t}</span><i></i>${m||''}</div>`,cb=(id,w)=>`<button id="${id}">${ic(w?'alert':'copy')}Chép</button>`,
+sec=(t,m)=>`<div class="eb"><span>${t}</span><i></i>${m||''}</div>`,cb=(id)=>`<button id="${id}">${ic('copy')}Chép</button>`,
 words=r.out.trim().split(/\s+/).length,
-iss=issues(p),ncty=iss.filter(i=>i.k!=='country'),
-MK=t=>`<mark class="mk">⚠ THIẾU ${t}</mark>`,xs=(p.x||'').trim(),ts=(p.t||'').trim(),fs=(S.foot||'').trim(),
-oh=[r.c?(ok?esc(r.c):`<span class="tmpc" title="Quốc gia chưa được xác nhận cho sản phẩm này">${esc(r.c)}</span>`):MK('THÔNG TIN SẢN XUẤT'),xs?esc('PHƯƠNG THỨC SỬ DỤNG: '+xs+'.'):MK('PHƯƠNG THỨC SỬ DỤNG'),r.comp?esc('THÀNH PHẦN: '+r.comp+'.'):MK('THÀNH PHẦN'),esc('MSPB: '+p.m+'.'),ts?esc('TCCS: '+ts+'.'):MK('TCCS'),fs?esc(fs):''].filter(Boolean).join(' '),
-fxb=f=>f==='cset'?'<button class="lk" data-fx="cset">Mở cài đặt quốc gia</button>':'<button class="lk" data-fx="edit">Sửa sản phẩm</button>',
-ckl=ncty.length?`<div class="ckl"><b>${ic('alert')} ${iss.length>ncty.length?'Ngoài quốc gia, nội dung nhãn còn':'Nội dung nhãn còn'} ${ncty.length} mục thiếu / cần kiểm tra:</b>${ncty.map(i=>`<div class="ci">• ${esc(i.t)}${i.fx?fxb(i.fx):''}</div>`).join('')}</div>`:(iss.length?'':`<div class="rdy">${ic('chk')} Sẵn sàng sao chép: đã xác nhận quốc gia và đủ thông tin.</div>`),
 sel=`<select id="pc" title="Đổi quốc gia đã xác nhận"><option value="">Chưa xác nhận</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select>`,
 st=ok?`<div class="cst">${ic('chk')}<span>Đã xác nhận quốc gia:</span>${sel}</div>`
 :`<div class="cst w">${ic('alert')}<span>${p.c?`Sản phẩm đã xác nhận «${esc(p.c)}», nhưng quốc gia đang chọn cho nhãn là «${esc(S.ctry)}»:`:`Sản phẩm chưa có quốc gia sản xuất được xác nhận. Vui lòng xác nhận trước khi sao chép nội dung nhãn.`}</span>${sel}<button id="pcOk" class="lk">✓ Dùng «${esc(S.ctry)}» cho nhãn này</button>${p.c?`<button id="pcUse" class="lk">Đổi quốc gia nhãn sang «${esc(p.c)}»</button>`:''}</div>`,
 rc=(S.rec||[]).filter(m=>m!==S.sel&&S.P.some(x=>x.m===m)).slice(0,6);
 b.innerHTML=`<div class="ph"><div class="pt"><div class="id">MSPB ${esc(p.m)}</div><h2>${esc(p.n)||'(chưa có tên)'}</h2>
 <div class="sub">${[p.l,p.x,p.t&&'TCCS '+p.t].filter(Boolean).map(esc).join(' · ')||'—'}</div>${st}</div>
-<div class="pa"><button id="hs" class="hs ${p.h?'h':''}" title="Bật/tắt SP hay in">★</button><button id="bD">${ic('dup')}Nhân bản</button><button id="bE">${ic('pen')}Sửa</button><button id="cp" class="pri ${iss.length?'warnb':''}">${ic(iss.length?'alert':'copy')}Sao chép Heineken${iss.length?` (${iss.length} cảnh báo)`:''}</button></div></div>
-${ckl}${rc.length?`<div class="rec">${ic('hist')} Vừa xem: ${rc.map(m=>`<button class="chip" data-r="${m}">${m}</button>`).join('')}</div>`:''}
-${sec('Nội dung nhãn hoàn chỉnh (địa chỉ + thành phần)',`<span class="m">${iss.length?`<b class="wt">⚠ chưa đủ để chép · </b>`:''}${r.out.length} ký tự · ${words} từ</span>`)}<div class="out ${iss.length?'w':''}">${oh}</div>
-${sec('Thành phần')}<div class="gs">${G.map((n,gi)=>{const a=r.it.filter(x=>x.g==gi+1);return`<div class="g"><h4>${n}</h4>${a.map(x=>`<div><span>${esc(F[x.i][0])}</span><b>${esc(x.val)}</b></div>`).join('')||'<div class="n">—</div>'}</div>`}).join('')}</div>
-${sec('Thành phần để đưa lên nhãn',cb('cp2',iss.some(i=>['comp','empty'].includes(i.k))))}<div class="box ${r.comp?'':'w'}">${r.comp?esc(r.comp):'<span class="emp">⚠ Chưa có thành phần nào.</span> <button class="lk" data-fx="edit">Nhập thành phần</button>'}</div>
-${sec(`Thông tin sản xuất theo quốc gia đang chọn (${esc(S.ctry)})${ok?'':' · Cần kiểm tra/xác nhận trước khi sao chép'}`,cb('cp3',iss.some(i=>['country','addr','empty'].includes(i.k))))}<div class="box ${r.c?'':'w'}">${r.c?esc(r.c):`<span class="emp">⚠ Quốc gia «${esc(S.ctry)}» chưa có nội dung sản xuất.</span> <button class="lk" data-fx="cset">Mở cài đặt quốc gia</button>`}</div>
+<div class="pa"><button id="hs" class="hs ${p.h?'h':''}" title="Bật/tắt SP hay in">★</button><button id="bD">${ic('dup')}Nhân bản</button><button id="bE">${ic('pen')}Sửa</button><button id="cp" class="pri">${ic('copy')}Sao chép Heineken</button></div></div>
+${rc.length?`<div class="rec">${ic('hist')} Vừa xem: ${rc.map(m=>`<button class="chip" data-r="${m}">${m}</button>`).join('')}</div>`:''}
+${sec('Nội dung nhãn hoàn chỉnh (địa chỉ + thành phần)',`<span class="m">${ok?'':''}${r.out.length} ký tự · ${words} từ</span>`)}<div class="out ${ok?'':'w'}">${esc(r.out)}</div>
+${sec('Thành phần','<span class="m">hiện đúng như trên nhãn Heineken</span>')}<div class="gs" style="--sd:${(sd.shift/5).toFixed(2)}em">${G.map((n,gi)=>{const a=r.it.filter(x=>x.g==gi+1);return`<div class="g"><h4>${n}</h4>${a.map(x=>`<div><span${lblN(x.i)!==F[x.i][0]?` title="Tên trong form: ${esc(F[x.i][0])}"`:''}>${subHTML(lblN(x.i)).h}</span><b>${esc(x.val)}</b></div>`).join('')||'<div class="n">—</div>'}</div>`}).join('')}</div>
+${sec('Thành phần để đưa lên nhãn',cb('cp2'))}<div class="box">${esc(r.comp)||'—'}</div>
+${sec(`Thông tin sản xuất theo quốc gia đang chọn (${esc(S.ctry)})${ok?'':' · Cần kiểm tra/xác nhận trước khi sao chép'}`,cb('cp3'))}<div class="box">${esc(r.c)||'—'}</div>
 ${sec(`Thành phần để làm Heineken trong Illustrator (${sd.n} chỗ)`,`<button id="sb">${ic('down')}Tuỳ chỉnh &amp; tải script</button>`)}<div class="box" style="--sd:${(sd.shift/5).toFixed(2)}em">${sd.h}</div>
-<div class="e" style="font-size:13px;margin-top:6px">Phần chữ màu đỏ sẽ được hạ ${String(sd.shift).replace('.',',')} pt khi chạy script trong Illustrator.${jusCfg().on?' Script cũng tự căn đều hai bên (Justify).':''}</div>`;
+<div class="e" style="font-size:13px;margin-top:6px">Phần chữ màu đỏ sẽ được hạ khi chạy script trong Illustrator: mức 1 (H, O, ts, 5hh…) hạ ${String(sd.shift).replace('.',',')} pt, mức 2 (số 2 của H2O) hạ ${String(Math.round(sd.shift*200)/100).replace('.',',')} pt.${jusCfg().on?' Script cũng tự căn đều hai bên (Justify).':''}</div>`;
 if(lastM!==p.m){lastM=p.m;[...b.children].forEach((c,i)=>c.style.setProperty('--n',i));b.classList.remove('anim');void b.offsetWidth;b.classList.add('anim');b.scrollTo({top:0,behavior:RM?'auto':'smooth'})}else b.classList.remove('anim');
 if(fl){fl=false;const o=$('.out');if(o)o.classList.add('fl')}
 const setC=v=>{p.c=v;if(v&&S.fol!==false)S.ctry=v;save();fl=true;render()};
-$('#cp').onclick=e=>guarded(e.currentTarget,r.out,null);$('#cp2').onclick=e=>guarded(e.currentTarget,r.comp,['comp','empty']);$('#cp3').onclick=e=>guarded(e.currentTarget,r.c,['country','addr','empty']);$('#sb').onclick=subDlg;
+$('#cp').onclick=e=>copy(r.out,e.currentTarget);$('#cp2').onclick=e=>copy(r.comp,e.currentTarget);$('#cp3').onclick=e=>copy(r.c,e.currentTarget);$('#sb').onclick=subDlg;
 $('#hs').onclick=()=>{p.h=!p.h;save();render()};$('#bE').onclick=()=>editP(false);
-$('#bD').onclick=()=>{const c=clone(p);c.m='';c.n=(c.n||'')+' (bản sao)';c.h=false;c.c='';editP(true,c);toast('Bản sao chưa kế thừa quốc gia – hãy xác nhận quốc gia riêng cho sản phẩm này.')};
+$('#bD').onclick=()=>{const c=clone(p);c.m='';c.n=(c.n||'')+' (bản sao)';c.h=false;editP(true,c)};
 $('#pc').onchange=e=>setC(e.target.value);fit($('#pc'));
 if($('#pcOk'))$('#pcOk').onclick=()=>setC(S.ctry);
 if($('#pcUse'))$('#pcUse').onclick=()=>{S.ctry=p.c;save();fl=true;render()};
-b.querySelectorAll('[data-r]').forEach(x=>x.onclick=()=>pick(x.dataset.r));
-b.querySelectorAll('[data-fx]').forEach(x=>x.onclick=()=>x.dataset.fx==='edit'?editP(false):editC())}
-function copy(t,b,lb){const o=b.dataset.o||(b.dataset.o=b.innerHTML),ok=()=>{b.textContent=lb||'Đã chép ✓';b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');setTimeout(()=>b.innerHTML=o,lb?2800:1300)};
+b.querySelectorAll('[data-r]').forEach(x=>x.onclick=()=>pick(x.dataset.r))}
+function copy(t,b){const o=b.dataset.o||(b.dataset.o=b.innerHTML),ok=()=>{b.textContent='Đã chép ✓';b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');setTimeout(()=>b.innerHTML=o,1300)};
 const fb=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()};
 try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}}
 function renderCt(){const s=$('#ct'),p=cur(),t=$('#ctTag');s.innerHTML=S.C.map(c=>`<option>${esc(c.n)}</option>`).join('');s.value=S.ctry;fit(s);
@@ -276,8 +234,8 @@ const RESV=['mspb','tên sản phẩm','loại phân bón','phương thức sử
 function nameErr(name,others){const n=nk(name);if(!n)return'Nhập tên thành phần.';if(n.length>60)return'Tên thành phần tối đa 60 ký tự.';
 if(RESV.includes(n))return`«${String(name).trim()}» trùng tên một cột mặc định của bảng Excel, hãy đặt tên khác.`;
 if(others.some(o=>nk(o)===n))return`Đã có thành phần «${String(name).trim()}».`;return''}
-function pushField(name,g,u,q,fl){const mq=Math.max(0,...F.filter(f=>f[1]===g).map(f=>f[2]));
-F.push([String(name).replace(/\s+/g,' ').trim(),g,isFinite(q)?q:mq+1,String(u||'').trim(),fl?1:0]);
+function pushField(name,g,u,q,fl,lb){const mq=Math.max(0,...F.filter(f=>f[1]===g).map(f=>f[2]));
+F.push([String(name).replace(/\s+/g,' ').trim(),g,isFinite(q)?q:mq+1,String(u||'').trim(),fl?1:0,String(lb||'').replace(/\s+/g,' ').trim()]);
 S.P.forEach(p=>{while(p.v.length<F.length)p.v.push(null)});return F.length-1}
 function addField(name,g,u){const e=nameErr(name,F.map(f=>f[0]));if(e)return{err:e};const i=pushField(name,g,u,NaN,0);save();return{i}}
 /* Số cột mỗi hàng theo số thành phần: ≤5 thì gom hết 1 hàng; nhiều hơn thì chọn 3/4/5 cột sao cho ít hàng nhất và hàng cuối đầy nhất */
@@ -289,7 +247,7 @@ const fOrd=()=>F.map((f,i)=>i).sort((a,b)=>F[a][1]-F[b][1]||a-b);
 const colL=n=>{let s='';n++;while(n>0){const m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=Math.floor((n-1)/26)}return s};
 const toRows=()=>{const o=fOrd(),n=F.length,g=Array(n+7).fill(null);g[0]='THÔNG TIN SP';
 [1,2,3,4].forEach(k=>{const j=o.findIndex(i=>F[i][1]===k);if(j>=0)g[3+j]=GN[k-1].toUpperCase()});
-g[3+n]='THÔNG TIN THÊM CỦA SP';g[5+n]='CÁC SẢN PHẨM LÀM NHÃN';g[6+n]='QUỐC GIA SẢN XUẤT ĐÃ XÁC NHẬN';
+g[3+n]='THÔNG TIN THÊM CỦA SP';g[5+n]='CÁC SẢN PHẨM LÀM NHÃN';g[6+n]='QUỐC GIA SX ĐÃ XÁC NHẬN';
 return[['BẢNG DỮ LIỆU DANH SÁCH MSPB'],[],g,['MSPB','Tên sản phẩm','Loại phân bón',...o.map(i=>F[i][0]),'Phương thức sử dụng','TCCS','Danh sách sản phẩm làm nhãn','Quốc gia sản xuất đã xác nhận'],...S.P.map(p=>[p.m,p.n||null,p.l||null,...o.map(i=>p.v[i]||null),p.x||null,p.t||null,!!p.h,p.c||null])]};
 const cell=v=>v==null||String(v).trim()===''?null:typeof v==='number'?v.toLocaleString('de-DE',{maximumFractionDigits:6}):String(v).trim();
 function fromRows(R){const nf=x=>String(x==null?'':x).normalize('NFC').trim().toLowerCase(),hi=R.findIndex(r=>nf(r[0])==='mspb'),H=hi<0?[]:R[hi].map(nf),
@@ -308,7 +266,7 @@ function buildWb(){const wb=XLSX.utils.book_new(),a=XLSX.utils.aoa_to_sheet(toRo
 XLSX.utils.book_append_sheet(wb,a,'Short SP');
 const b=XLSX.utils.aoa_to_sheet([['Quốc gia','Nội dung'],...S.C.map(c=>[c.n,c.t])]);b['!cols']=[{wch:16},{wch:120}];
 XLSX.utils.book_append_sheet(wb,b,'Sản xuất');XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Câu kết thúc',S.foot]]),'Cài đặt');
-const tp=XLSX.utils.aoa_to_sheet([['Tên thành phần','Nhóm','Đơn vị mặc định','Thứ tự trên nhãn','Đứng đầu nhóm'],...F.map(f=>[f[0],GN[f[1]-1],f[3]||null,f[2],f[4]?1:null])]);tp['!cols']=[{wch:30},{wch:16},{wch:16},{wch:16},{wch:14}];
+const tp=XLSX.utils.aoa_to_sheet([['Tên thành phần','Nhóm','Đơn vị mặc định','Thứ tự trên nhãn','Đứng đầu nhóm','Tên trên nhãn'],...F.map(f=>[f[0],GN[f[1]-1],f[3]||null,f[2],f[4]?1:null,f[5]||null])]);tp['!cols']=[{wch:30},{wch:16},{wch:16},{wch:16},{wch:14},{wch:22}];
 XLSX.utils.book_append_sheet(wb,tp,'Thành phần');return wb}
 /* Đọc sheet "Thành phần" (nếu có) để tự tạo các thành phần mới mà file Excel có nhưng tool chưa có. */
 function fieldDefs(wb){const nm=wb.SheetNames.find(n=>n.normalize('NFC').trim().toLowerCase()==='thành phần');if(!nm)return[];
@@ -316,12 +274,15 @@ const R=XLSX.utils.sheet_to_json(wb.Sheets[nm],{header:1,raw:true,defval:null}),
 R.slice(1).forEach(r=>{const name=String(r[0]==null?'':r[0]).trim();if(!name)return;
 const gs=String(r[1]==null?'':r[1]).normalize('NFC').trim().toLowerCase();let g=GN.findIndex(x=>x.normalize('NFC').toLowerCase()===gs)+1;
 if(!g){const k=parseInt(gs);g=k>=1&&k<=4?k:0}if(!g)return;
-out.push({name,g,u:String(r[2]==null?'':r[2]).trim(),q:parseFloat(String(r[3]).replace(',','.')),fl:r[4]?1:0})});return out}
-function mergeDefs(defs){let n=0;defs.forEach(d=>{if(nameErr(d.name,F.map(f=>f[0])))return;pushField(d.name,d.g,d.u,d.q,d.fl);n++});return n}
+out.push({name,g,u:String(r[2]==null?'':r[2]).trim(),q:parseFloat(String(r[3]).replace(',','.')),fl:r[4]?1:0,lb:String(r[5]==null?'':r[5]).trim()})});return out}
+function mergeDefs(defs){let n=0;defs.forEach(d=>{if(nameErr(d.name,F.map(f=>f[0])))return;pushField(d.name,d.g,d.u,d.q,d.fl,d.lb);n++});return n}
 /*XLEND*/
 /*SUB*/
 /* Chữ hạ thấp (Baseline Shift) cho Illustrator. [..] hạ 1 mức, {..} hạ 2 mức */
-const DEFSUB=['N[ts]','P[2]O[5hh]','P[2]O[5]','K[2]O[hh]','K[2]O','SiO[2hh]','SiO[2]','pH[H]{2}[O]'];
+const DEFSUB=['N[ts]','P[2]O[5hh]','P[2]O[5]','K[2]O[hh]','K[2]O','SiO[2hh]','SiO[2]','pH[H]{2}[O]','pH ([H]{2}[O])'];
+/* Danh sách công thức đã lưu từ trước chưa có công thức pH (H2O) → tự bổ sung */
+if(!S.shv){if(S.shift===0.5)S.shift=1;S.shv=1;save()}
+if(Array.isArray(S.sub)&&S.sub.includes('pH[H]{2}[O]')&&!S.sub.includes('pH ([H]{2}[O])'))S.sub.push('pH ([H]{2}[O])');
 const DEFJUS={on:true,w:[90,100,110],l:[-1,0,1],g:[98,100,102],last:true,al:true,alp:120};
 const jusCfg=()=>Object.assign({},DEFJUS,S.jus||{});
 const subCfg=()=>({shift:S.shift!=null?S.shift:1,rules:Array.isArray(S.sub)&&S.sub.length?S.sub:DEFSUB,jus:jusCfg()});
@@ -389,7 +350,7 @@ ch=tr.characters;
 for(k=0;k<rg.length;k++)for(m=rg[k][0];m<rg[k][1];m++){ch[m].characterAttributes.baselineShift=-SHIFT*rg[k][2];n++}
 if(n){chars+=n;frames++}
 }catch(e){fail++}}
-var msg="Đã hạ thấp "+chars+" ký tự trong "+frames+" khung chữ.";
+var msg="Đã hạ thấp "+chars+" ký tự trong "+frames+" khung chữ.\\nBaseline Shift: mức 1 = "+SHIFT+" pt, mức 2 = "+(Math.round(SHIFT*200)/100)+" pt.";
 if(JUS){msg+="\\nĐã căn đều (Justify) "+jus+" khung chữ.\\nWord Spacing: "+JUS.w.join(" / ")+"%\\nLetter Spacing: "+JUS.l.join(" / ")+"%\\nGlyph Scaling: "+JUS.g.join(" / ")+"%"+(JUS.al?"\\nAuto Leading: "+JUS.alp+"%":"");
 if(ovf)msg+="\\nKhung có thể tràn chữ: "+ovf}
 if(fail)msg+="\\nBỏ qua "+fail+" khung (có thể đang bị khóa).";
@@ -415,10 +376,10 @@ return{shift:sh,rules,jus:J}}
 function subDlg(){const c=subCfg(),J=c.jus,jt=()=>dlg.querySelectorAll('#jf input').forEach(x=>x.disabled=!$('#ju').checked),
 setJ=o=>{$('#ju').checked=o.on;[0,1,2].forEach(i=>{$('#jw'+i).value=o.w[i];$('#jl'+i).value=o.l[i];$('#jg'+i).value=o.g[i]});$('#jx').checked=o.last;$('#ja').checked=o.al;$('#jp').value=o.alp;jt()},
 tri=(id,t,a)=>`<div class="cv"><span>${t}</span><div>${[0,1,2].map(i=>`<input id="${id}${i}" inputmode="decimal" value="${esc(String(a[i]).replace('.',','))}">`).join('')}</div></div>`;
-openD('Script Illustrator: Hạ thấp chữ + Justify',`<p class="e" style="margin-top:0">Chữ thường không mang được định dạng hạ thấp, nên nút <b>Sao chép</b> vẫn dán chữ thường vào Illustrator. Sau khi dán, chạy script bên dưới để tự hạ thấp 2, 5hh, ts, H2O… (Baseline Shift) như mẫu. Script này cũng tự <b>căn đều hai bên (Justify)</b> nếu bạn bật ở dưới, nên chỉ cần chạy 1 lần.</p>
-<div class="fg"><label>Độ hạ 1 mức – Baseline Shift (pt)<input id="sh" inputmode="decimal" value="${esc(String(c.shift).replace('.',','))}"></label></div>
+openD('Script Illustrator: hạ thấp chữ + Justify',`<p class="e" style="margin-top:0">Chữ thường không mang được định dạng hạ thấp, nên nút <b>Sao chép</b> vẫn dán chữ thường vào Illustrator. Sau khi dán, chạy script bên dưới để tự hạ thấp 2, 5hh, ts, H2O… (Baseline Shift) như mẫu. Script này cũng tự <b>căn đều hai bên (Justify)</b> nếu bạn bật ở dưới, nên chỉ cần chạy 1 lần.</p>
+<div class="fg"><label>Độ hạ 1 mức – Baseline Shift (pt) <span class="e" style="font-size:12px">· nhập 1 thì H, O hạ 1 pt, số 2 hạ 2 pt</span><input id="sh" inputmode="decimal" value="${esc(String(c.shift).replace('.',','))}"></label></div>
 <label>Công thức cần hạ thấp (mỗi dòng một mẫu)<textarea id="sr" rows="8" spellcheck="false">${esc(c.rules.join('\n'))}</textarea></label>
-<p class="e" style="font-size:13px">Phần trong <b>[ ]</b> hạ 1 mức, trong <b>{ }</b> hạ 2 mức (như số 2 của H₂O). Không phân biệt hoa/thường; chỉ khớp khi đứng riêng, không dính vào chữ khác. Ví dụ: <b>P[2]O[5hh]</b>, <b>pH[H]{2}[O]</b>.</p>
+<p class="e" style="font-size:13px">Phần trong <b>[ ]</b> hạ 1 mức, trong <b>{ }</b> hạ 2 mức (như số 2 của H₂O). Không phân biệt hoa/thường; chỉ khớp khi đứng riêng, không dính vào chữ khác. Ví dụ: <b>P[2]O[5hh]</b>, <b>pH[H]{2}[O]</b> (nhãn ghi pHH2O: H và O hạ 1 mức, số 2 hạ 2 mức).</p>
 <div class="bar">Script căn đều hai bên (Justify) và chỉnh thành phần hóa học để làm Heineken</div>
 <label class="chk"><input type="checkbox" id="ju" ${J.on?'checked':''}> Kèm căn đều hai bên (Justify) khi chạy script</label>
 <div id="jf"><div class="fg">${tri('jw','Word Spacing – Min / Desired / Max (%)',J.w)}${tri('jl','Letter Spacing – Min / Desired / Max (%)',J.l)}${tri('jg','Glyph Scaling – Min / Desired / Max (%)',J.g)}</div>
@@ -439,7 +400,6 @@ $('#jr').onclick=()=>{$('#sh').value='1';setJ(DEFJUS);$('#sr').value=DEFSUB.join
 const note=t=>{const m=$('#msg');if(m)m.textContent=t};
 function sure(b,t){if(b.dataset.a)return true;const o=b.textContent;b.dataset.a=1;b.textContent=t;setTimeout(()=>{delete b.dataset.a;b.textContent=o},3000);return false}
 const over=()=>S.P.length>493?' Lưu ý: công thức Excel chỉ đọc đến dòng 497 (493 SP).':'';
-const unc=()=>{const n=S.P.filter(p=>hasProductData(p)&&!p.c).length;return n?` ⚠ Còn ${n} SP chưa xác nhận quốc gia.`:''};
 function applyData(P,C,foot,nf){const r=(($('#im')||{}).value)==='r',uq=(a,k)=>[...new Map(a.map(x=>[x[k],x])).values()];
 P=uq(P,'m');if(!P.length)throw new Error('Không có dòng sản phẩm hợp lệ (MSPB gồm 5 chữ số)');
 if(!r){const o=new Map(S.P.map(x=>[x.m,x]));P.forEach(p=>{if(!p.c&&o.has(p.m))p.c=o.get(p.m).c||''})}
@@ -449,13 +409,13 @@ P.forEach(p=>{if(p.c&&!S.C.some(x=>x.n===p.c))S.C.push({n:p.c,t:''})});
 if(foot)S.foot=String(foot);
 if(!S.C.some(x=>x.n===S.ctry))S.ctry=S.C[0].n;
 if(!S.P.some(p=>p.m===S.sel))S.sel=null;
-save();renderCt();render();note(`Đã nhập ${P.length} sản phẩm`+(C&&C.length?` và ${C.length} quốc gia`:'')+(nf?` · thêm ${nf} thành phần mới`:'')+'.'+unc())}
+save();renderCt();render();note(`Đã nhập ${P.length} sản phẩm`+(C&&C.length?` và ${C.length} quốc gia`:'')+(nf?` · thêm ${nf} thành phần mới`:'')+'.')}
 async function exportX(){if(!window.XLSX)return note('Chưa tải được thư viện Excel (cần kết nối mạng).');
 try{const d=XLSX.write(buildWb(),{bookType:'xlsx',type:'array'}),fn='Heineken-du-lieu.xlsx',dl=window.claude?await claude.use('downloads'):null;
 if(dl)await dl.save({filename:fn,data:d});
 else if(window.claude)return note('Trang này chưa cho tải file. Hãy dùng nút "Sao chép bảng" rồi dán vào Excel.');
 else{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([d]));a.download=fn;a.click()}
-note('Đã xuất '+S.P.length+' sản phẩm.'+over()+unc())}catch(e){if(!e||e.code!=='declined')note('Không xuất được: '+((e&&e.message)||e))}}
+note('Đã xuất '+S.P.length+' sản phẩm.'+over())}catch(e){if(!e||e.code!=='declined')note('Không xuất được: '+((e&&e.message)||e))}}
 async function importX(f){if(!window.XLSX)return note('Chưa tải được thư viện Excel (cần kết nối mạng).');
 try{const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),nf=mergeDefs(fieldDefs(wb)),r=parseWb(wb);applyData(r.P,r.C,r.foot,nf)}catch(e){note('Không đọc được file: '+(e.message||e))}}
 function editP(isNew,base){const p=isNew?(base||{m:'',n:'',l:'',v:F.map(()=>null),x:'BÓN RỄ',t:'',h:false,c:''}):cur();if(!p)return;
@@ -465,10 +425,10 @@ I=(k,l,v,ex='')=>`<label>${l}<input data-k="${k}" value="${esc(v)}" ${ex}></labe
 CV=(f,i,val)=>{const s=split(val),d=f[3],u=s.u===d?'':s.u,L=[...UN.filter(x=>x!==d),...(u&&!UN.includes(u)?[u]:[])];
 /* Mục đầu tiên (value rỗng) chính là đơn vị mặc định – chỉ hiện đơn vị, bỏ chữ "(mặc định)" dài gây cắt chữ */
 return`<div class="cv"><span>${esc(f[0])}</span><div><input data-k="v${i}" inputmode="decimal" placeholder="—" value="${esc(s.n)}"><select data-u="${i}" title="Đơn vị (mục đầu tiên là đơn vị mặc định)"><option value="">${esc(d||'(không)')}</option>${L.map(x=>`<option${x===u?' selected':''}>${esc(x)}</option>`).join('')}</select></div></div>`};
-openD(isNew?'Thêm sản phẩm':'Sửa sản phẩm '+p.m,`<div class="fg">${I('m','MSPB (tối đa 5 số)',p.m,'inputmode="numeric" maxlength="5"')}${I('n','Tên sản phẩm',p.n)}${I('l','Loại phân bón ▾',p.l,'list="dl-l" placeholder="Chọn hoặc gõ mới"')}${I('x','Phương thức sử dụng ▾',p.x,'list="dl-x" placeholder="Chọn hoặc gõ mới"')}${I('t','TCCS (Tiêu chuẩn cơ sở)',p.t,'placeholder="vd 06:2023/UNI"')}<label>Quốc gia SX đã xác nhận<select data-k="c"><option value="">Chưa xác nhận quốc gia sản xuất</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select></label></div>
+openD(isNew?'Thêm sản phẩm':'Sửa sản phẩm '+p.m,`<div class="fg">${I('m','MSPB (tối đa 5 số)',p.m,'inputmode="numeric" maxlength="5"')}${I('n','Tên sản phẩm',p.n)}${I('l','Loại phân bón ▾',p.l,'list="dl-l" placeholder="Chọn hoặc gõ mới"')}${I('x','Phương thức sử dụng ▾',p.x,'list="dl-x" placeholder="Chọn hoặc gõ mới"')}${I('t','TCCS (Tiêu chuẩn cơ sở)',p.t,'placeholder="vd 06:2023/UNI"')}<label>Quốc gia SX đã xác nhận<select data-k="c"><option value="">— Chưa xác nhận —</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select></label></div>
 ${DL('dl-l',uniq(S.P.map(q=>q.l)))}${DL('dl-x',uniq(['BÓN RỄ','BÓN LÁ',...S.P.map(q=>q.x)]))}${DL('dl-un',UN)}
 <label class="chk"><input type="checkbox" id="eh" ${p.h?'checked':''}> SP hay in (★)</label>
-<p class="e hint">HDSD: Cần thêm chất mới? Bấm <b>＋ Thêm thành phần</b> ở nhóm tương ứng. Mục đầu tiên của ô đơn vị là đơn vị mặc định.</p>
+<p class="e hint">Cần thêm chất mới? Bấm <b>＋ Thêm thành phần</b> ở nhóm tương ứng — thành phần mới có sẵn cho mọi sản phẩm, không cần làm lại tool. Mục đầu tiên của ô đơn vị là đơn vị mặc định.</p>
 ${GN.map((n,gi)=>{const c=F.filter(f=>f[1]==gi+1).length;return`<div class="gh"><span>${n}</span><button type="button" class="ga" data-g="${gi+1}" title="Thêm thành phần mới vào nhóm ${n}">＋ Thêm thành phần</button></div><div class="cg" data-g="${gi+1}" style="--c:${cols(c)}">${F.map((f,i)=>f[1]==gi+1?CV(f,i,p.v[i]):'').join('')}</div><div class="addf" data-g="${gi+1}" hidden><input class="an" maxlength="60" placeholder="Tên thành phần mới, vd Natri (Na)" aria-label="Tên thành phần mới"><input class="au" list="dl-un" maxlength="12" value="${gi==2?'ppm':'%'}" placeholder="Đơn vị mặc định" aria-label="Đơn vị mặc định"><button type="button" class="pri ay">Thêm</button><button type="button" class="ax">Hủy</button></div>`}).join('')}`,()=>{
 const open=[...dlg.querySelectorAll('.addf:not([hidden]) .an')].find(x=>x.value.trim());if(open){note(`Bạn đang nhập thành phần mới «${open.value.trim()}» — bấm «Thêm» (hoặc «Hủy») trước khi lưu sản phẩm.`);open.focus();return false}
 const g=k=>dlg.querySelector(`[data-k="${k}"]`).value.trim(),m=g('m');
@@ -479,7 +439,7 @@ if(n&&!/^\d[\d.,]*$/.test(n)){note(`"${F[i][0]}": chỉ nhập số (vd 4 · 0,5
 v.push(n?(u?n+' '+u:n):null)}
 const np={m:id,n:g('n'),l:g('l'),x:g('x'),t:g('t'),c:g('c'),h:$('#eh').checked,v};
 if(isNew)S.P.push(np);else S.P[S.P.indexOf(p)]=np;
-S.P.sort((a,b)=>a.m.localeCompare(b.m));S.sel=id;if(np.c&&S.fol!==false)S.ctry=np.c;save();renderCt();render();const q=issues(np);if(q.length)toast('Đã lưu · còn '+q.length+' mục cần kiểm tra: '+q.map(i=>i.s).join(', ')+'.')},
+S.P.sort((a,b)=>a.m.localeCompare(b.m));S.sel=id;if(np.c&&S.fol!==false)S.ctry=np.c;save();renderCt();render()},
 isNew?'':'<button id="del">🗑 Xóa SP</button>','wide');
 dlg.querySelectorAll('.ga').forEach(b=>b.onclick=()=>{const f=dlg.querySelector(`.addf[data-g="${b.dataset.g}"]`);f.hidden=!f.hidden;note('');if(!f.hidden)f.querySelector('.an').focus()});
 dlg.querySelectorAll('.addf').forEach(f=>{const g=+f.dataset.g,nm=f.querySelector('.an'),un=f.querySelector('.au'),
@@ -491,13 +451,13 @@ f.querySelector('.ay').onclick=go;f.querySelector('.ax').onclick=()=>{f.hidden=t
 f.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();go()}else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();f.hidden=true;note('')}}});
 if(!isNew)$('#del').onclick=e=>{if(sure(e.target,'Bấm lần nữa để xóa')){S.P.splice(S.P.indexOf(p),1);S.sel=null;save();render();dlg.close()}}}
 function editF(){
-const D2=F.map((f,i)=>({s:i,n:f[0],g:f[1],q:f[2],u:f[3],fl:f[4]||0,x:false})),live=()=>D2.filter(d=>!d.x);let warned=false;
+const D2=F.map((f,i)=>({s:i,n:f[0],g:f[1],q:f[2],u:f[3],fl:f[4]||0,lb:f[5]||'',x:false})),live=()=>D2.filter(d=>!d.x);let warned=false;
 const cnt=s=>S.P.filter(p=>{const v=p.v[s];return v!=null&&String(v).trim()!==''}).length,
 rank=g=>{const L=live().filter(d=>d.g===g).sort((a,b)=>a.q-b.q||D2.indexOf(a)-D2.indexOf(b));L.forEach((d,j)=>d.q=j+1);return L},
-sync=()=>dlg.querySelectorAll('.frow').forEach(r=>{const d=D2[+r.dataset.d];if(d){d.n=r.querySelector('.fn').value;d.u=r.querySelector('.fu').value}}),
+sync=()=>dlg.querySelectorAll('.frow').forEach(r=>{const d=D2[+r.dataset.d];if(d){d.n=r.querySelector('.fn').value;d.lb=r.querySelector('.fl').value;d.u=r.querySelector('.fu').value}}),
 draw=(flash)=>{$('#fl').innerHTML=[1,2,3,4].map(g=>{const L=live().map(d=>({d,k:D2.indexOf(d)})).filter(x=>x.d.g===g).sort((a,b)=>a.d.q-b.d.q||a.k-b.k);
 return`<div class="gh"><span>${GN[g-1]}</span><span class="m">${L.length} thành phần</span></div>`+(g===3?'<p class="e hint">Trên nhãn, nhóm Vi lượng được xếp theo hàm lượng tăng dần (Sắt luôn đứng đầu). Thứ tự ↑↓ ở đây chỉ dùng khi hàm lượng bằng nhau.</p>':'')+
-(L.map((x,j)=>{const c=x.d.s>=0?cnt(x.d.s):0;return`<div class="frow${flash===x.k?' nw':''}" data-d="${x.k}"><input class="fn" maxlength="60" value="${esc(x.d.n)}" placeholder="Tên thành phần" title="Tên thành phần"><input class="fu" list="dl-un" maxlength="12" value="${esc(x.d.u)}" placeholder="Đơn vị" title="Đơn vị mặc định (để trống = không có đơn vị)"><select class="fgp" title="Chuyển sang nhóm khác">${GN.map((n,gi)=>`<option value="${gi+1}"${gi+1===g?' selected':''}>${n}</option>`).join('')}</select><span class="fb"><button type="button" data-a="up" title="Lên"${j?'':' disabled'}>↑</button><button type="button" data-a="dn" title="Xuống"${j<L.length-1?'':' disabled'}>↓</button><button type="button" data-a="del" title="Xóa thành phần${c?` (đang có dữ liệu ở ${c} sản phẩm)`:''}">✕</button></span></div>`}).join('')||'<p class="e">Chưa có thành phần nào.</p>')}).join('')};
+(L.map((x,j)=>{const c=x.d.s>=0?cnt(x.d.s):0;return`<div class="frow${flash===x.k?' nw':''}" data-d="${x.k}"><input class="fn" maxlength="60" value="${esc(x.d.n)}" placeholder="Tên thành phần" title="Tên thành phần"><input class="fl" maxlength="60" value="${esc(x.d.lb)}" placeholder="Tên trên nhãn (để trống = như tên)" title="Chữ in lên nhãn Heineken. Để trống thì dùng đúng tên bên cạnh. Ví dụ: pHH2O"><input class="fu" list="dl-un" maxlength="12" value="${esc(x.d.u)}" placeholder="Đơn vị" title="Đơn vị mặc định (để trống = không có đơn vị)"><select class="fgp" title="Chuyển sang nhóm khác">${GN.map((n,gi)=>`<option value="${gi+1}"${gi+1===g?' selected':''}>${n}</option>`).join('')}</select><span class="fb"><button type="button" data-a="up" title="Lên"${j?'':' disabled'}>↑</button><button type="button" data-a="dn" title="Xuống"${j<L.length-1?'':' disabled'}>↓</button><button type="button" data-a="del" title="Xóa thành phần${c?` (đang có dữ liệu ở ${c} sản phẩm)`:''}">✕</button></span></div>`}).join('')||'<p class="e">Chưa có thành phần nào.</p>')}).join('')};
 openD('Quản lý thành phần',`<p class="e" style="margin-top:0">Thêm, đổi tên, đổi đơn vị mặc định, chuyển nhóm, sắp xếp hoặc xóa thành phần. Thay đổi áp dụng cho <b>mọi sản phẩm</b> sau khi bấm <b>Lưu</b>; bấm Đóng để hủy.</p>
 <div class="gh"><span>Thêm thành phần mới</span></div>
 <div class="addf"><input id="nn" maxlength="60" placeholder="Tên thành phần, vd Natri (Na)"><select id="ng">${GN.map((n,gi)=>`<option value="${gi+1}">${n}</option>`).join('')}</select><input id="nu" list="dl-un" maxlength="12" value="%" placeholder="Đơn vị mặc định"><button type="button" id="na" class="pri">＋ Thêm</button></div>
@@ -509,7 +469,7 @@ if(lost.length&&!warned){warned=true;note(`Sẽ xóa ${lost.map(d=>'«'+d.n+'» 
 S.P.forEach(p=>{p.v=L.map(d=>{let v=d.s>=0&&p.v[d.s]!=null?p.v[d.s]:null;const old=d.s>=0?F[d.s][3]:'';
 /* Đổi đơn vị mặc định: giá trị cũ chỉ có số được ghi rõ đơn vị cũ để không bị hiểu sai sang đơn vị mới */
 if(v!=null&&old&&old!==d.u.trim()&&/^[\d.,]+$/.test(String(v).trim()))v=withU(String(v).trim(),old);return v})});
-S.F=L.map(d=>[d.n.replace(/\s+/g,' ').trim(),d.g,d.q,d.u.trim(),d.fl?1:0]);F=S.F;save();render()},'','wide');
+S.F=L.map(d=>[d.n.replace(/\s+/g,' ').trim(),d.g,d.q,d.u.trim(),d.fl?1:0,(d.lb||'').replace(/\s+/g,' ').trim()]);F=S.F;save();render()},'','wide');
 draw();
 $('#fl').onclick=e=>{const b=e.target.closest('button[data-a]');if(!b)return;sync();const d=D2[+b.closest('.frow').dataset.d],a=b.dataset.a;
 if(a==='del')d.x=true;else{const L=rank(d.g),j=L.indexOf(d),t=L[a==='up'?j-1:j+1];if(t)[d.q,t.q]=[t.q,d.q]}
@@ -517,7 +477,7 @@ note('');draw()};
 $('#fl').onchange=e=>{const s=e.target.closest('.fgp');if(!s)return;sync();const d=D2[+s.closest('.frow').dataset.d],g=+s.value;
 d.g=g;d.q=Math.max(0,...live().filter(z=>z!==d&&z.g===g).map(z=>z.q))+1;note('');draw(D2.indexOf(d))};
 const nn=$('#nn'),add=()=>{sync();const e=nameErr(nn.value,live().map(d=>d.n));if(e){note(e);nn.focus();return}
-const g=+$('#ng').value;D2.push({s:-1,n:nn.value.replace(/\s+/g,' ').trim(),g,q:Math.max(0,...live().filter(z=>z.g===g).map(z=>z.q))+1,u:$('#nu').value.trim(),fl:0,x:false});
+const g=+$('#ng').value;D2.push({s:-1,n:nn.value.replace(/\s+/g,' ').trim(),g,q:Math.max(0,...live().filter(z=>z.g===g).map(z=>z.q))+1,u:$('#nu').value.trim(),fl:0,lb:'',x:false});
 const k=D2.length-1;nn.value='';draw(k);note('Đã thêm vào danh sách — bấm Lưu để áp dụng.');const r=dlg.querySelector(`.frow[data-d="${k}"]`);if(r)r.scrollIntoView({block:'nearest'});nn.focus()};
 $('#na').onclick=add;nn.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();add()}}}
 function editC(){const row=c=>`<div class="row"><input data-n data-o="${esc(c.n)}" placeholder="Tên quốc gia" value="${esc(c.n)}"><textarea data-t rows="3" placeholder="Nội dung / địa chỉ sản xuất">${esc(c.t)}</textarea></div>`;
@@ -531,7 +491,7 @@ S.C=c;S.foot=$('#ft').value;if(!c.some(x=>x.n===S.ctry))S.ctry=c[0].n;save();ren
 $('#ca').onclick=()=>$('#cl').insertAdjacentHTML('beforeend',row({n:'',t:''}));
 const grow=t=>{t.style.height='auto';t.style.height=t.scrollHeight+2+'px'};
 dlg.querySelectorAll('[data-t]').forEach(grow);dlg.oninput=e=>{if(e.target.matches('[data-t]'))grow(e.target)}}
-function backup(){openD('Excel & sao lưu',`${unc()?`<p class="warnline">${unc().trim()} Hãy xác nhận trước khi xuất để file Excel đủ thông tin.</p>`:''}<p class="e">Website và file Excel dùng chung cấu trúc sheet <b>Short SP</b> (cột A:${colL(F.length+6)} – cột ${colL(F.length+6)} là quốc gia SX đã xác nhận) và <b>Sản xuất</b>. Xuất ra để đưa vào Heineken.xlsx, hoặc nhập trực tiếp từ Heineken.xlsx / file đã xuất. File xuất có thêm sheet <b>Thành phần</b> ghi danh sách thành phần (kể cả thành phần bạn tự thêm) để nhập lại không bị mất.</p>
+function backup(){openD('Excel & sao lưu',`<p class="e">Website và file Excel dùng chung cấu trúc sheet <b>Short SP</b> (cột A:${colL(F.length+6)} – cột ${colL(F.length+6)} là quốc gia SX đã xác nhận) và <b>Sản xuất</b>. Xuất ra để đưa vào Heineken.xlsx, hoặc nhập trực tiếp từ Heineken.xlsx / file đã xuất. File xuất có thêm sheet <b>Thành phần</b> ghi danh sách thành phần (kể cả thành phần bạn tự thêm) để nhập lại không bị mất.</p>
 <label>Cách nhập<select id="im"><option value="m">Gộp theo MSPB (cập nhật SP trùng, thêm SP mới, giữ SP không có trong file)</option><option value="r">Thay thế toàn bộ bằng dữ liệu trong file</option></select></label>
 <div class="act" style="justify-content:flex-start;margin:0 0 8px"><button id="bx" class="pri">📤 Xuất ra Excel (.xlsx)</button><button id="bi">📥 Nhập từ Excel</button><button id="bt">📋 Sao chép bảng (dán vào sheet Short SP)</button></div>
 <input type="file" id="fi" accept=".xlsx,.xlsm,.xls" hidden>
@@ -552,13 +512,11 @@ if(!b.dataset.a){b.dataset.a=1;b.textContent=`Bấm lần nữa để xác nhậ
 L.forEach(p=>p.c=S.ctry);save();render()};
 $('#list').onclick=e=>{const s=e.target.closest('[data-s]');if(s){const p=S.P.find(x=>x.m===s.dataset.s);p.h=!p.h;save();renderList();renderPrev();return}
 const li=e.target.closest('li[data-m]');if(li)pick(li.dataset.m)};
-const setChip=f=>{cf=f;animList=true;document.querySelectorAll('.chip[data-f]').forEach(x=>x.classList.toggle('on',x.dataset.f===f));renderList()};
-$('#gw').onclick=e=>{const b=e.target.closest('[data-g]');if(!b)return;$('#q').value='';if(b.dataset.g==='c'){$('#fc').value='__none';setChip('all')}else{$('#fc').value='';setChip('miss')}};
 $('#bN').onclick=()=>editP(true);$('#bF').onclick=editF;$('#bC').onclick=editC;$('#bB').onclick=backup;$('#bS').onclick=subDlg;
 document.addEventListener('keydown',e=>{if(dlg.open||e.ctrlKey||e.metaKey||e.altKey)return;const t=e.target,g=t.tagName,typing=(g==='INPUT'&&t.type!=='checkbox')||g==='TEXTAREA'||g==='SELECT';
 if(e.key==='/'&&!typing){e.preventDefault();$('#q').focus();return}
 if((e.key==='ArrowDown'||e.key==='ArrowUp')&&g!=='SELECT'&&g!=='TEXTAREA'){const L=filt();if(!L.length)return;e.preventDefault();let i=L.findIndex(p=>p.m===S.sel);i=e.key==='ArrowDown'?Math.min(L.length-1,i+1):Math.max(0,i<0?0:i-1);pick(L[i].m);const li=$('#list li.on');if(li)li.scrollIntoView({block:'nearest',behavior:RM?'auto':'smooth'})}
-else if(e.key==='Enter'&&(g!=='INPUT'||t.id==='q')&&g!=='BUTTON'&&g!=='SELECT'&&g!=='TEXTAREA'&&$('#cp')){e.preventDefault();$('#cp').click()}});
+else if(e.key==='Enter'&&(g!=='INPUT'||t.id==='q')&&g!=='BUTTON'&&g!=='SELECT'&&g!=='TEXTAREA'&&$('#cp')){e.preventDefault();copy(build(cur(),S).out,$('#cp'))}});
 document.querySelectorAll('[data-i]').forEach(e=>e.innerHTML=ic(e.dataset.i));
 follow();render();if(document.fonts)document.fonts.ready.then(()=>['#fc','#pc','#ct'].forEach(q=>{const e=$(q);if(e)fit(e)}));
 </script></body></html>

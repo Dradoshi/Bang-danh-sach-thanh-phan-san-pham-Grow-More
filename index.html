@@ -52,6 +52,7 @@ h2{margin:2px 0 2px;font-size:26px;line-height:1.25}.sub{color:var(--mut);font-s
 .eb{display:flex;align-items:center;gap:10px;margin:22px 0 10px;font-size:12px;letter-spacing:.16em;font-weight:700;color:var(--acc);text-transform:uppercase}.eb i{flex:1;border-top:1px dashed var(--line)}.eb .m{color:var(--mut);letter-spacing:0;font-weight:500;font-size:13px;text-transform:none}
 .eb button{padding:2px 9px;font-size:13px;letter-spacing:0;text-transform:none;color:var(--fg)}
 .pr{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 0;font-size:13px;color:var(--mut)}.pr button{padding:2px 9px;font-size:13px;color:var(--fg)}
+.seg{display:inline-flex}.seg button{border-radius:0}.seg button:first-child{border-radius:8px 0 0 8px}.seg button:last-child{border-radius:0 8px 8px 0;margin-left:-1px}.seg button:hover,.seg button.pri{position:relative;z-index:1}
 .ebw{flex-wrap:wrap;row-gap:8px}.ebw .hdb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;letter-spacing:0;text-transform:none;font-weight:500}.ebw i{min-width:12px}
 @media(max-width:900px){.ebw .hdb{order:5;flex:1 1 100%}}
 .out{background:var(--tint);border:1.5px solid var(--bd2);border-radius:14px;padding:16px 18px;font-size:16.5px;line-height:1.6;word-break:break-word}.out.w{border-color:var(--wfg)}
@@ -346,7 +347,7 @@ ${sec('Thành phần',mi.some(x=>x.k==='v')?'<span class="m mkk">Chưa nhập th
 ${sec('Nội dung nhãn hoàn chỉnh (địa chỉ + thành phần)',`<span class="m">${r.out.length} ký tự · ${words} từ</span><button id="cp5" type="button">${ic('copy')}Chép</button><button id="sb" type="button">${ic('down')}Tuỳ chỉnh &amp; tải script</button>`)}<div class="out ${ok&&!om.length?'':'w'}" style="--sd:${(sd.shift/5).toFixed(2)}em">${sd.h}</div>
 <div class="e" style="font-size:14px;margin-top:6px">Chữ màu đỏ (${sd.n} chỗ) sẽ được hạ khi chạy script trong Illustrator: mức 1 (H, O, ts, 5hh…) hạ ${String(sd.shift).replace('.',',')} pt, mức 2 (số 2 của H2O) hạ ${String(Math.round(sd.shift*200)/100).replace('.',',')} pt.${jusCfg().on?' Script cũng tự căn đều hai bên (Justify).':''}</div>
 <div class="pr"><span>Chép riêng:</span><button id="cp2" type="button" title="Chỉ phần thành phần, chưa chỉnh Heineken">${ic('copy')}Thành phần</button><button id="cp3" type="button" title="Chỉ phần thông tin sản xuất theo quốc gia đang chọn">${ic('copy')}Thông tin sản xuất (${esc(S.ctry)})</button></div>
-${sec('Hướng dẫn sử dụng (HDSD)',`<button id="bHD">${ic('pen')}${(p.d||'').trim()?'Sửa':'Dán'} HDSD</button>`,(p.d||'').trim()?`<div class="hdb"><button id="hvL" type="button" class="${hdMode()==='label'?'pri':''}" title="Bản dùng để in lên nhãn: tiêu đề rút gọn, gộp mục trùng nội dung">Bản NHÃN (rút gọn)</button><button id="hvF" type="button" class="${hdMode()==='full'?'pri':''}" title="Bản đầy đủ để đọc/đối chiếu: giữ nguyên toàn bộ tiêu đề, không gộp mục">Bản ĐẦY ĐỦ (đọc)</button><button id="cp4" type="button">${ic('copy')}Chép bản ${hdMode()==='full'?'đầy đủ':'nhãn'}</button>${hdMode()==='label'?`<button id="bHC" type="button">${ic('list')}Rút gọn</button><button id="bHS" type="button">${ic('down')}Script HDSD</button>`:''}</div>`:'')}${(p.d||'').trim()?`<div class="e" style="font-size:14px;margin:0 0 6px"><b>${hdMode()==='full'?'ĐANG XEM BẢN ĐẦY ĐỦ (chỉ để đọc, không dùng in nhãn)':'ĐANG XEM BẢN NHÃN (dùng để in lên nhãn)'}</b></div><div class="hd" style="--sd:${(sd.shift/5).toFixed(2)}em">${hdHTML(p.d,hdMode())}</div>${hdWarn(p.d)}${hdMode()==='full'?`<div class="e" style="font-size:14px;margin-top:6px">Bản đầy đủ: giữ nguyên toàn bộ tiêu đề và từng mục riêng, mỗi mục cách nhau một dòng trống khi chép. Muốn in lên nhãn hãy chuyển sang <b>Bản NHÃN</b>.</div>`:`<div class="e" style="font-size:14px;margin-top:6px">Chép ra là chữ thường (tiêu đề một dòng, nội dung một dòng). Tiêu đề đã rút gọn, mỗi tiêu đề một dòng. Dán vào khung chữ trong Illustrator rồi chạy <b>Script HDSD</b>: tự viết mũ m², căn đều hai bên (dòng cuối căn trái), tiêu đề căn trái và in đậm.</div>`}`:`<p class="e">Chưa có HDSD cho MSPB này. Bấm <b>Dán HDSD</b> để dán nội dung từ trang tra cứu.</p>`}`;
+${sec('Hướng dẫn sử dụng (HDSD)',`<button id="bHD">${ic('pen')}${(p.d||'').trim()?'Sửa':'Dán'} HDSD</button>`,(p.d||'').trim()?`<div class="hdb"><span class="seg"><button id="hvL" type="button" class="${hdMode()==='label'?'pri':''}" title="Bản nhãn: tiêu đề rút gọn, gộp mục trùng nội dung, dùng để in lên nhãn">Bản nhãn</button><button id="hvF" type="button" class="${hdMode()==='full'?'pri':''}" title="Bản đầy đủ: giữ nguyên toàn bộ tiêu đề, không gộp mục, chỉ để đọc/đối chiếu">Đầy đủ</button></span><button id="cp4" type="button" title="Chép bản ${hdMode()==='full'?'đầy đủ':'nhãn'}">${ic('copy')}Chép</button>${hdMode()==='label'?`<button id="bHC" type="button" title="Cài đặt rút gọn tiêu đề">${ic('list')}Rút gọn</button><button id="bHS" type="button">${ic('down')}Script HDSD</button>`:''}</div>`:'')}${(p.d||'').trim()?`${hdMode()==='full'?`<div class="mwl">${ic('alert')}Bản đầy đủ chỉ để đọc, không dùng in nhãn.</div>`:''}<div class="box" style="margin-top:8px"><div class="hd" style="--sd:${(sd.shift/5).toFixed(2)}em">${hdHTML(p.d,hdMode())}</div></div>${hdWarn(p.d)}<div class="e" style="font-size:14px;margin-top:6px">${hdMode()==='full'?'Giữ nguyên toàn bộ tiêu đề, mỗi mục cách nhau một dòng trống khi chép.':'Chép ra: mỗi tiêu đề một dòng, nội dung một dòng. Dán vào khung chữ Illustrator rồi chạy <b>Script HDSD</b>: mũ m², căn đều hai bên, tiêu đề căn trái và in đậm.'}</div>`:`<p class="e">Chưa có HDSD cho MSPB này. Bấm <b>Dán HDSD</b> để dán nội dung từ trang tra cứu.</p>`}`;
 if(lastM!==p.m){lastM=p.m;[...b.children].forEach((c,i)=>c.style.setProperty('--n',i));b.classList.remove('anim');void b.offsetWidth;b.classList.add('anim');b.scrollTo({top:0,behavior:RM?'auto':'smooth'})}else b.classList.remove('anim');
 if(fl){fl=false;const o=$('.out');if(o)o.classList.add('fl')}
 const setC=v=>{p.c=v;if(v&&S.fol!==false)S.ctry=v;save();fl=true;render()};
@@ -547,20 +548,28 @@ $('#jc').onclick=e=>{const r=readSub();if(r)copy(jsxText(r),e.target)};
 $('#jr').onclick=()=>{$('#sh').value='1';setJ(DEFJUS);$('#sr').value=DEFSUB.join('\n');note('Đã đặt về mặc định, bấm Lưu để áp dụng.')}}
 /*SUBEND*/
 /* ===== HDSD: dán từ trang tra cứu → tách tiêu đề (đậm) + nội dung, bỏ số thứ tự; chữ mũ do công thức <..> xử lý ===== */
-/* Nhận diện HDSD: mỗi mục = TIÊU ĐỀ (chữ đậm) + NỘI DUNG. Thứ tự thử: (0) dấu «||» gõ tay → (1) tiêu đề nằm riêng một dòng → (2) trước dấu «:» → (3) hết cụm ngoặc (...) đầu tiên → (4) trước chữ «Liều lượng»/«Pha». Tiêu đề không được chứa liều lượng (số + ml, g, lít, m2, %...). Không nhận ra → h rỗng, hiện khung cảnh báo vàng. */
+/* Nhận diện HDSD: mỗi mục = TIÊU ĐỀ (chữ đậm) + NỘI DUNG. Thứ tự thử: (0) dấu «||» gõ tay → (1) tiêu đề nằm riêng một dòng → (2) trước dấu «:» (nếu ngay sau «:» là cụm ngoặc liệt kê ví dụ thì cụm đó vẫn thuộc tiêu đề) → (3) hết cụm ngoặc (...) đầu tiên → (4) trước điểm bắt đầu liều lượng (Liều lượng/Pha/Phun/Hòa/Tưới/Sử dụng hoặc số + đơn vị, bỏ qua chữ trong ngoặc). Sau khi tách, đoạn có nội dung trống / mở đầu bằng ngoặc / không có số liều lượng bị đánh dấu «đáng ngờ» (khung vàng). Tiêu đề không được chứa liều lượng (số + ml, g, lít, m2, %...). Không nhận ra → h rỗng, hiện khung cảnh báo vàng. */
 const HDDOSE=/\d\s*(?:ml|cc|g|kg|lít|l|m2|m²|m<2>|ha|%|ppm)(?![A-Za-zÀ-ỹ])/i;
 const hdHead=x=>!!x&&x.length<=400&&!HDDOSE.test(x)&&!/^(liều lượng|pha|phun|hòa|sử dụng)(\s|$)/i.test(x);
+/* Điểm bắt đầu phần liều lượng: chữ «Liều lượng/Pha/Phun/Hòa/Tưới/Sử dụng» hoặc số + đơn vị, bỏ qua chữ nằm trong ngoặc */
+function hdCue(t){let m=t;while(/\([^()]*\)/.test(m))m=m.replace(/\([^()]*\)/g,x=>'#'.repeat(x.length));
+const a=/(^|[\s.:;,])(?:liều lượng|lượng dùng|pha|phun|hòa|hoà|tưới|sử dụng)(?=[\s:])/i.exec(m),n=/\d[\d.,\-–]*\s*(?:ml|cc|g|kg|lít|l|m2|m²|m<2>|ha|%|ppm)(?![A-Za-zÀ-ỹ])/i.exec(m);
+let k=a?a.index+a[1].length:-1;if(n&&(k<0||n.index<k))k=n.index;return k}
+const hdPe=(t,p)=>{let d=0;for(let i=p;i<t.length;i++){if(t[i]==='(')d++;else if(t[i]===')'&&--d===0)return i}return -1};
 function hdSplit(t){
 let h='',b=t;const mx=t.indexOf('||');
 if(mx>0){h=t.slice(0,mx);b=t.slice(mx+2)}
 else{const ci=t.indexOf(':'),pi=t.indexOf('(');
-if(ci>0&&(pi<0||ci<pi)&&hdHead(t.slice(0,ci).trim())){h=t.slice(0,ci);b=t.slice(ci+1)}
+if(ci>0&&(pi<0||ci<pi)&&hdHead(t.slice(0,ci).trim())){h=t.slice(0,ci);b=t.slice(ci+1);
+/* «Cây công nghiệp: (trà, cà phê, …). Liều lượng…» → cụm ngoặc ví dụ ngay sau dấu «:» vẫn thuộc tiêu đề */
+const q=b.search(/\S/);if(q>=0&&b[q]==='('){const e=hdPe(b,q),g=e>0?b.slice(q,e+1):'';if(g&&/[,;]|\.\.\.|…/.test(g)&&hdHead(h.trim()+' '+g)){h=h.trim()+' '+g;b=b.slice(e+1)}}}
 else if(pi>0&&hdHead(t.slice(0,pi).trim())){let d=0,e=-1;for(let i=pi;i<t.length;i++){if(t[i]==='(')d++;else if(t[i]===')'&&--d===0){e=i;break}}if(e>0&&hdHead(t.slice(0,e+1))){h=t.slice(0,e+1);b=t.slice(e+1)}}
 if(!h&&ci>0&&hdHead(t.slice(0,ci).trim())){h=t.slice(0,ci);b=t.slice(ci+1)}
-if(!h){const k=t.search(/[.:;]?\s(liều lượng|pha)\s/i);if(k>2&&hdHead(t.slice(0,k).trim())){h=t.slice(0,k);b=t.slice(k)}}}
+if(!h){const k=hdCue(t);if(k>2&&hdHead(t.slice(0,k).trim())){h=t.slice(0,k);b=t.slice(k)}}}
 h=h.trim().replace(/[\s.:;,]+$/,'');b=b.replace(/^[\s.:;,\-–]+/,'').trim();
+const s=mx<=0&&!!h&&(!b||/^[(\[]/.test(b)||!/\d/.test(b));/* đáng ngờ: nội dung trống, mở đầu bằng ngoặc hoặc không có con số liều lượng */
 if(b){b=b.charAt(0).toUpperCase()+b.slice(1);if(!/[.!?]$/.test(b))b+='.'}
-return{h,b}}
+return{h,b,s}}
 /* Mục có tiêu đề nằm riêng một dòng (dòng ngắn, không có liều lượng, không kết thúc bằng dấu chấm) → nối bằng «||» */
 function hdLines(t){const L=t.split(/\n+/).map(x=>x.replace(/^[\-•*+–]\s+/,'').replace(/\s+/g,' ').trim()).filter(Boolean);
 if(L.length>1&&hdHead(L[0])&&!/[.!?]$/.test(L[0])&&!L[0].includes(':'))return L[0]+' || '+L.slice(1).join(' ');return L.join(' ')}
@@ -572,8 +581,8 @@ else{const L=raw.split(/\n+/).map(x=>x.replace(/^[\-•*+–]\s+/,'').replace(/\
 for(let i=0;i<L.length;i++){const c=L[i],n=L[i+1];if(n!==undefined&&hdHead(c)&&!/[.!?]$/.test(c)&&!c.includes(':')&&!hdHead(n)){T.push(c+' || '+n);i++}else T.push(c)}}
 return T.map(t=>t.replace(/[ \t]+/g,' ').trim()).filter(t=>t&&!/^hướng dẫn sử dụng\s*:?$/i.test(t)).map(hdSplit)}
 /* Cảnh báo khi có đoạn không nhận ra tiêu đề */
-const hdBad=raw=>hdParse(raw).filter(x=>!x.h);
-const hdWarn=raw=>{const L=hdParse(raw),n=L.filter(x=>!x.h).length;return n&&L.length>1?`<div class="mwl">${ic('alert')}Có ${n} đoạn chưa nhận ra tiêu đề (khung vàng). Mở <b>Sửa HDSD</b> và gõ dấu <b>||</b> giữa tiêu đề và nội dung, ví dụ: <i>Đặc biệt cho lúa || Pha 20-60 ml…</i></div>`:''}
+const hdBad=raw=>hdParse(raw).filter(x=>!x.h||x.s);
+const hdWarn=raw=>{const L=hdParse(raw),n=L.filter(x=>!x.h||x.s).length;return n&&L.length>1?`<div class="mwl">${ic('alert')}Có ${n} đoạn cần xem lại tiêu đề (khung vàng): chưa nhận ra hoặc tách đáng ngờ. Mở <b>Sửa HDSD</b> và gõ dấu <b>||</b> giữa tiêu đề và nội dung, ví dụ: <i>Đặc biệt cho lúa || Pha 20-60 ml…</i></div>`:''}
 /* Rút gọn tiêu đề (chữ đậm): chỉ giữ ví dụ trong danh sách; gộp các mục có cùng nội dung thành nhiều tiêu đề xếp liên tiếp + 1 đoạn nội dung */
 const DEFHD={on:true,keep:['cà phê','điều','sầu riêng','cam','quýt','cà chua','dưa hấu','phong lan','hoa hồng'],n:2};
 const hdCfg=()=>Object.assign({},DEFHD,S.hdc||{});
@@ -582,16 +591,16 @@ const nk2=t=>t.normalize('NFC').toLowerCase().trim(),dots=/(\.\.\.|…)\s*$/.tes
 it=m[2].split(/\s*,\s*/).map(x=>x.replace(/(\.\.\.|…)\s*$/,'').trim()).filter(Boolean),pr=c.keep.map(nk2);
 let k=it.filter(x=>pr.includes(nk2(x)));if(!k.length)k=it.slice(0,c.n);
 return m[1]+'('+k.join(', ')+(k.length<it.length||dots?'...':'')+')'+m[3]}
-function hdFull(raw){return hdParse(raw).map(x=>({hs:x.h?[x.h]:[],b:x.b,bad:!x.h}))}
-function hdLabel(raw){const L=hdParse(raw),c=hdCfg();if(!c.on)return L.map(x=>({hs:x.h?[x.h]:[],b:x.b,bad:!x.h}));
+function hdFull(raw){return hdParse(raw).map(x=>({hs:x.h?[x.h]:[],b:x.b,bad:!x.h||!!x.s}))}
+function hdLabel(raw){const L=hdParse(raw),c=hdCfg();if(!c.on)return L.map(x=>({hs:x.h?[x.h]:[],b:x.b,bad:!x.h||!!x.s}));
 const G=new Map(),key=t=>t.toLowerCase().replace(/[^\p{L}\p{N}]+/gu,'');
-L.forEach(x=>{const k=key(x.b)||'#'+G.size;if(!G.has(k))G.set(k,{hs:[],b:x.b,bad:false});if(x.h)G.get(k).hs.push(hdShort(x.h,c));else G.get(k).bad=true});
+L.forEach(x=>{const k=key(x.b)||'#'+G.size;if(!G.has(k))G.set(k,{hs:[],b:x.b,bad:false});if(x.h)G.get(k).hs.push(hdShort(x.h,c));if(!x.h||x.s)G.get(k).bad=true});
 return[...G.values()]}
 const hdMode=()=>S.hdv==='full'?'full':'label';
 const hdBlocks=(raw,m)=>m==='full'?hdFull(raw):hdLabel(raw);
 const hdText=(raw,m)=>hdBlocks(raw,m).map(g=>[...g.hs,g.b].filter(Boolean).join('\n')).join(m==='full'?'\n\n':'\n');
 const hdHTML=(raw,m)=>hdBlocks(raw,m).map(g=>{const h=g.hs.map(h=>`<div class="hh">${subHTML(h).h}</div>`).join('')+(g.b?`<div>${subHTML(g.b).h}</div>`:'');
-return g.bad?`<div class="bad" title="Chưa nhận ra tiêu đề của đoạn này">${h}</div>`:m==='full'?`<div style="margin-top:8px">${h}</div>`:h}).join('');
+return g.bad?`<div class="bad" title="Tiêu đề của đoạn này chưa chắc đúng, hãy xem lại">${h}</div>`:m==='full'?`<div style="margin-top:8px">${h}</div>`:h}).join('');
 function hdCfgDlg(){const c=hdCfg();
 openD('Rút gọn tiêu đề HDSD',`<p class="e" style="margin-top:0">Chỉ áp dụng cho <b>tiêu đề (chữ in đậm)</b>. Trong ngoặc của tiêu đề, tool chỉ giữ các ví dụ có trong danh sách dưới đây (theo thứ tự gốc) và thêm «...». Nếu không có ví dụ nào khớp thì giữ N ví dụ đầu. Các mục có cùng nội dung được gộp: các tiêu đề xếp liên tiếp, mỗi tiêu đề một dòng (Enter), rồi tới một đoạn nội dung. Dấu «:» ở cuối tiêu đề được bỏ.</p><label class="chk"><input type="checkbox" id="hon" ${c.on?'checked':''}> Bật rút gọn tiêu đề và gộp mục trùng nội dung</label><label>Ví dụ cần giữ (cách nhau bằng dấu phẩy hoặc xuống dòng)<textarea id="hk" rows="4" spellcheck="false">${esc(c.keep.join(', '))}</textarea></label><label>Nếu không khớp ví dụ nào, giữ N ví dụ đầu<input id="hn" inputmode="numeric" value="${c.n}"></label>`,()=>{const n=parseInt($('#hn').value);if(!(n>=1&&n<=10)){note('N nhập số từ 1 đến 10');return false}
 S.hdc={on:$('#hon').checked,keep:$('#hk').value.split(/[,\n]+/).map(x=>x.trim()).filter(Boolean),n};save();render()},'<button id="hr" type="button">Về mặc định</button>');
@@ -604,8 +613,8 @@ else if(h==='\n'||h==='\r'){if(h==='\r'&&t[i+1]==='\n')i++;r.push(c);R.push(r);r
 r.push(c);R.push(r);return R}
 
 function hdCheck(){const A=S.P.filter(p=>(p.d||'').trim()),R=A.map(p=>({p,bad:hdBad(p.d),n:hdParse(p.d).length})).filter(x=>x.bad.length);
-const rows=R.map(x=>`<div style="border-bottom:1px solid var(--line);padding:8px 2px"><button data-go="${esc(x.p.m)}" style="margin-right:8px">MSPB ${esc(x.p.m)}</button><b>${esc(x.p.n||'(chưa có tên)')}</b> · ${x.bad.length}/${x.n} đoạn chưa nhận ra tiêu đề${x.bad.slice(0,3).map(b=>`<div class="e" style="font-size:13.5px;word-break:break-word">• ${esc(b.b.slice(0,110))}${b.b.length>110?'…':''}</div>`).join('')}</div>`).join('');
-openD('Kiểm tra nhận diện HDSD',`<p class="e" style="margin-top:0"><b>${A.length}</b> sản phẩm có HDSD · <b>${A.length-R.length}</b> nhận diện đủ tiêu đề · <b style="color:var(--acc)">${R.length}</b> cần kiểm tra.</p>${R.length?rows:'<p class="e">Tất cả HDSD đều nhận ra tiêu đề.</p>'}<p class="e">Cách sửa: bấm MSPB → <b>Sửa HDSD</b> → gõ dấu <b>||</b> giữa tiêu đề và nội dung của đoạn đó.</p>`,null,'','wide');
+const rows=R.map(x=>`<div style="border-bottom:1px solid var(--line);padding:8px 2px"><button data-go="${esc(x.p.m)}" style="margin-right:8px">MSPB ${esc(x.p.m)}</button><b>${esc(x.p.n||'(chưa có tên)')}</b> · ${x.bad.length}/${x.n} đoạn cần xem lại${x.bad.slice(0,3).map(b=>`<div class="e" style="font-size:13.5px;word-break:break-word">• ${b.h?'<b>'+esc(b.h.slice(0,70))+'</b> → ':''}${esc(b.b.slice(0,110))}${b.b.length>110?'…':''}</div>`).join('')}</div>`).join('');
+openD('Kiểm tra nhận diện HDSD',`<p class="e" style="margin-top:0"><b>${A.length}</b> sản phẩm có HDSD · <b>${A.length-R.length}</b> tách ổn · <b style="color:var(--acc)">${R.length}</b> cần kiểm tra.</p>${R.length?rows:'<p class="e">Tất cả HDSD đều tách ổn.</p>'}<p class="e">Cách sửa: bấm MSPB → <b>Sửa HDSD</b> → gõ dấu <b>||</b> giữa tiêu đề và nội dung của đoạn đó (chữ đậm trước mũi tên là tiêu đề tool đã tách).</p>`,null,'','wide');
 dlg.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{dlg.close();pick(b.dataset.go)})}
 $('#bHK').onclick=hdCheck;
 function hdDlg(){const c=subCfg();
@@ -613,7 +622,7 @@ openD('Script Illustrator cho HDSD',`<p class="e" style="margin-top:0">Dán HDSD
 const mk=()=>{S.hdBold=$('#hb').value.trim();save();return jsxText({shift:c.shift,rules:c.rules,jus:c.jus,hd:{on:true,bold:S.hdBold}})};
 $('#hd1').onclick=()=>dlJsx(mk(),'Heineken-HDSD.jsx');$('#hd2').onclick=e=>copy(mk(),e.target)}
 function editD(){const p=cur();if(!p)return;
-openD('HDSD · MSPB '+p.m,`<p class="e" style="margin-top:0">Dán nội dung lấy từ trang tra cứu (cả đoạn có số 1. 2. 3. cũng được). Tool tự tách tiêu đề in đậm, bỏ số thứ tự; chữ m2 sẽ hiện mũ m². Nếu có đoạn tool không nhận ra tiêu đề (khung vàng ở xem trước), gõ dấu <b>||</b> giữa tiêu đề và nội dung, ví dụ: <i>Đặc biệt cho lúa || Pha 20-60 ml/16 lít nước…</i></p><div class="act" style="justify-content:flex-start;margin:0 0 8px"><button id="hP" type="button">📋 Dán từ clipboard</button></div><textarea id="hd" rows="9" spellcheck="false" placeholder="Dán HDSD vào đây…">${esc(p.d||'')}</textarea><div class="eb"><span>Xem trước</span><i></i></div><div class="hd" id="hdp"></div>`,()=>{p.d=$('#hd').value.trim();save();render()},'','wide');
+openD('HDSD · MSPB '+p.m,`<p class="e" style="margin-top:0">Dán nội dung lấy từ trang tra cứu (cả đoạn có số 1. 2. 3. cũng được). Tool tự tách tiêu đề in đậm, bỏ số thứ tự; chữ m2 sẽ hiện mũ m². Nếu có đoạn tool không nhận ra tiêu đề (khung vàng ở xem trước: chưa nhận ra hoặc tách đáng ngờ), gõ dấu <b>||</b> giữa tiêu đề và nội dung, ví dụ: <i>Đặc biệt cho lúa || Pha 20-60 ml/16 lít nước…</i></p><div class="act" style="justify-content:flex-start;margin:0 0 8px"><button id="hP" type="button">📋 Dán từ clipboard</button></div><textarea id="hd" rows="9" spellcheck="false" placeholder="Dán HDSD vào đây…">${esc(p.d||'')}</textarea><div class="eb"><span>Xem trước</span><i></i></div><div class="hd" id="hdp"></div>`,()=>{p.d=$('#hd').value.trim();save();render()},'','wide');
 const t=$('#hd'),pv=()=>{const o=$('#hdp');o.style.setProperty('--sd',(subCfg().shift/5).toFixed(2)+'em');o.innerHTML=(hdHTML(t.value,hdMode())||'<span class="e">—</span>')+hdWarn(t.value)};
 t.oninput=pv;pv();t.focus();
 $('#hP').onclick=async()=>{try{const x=await navigator.clipboard.readText();if(!x.trim())return note('Clipboard đang trống.');t.value=x;pv();note('Đã dán. Bấm Lưu để lưu cho MSPB '+p.m+'.')}catch(e){note('Trình duyệt không cho đọc clipboard, hãy bấm vào ô rồi nhấn Ctrl+V.')}}}

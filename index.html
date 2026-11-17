@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="utf-8"><title>Bảng danh sản phẩm Grow More</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600&display=swap" rel="stylesheet">
 <meta name="theme-color" content="#f6f1f0">
 <script>try{var t=localStorage.getItem("heiniken-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -176,74 +176,61 @@ dialog .dact{margin:12px -14px -14px;bottom:-14px;padding:10px 14px calc(10px + 
 }
 
 
-/* ===== Bộ lọc: đủ 6 lựa chọn trên cùng một hàng, không cắt chữ ===== */
+/* ===== Thanh lọc: 6 mục luôn nằm trên 1 hàng, cao bằng nhau, không cắt chữ =====
+   Mọi kích thước bên trong dùng đơn vị em nên cả thanh co/giãn đồng đều theo --fs.
+   --fs do đoạn script "fitFilterBar" ở cuối trang chọn: lớn nhất có thể (8–14px) mà vẫn vừa 1 hàng. */
 .fr{
-  display:flex!important;
-  flex-flow:row nowrap!important;
-  align-items:center;
-  justify-content:flex-start;
-  gap:3px;
-  width:100%;max-width:100%;min-width:0;
-  margin:8px 0;
-  padding:0;
-  overflow:visible!important;
-  white-space:nowrap!important;
+  --fs:11px;
+  display:flex;flex-flow:row nowrap;align-items:center;justify-content:flex-start;
+  gap:.3em;width:100%;max-width:100%;min-width:0;margin:8px 0 6px;padding:2px 1px;
+  font:500 var(--fs)/1 'Barlow Semi Condensed','Barlow',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  white-space:nowrap;
+  /* Chỉ cuộn ngang khi màn hình hẹp hơn mức nhỏ nhất (~<320px); chữ vẫn đủ, không bị cắt */
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;
 }
-.fr>*{flex:0 0 auto!important;min-width:0}
-.fr .chip{flex:none;white-space:nowrap;font-size:10px;line-height:1.12;padding:2px 4px;letter-spacing:-.025em}
-.fr .fcw{display:inline-flex;flex:0 0 auto!important;width:auto;max-width:none;white-space:nowrap;gap:3px;padding:2px 4px}
-.fr .fcw select{display:inline-block;flex:0 0 auto;width:auto;min-width:0;max-width:none;white-space:nowrap;padding:0;font-size:10px}
+.fr::-webkit-scrollbar{display:none}
+.fr>.chip,.fr>.fcw{
+  flex:0 0 auto;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;
+  height:max(2.4em,28px);min-height:0;margin:0;border-radius:999px;
+  font:inherit;line-height:1;letter-spacing:0;white-space:nowrap;
+}
+.fr>.chip{padding:0 .62em;gap:0}
+.fr>.chip.on{font-weight:600}
+.fr[data-m]>.chip{font-weight:600}/* chỉ bật trong lúc đo, để cỡ chữ không đổi khi đổi nút đang chọn */
+.fr>.chip:has(.cn){padding-right:.3em}
+.fr .wb{display:none}
+/* Chế độ 2 dòng (JS bật data-w khi màn hẹp): 2 nút dài xuống 2 dòng NGAY TRONG nút, vẫn cùng 1 hàng, cùng chiều cao */
+.fr[data-w]{gap:.3em}
+.fr[data-w]>.chip,.fr[data-w]>.fcw{height:max(3.2em,34px)}
+.fr[data-w]>.chip{text-align:center;line-height:1.08}
+.fr[data-w] .wb{display:inline}
+.fr>.chip .cn{
+  display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;
+  min-width:1.75em;height:1.75em;padding:0 .3em;margin-left:.4em;border-radius:999px;
+  font-size:.95em;line-height:1;
+}
+/* Ô chọn quốc gia: cùng chiều cao với các nút, mũi tên vẽ bằng CSS để tiết kiệm chỗ */
+.fr>.fcw{position:relative;padding:0;gap:0;color:var(--mut)}
+.fr>.fcw select{
+  -webkit-appearance:none;appearance:none;
+  /* !important để thắng bề rộng px mà hàm fit(select) của ứng dụng gắn inline; bề rộng tự theo --fs */
+  width:auto!important;min-width:0;max-width:none;height:100%;margin:0;border:0;border-radius:inherit;
+  background:transparent;padding:0 1.5em 0 .62em;
+  font:inherit;line-height:1;color:var(--fg);cursor:pointer;
+}
+.fr>.fcw::after{
+  content:"";position:absolute;right:.66em;top:50%;width:.38em;height:.38em;
+  border:solid currentColor;border-width:0 1.5px 1.5px 0;
+  transform:translateY(-72%) rotate(45deg);pointer-events:none;
+}
+.fr>.fcw:focus-within{border-color:var(--acc)}
+
 @media(max-width:900px){
   /* Nới khung danh sách sát mép màn hình để lấy thêm chiều ngang thực tế */
   main{padding-left:0!important;padding-right:0!important}
   main>section:first-child.card{width:100%;max-width:none;padding:8px 5px 10px!important;border-left:0;border-right:0;border-radius:0}
-  .fr{gap:2px!important;margin:8px 0!important;padding:0!important;overflow:visible!important;flex-wrap:nowrap!important}
-  /* Cỡ chữ tự điều chỉnh theo bề rộng màn hình nhưng vẫn giữ nguyên toàn bộ nhãn */
-  .fr .chip{font-size:clamp(9px,2vw,10px)!important;line-height:1.12;letter-spacing:-.035em;padding:2px 3px!important;min-height:22px}
-  .fr .chip[data-f="hot"],.fr .chip[data-f="miss"]{font-size:clamp(8.8px,1.85vw,9.4px)!important;letter-spacing:-.04em}
-  .fr .chip .cn{font-size:clamp(8px,1.65vw,9px)!important;line-height:13px;min-width:14px;padding:0 2px;margin-left:2px}
-  .fr .fcw{gap:2px!important;padding:2px 3px!important;font-size:clamp(9px,2vw,10px)!important;min-height:22px}
-  .fr .fcw select{font-size:clamp(9px,2vw,10px)!important;line-height:1.12;width:auto;max-width:none;min-width:0;padding:0}
   #list li{gap:6px;padding-left:8px;padding-right:5px}
   #list li .st{flex:0 0 28px;width:28px;min-width:28px;padding:0}
-}
-
-
-/* ===== Đồng bộ nút lọc: chữ dễ đọc hơn, khung cao đều nhau ===== */
-@media(max-width:900px){
-  .fr{gap:3px!important;align-items:center!important}
-  .fr>.chip,.fr>.fcw{
-    box-sizing:border-box;
-    height:29px!important;
-    min-height:29px!important;
-    display:inline-flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-    flex:0 0 auto!important;
-  }
-  .fr>.chip{
-    font-size:10.8px!important;
-    line-height:1.15!important;
-    letter-spacing:0!important;
-    padding:4px 5px!important;
-  }
-  .fr>.chip .cn{
-    font-size:10px!important;
-    line-height:16px!important;
-    min-width:17px!important;
-    padding:0 4px!important;
-    margin-left:4px!important;
-  }
-  .fr>.fcw{
-    gap:4px!important;
-    padding:4px 5px!important;
-    font-size:10.8px!important;
-  }
-  .fr>.fcw select{
-    font-size:10.8px!important;
-    line-height:1.15!important;
-    padding:0!important;
-  }
 }
 
 </style>
@@ -255,7 +242,7 @@ dialog .dact{margin:12px -14px -14px;bottom:-14px;padding:10px 14px calc(10px + 
 </button></div></nav></header>
 <main>
 <section class="card"><div class="sr"><span data-i="search"></span><input id="q" placeholder="Tìm MSPB hoặc tên sản phẩm" autocomplete="off"></div>
-<div class="fr"><button class="chip on" data-f="all">Tất cả</button><button class="chip" data-f="root">Bón rễ</button><button class="chip" data-f="leaf">Bón lá</button><button class="chip" data-f="hot" title="Chỉ hiển thị sản phẩm được đánh dấu ưu tiên in">★ Sản phẩm hay in</button><button class="chip" data-f="miss" title="Sản phẩm còn thiếu ít nhất một trường: tên, loại phân bón, phương thức sử dụng, TCCS, thành phần hoặc quốc gia sản xuất">Thiếu thông tin sản phẩm</button><label class="fcw" title="Lọc theo quốc gia sản xuất đã được xác nhận cho từng sản phẩm"><select id="fc"></select></label></div>
+<div class="fr"><button class="chip on" data-f="all">Tất cả</button><button class="chip" data-f="root">Bón rễ</button><button class="chip" data-f="leaf">Bón lá</button><button class="chip" data-f="hot" title="Chỉ hiển thị sản phẩm được đánh dấu ưu tiên in">★ Sản phẩm<br class="wb"> hay in</button><button class="chip" data-f="miss" title="Sản phẩm còn thiếu ít nhất một trường: tên, loại phân bón, phương thức sử dụng, TCCS, thành phần hoặc quốc gia sản xuất">Thiếu thông tin sản phẩm</button><label class="fcw" title="Lọc theo quốc gia sản xuất đã được xác nhận cho từng sản phẩm"><select id="fc"></select></label></div>
 <div class="mbd" id="mbd" hidden></div><div class="cr" id="cnt"></div><ul id="list"></ul>
 <div class="lf"><label class="chk" title="Khi chọn sản phẩm đã xác nhận quốc gia, tự đổi quốc gia đang dùng trên nhãn theo sản phẩm đó."><input type="checkbox" id="fol"> Tự đổi quốc gia nhãn theo sản phẩm</label><button id="bAll" hidden></button></div></section>
 <section class="card" id="prev"></section>
@@ -325,7 +312,7 @@ function renderList(){renderFc();const L=filt(),u=$('#list');u.classList.toggle(
 $('#list').innerHTML=L.map((p,i)=>`<li class="${p.m===S.sel?'on':''}${miss(p)?' mw':''}" data-m="${p.m}" style="--n:${Math.min(i,14)}"${liTitle(p)}><b>${p.m}</b><span class="nm"><strong>${esc(p.n)||'(chưa có tên)'}</strong>${liMiss(p)}</span>${p.c?`<em class="cc" title="Đã xác nhận quốc gia sản xuất: ${esc(p.c)}">${esc(p.c)}</em>`:''}<button class="st ${p.h?'h':''}" data-s="${p.m}" title="Bật/tắt SP hay in">★</button></li>`).join('')||'<li class="e">Không có kết quả</li>';
 const populated=L.filter(hasProductData).length,totalPopulated=S.P.filter(hasProductData).length,empty=L.length-populated;$('#cnt').innerHTML=`<span><b>${populated}</b> / ${totalPopulated} sản phẩm có dữ liệu${empty?` · ${empty} dòng trống`:''}</span><span class="kbh"></span>`;
 $('#sub').textContent='Công cụ chuẩn bị nội dung nhãn Heineken · '+S.P.length+' SP';
-{const K=S.P.filter(miss).length,mb=document.querySelector('.chip[data-f="miss"]');if(mb){mb.innerHTML='Thiếu thông tin sản phẩm'+(K?` <b class="cn">${K}</b>`:'');mb.classList.toggle('has',K>0);mb.title=K?`${K} sản phẩm còn thiếu ít nhất một trường: tên, loại phân bón, phương thức sử dụng, TCCS, thành phần hoặc quốc gia sản xuất`:'Không có sản phẩm nào thiếu thông tin'}}
+{const K=S.P.filter(miss).length,mb=document.querySelector('.chip[data-f="miss"]');if(mb){mb.innerHTML='Thiếu thông<br class="wb"> tin sản phẩm'+(K?` <b class="cn">${K}</b>`:'');mb.classList.toggle('has',K>0);mb.title=K?`${K} sản phẩm còn thiếu ít nhất một trường: tên, loại phân bón, phương thức sử dụng, TCCS, thành phần hoặc quốc gia sản xuất`:'Không có sản phẩm nào thiếu thông tin'}}
 renderMbd();lab()}
 function renderMbd(){const m=$('#mbd');if(cf!=='miss'){m.hidden=true;return}
 const A=S.P.filter(miss),n=[...MF,[cMiss.k,cMiss.t,cMiss.s]].map(([k,t,sh])=>({k,t,n:A.filter(p=>missAll(p).some(x=>x.k===k)).length})).filter(x=>x.n);
@@ -683,4 +670,42 @@ paintTheme();
 const refit=()=>['#fc','#pc','#ct'].forEach(q=>{const e=$(q);if(e)fit(e)});
 let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(refit,150)});
 follow();render();if(document.fonts)document.fonts.ready.then(refit);
-</script></body></html>
+</script><script>
+/* fitFilterBar: giữ cả 6 mục của thanh lọc trên 1 hàng, không cắt chữ, chữ lớn nhất có thể.
+   1) Thử 1 dòng/nút: tìm cỡ chữ lớn nhất (MIN–MAX px) còn vừa hàng.
+   2) Nếu cỡ đó nhỏ hơn COMFY=10px (màn hẹp như điện thoại), chuyển sang chế độ 2 dòng trong nút
+      (2 nút dài xuống dòng) rồi tìm lại cỡ chữ lớn nhất. Đặt COMFY=0 nếu muốn luôn 1 dòng. */
+(function(){
+  var fr=document.querySelector('.fr');if(!fr)return;
+  var MIN=8,MAX=14,COMFY=10,lastW=-1,busy=false;
+  function fits(px){fr.style.setProperty('--fs',px+'px');var l=fr.lastElementChild.getBoundingClientRect(),f=fr.getBoundingClientRect();return l.right<=f.right-2}
+  function best(){
+    if(fits(MAX))return MAX;
+    if(!fits(MIN))return 0;
+    var lo=MIN,hi=MAX,m;
+    for(var i=0;i<9;i++){m=(lo+hi)/2;if(fits(m))lo=m;else hi=m}
+    return Math.floor(lo*20)/20;
+  }
+  function fit(){
+    if(busy)return;busy=true;fr.setAttribute('data-m','');
+    try{
+      lastW=fr.clientWidth;
+      fr.removeAttribute('data-w');
+      var a=best();
+      if(a>=COMFY)return fr.style.setProperty('--fs',a+'px');
+      fr.setAttribute('data-w','');
+      var b=best();
+      if(b>a){fr.style.setProperty('--fs',b+'px')}
+      else{fr.removeAttribute('data-w');fr.style.setProperty('--fs',(a||MIN)+'px')}
+    }finally{fr.removeAttribute('data-m');busy=false}
+  }
+  fit();
+  if(window.ResizeObserver)new ResizeObserver(function(){if(fr.clientWidth!==lastW)fit()}).observe(fr);
+  else window.addEventListener('resize',fit);
+  if(window.MutationObserver)new MutationObserver(fit).observe(fr,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['class']});
+  window.addEventListener('orientationchange',fit);
+  window.addEventListener('load',fit);
+  if(document.fonts){document.fonts.ready.then(fit);if(document.fonts.addEventListener)document.fonts.addEventListener('loadingdone',fit)}
+})();
+</script>
+</body></html>

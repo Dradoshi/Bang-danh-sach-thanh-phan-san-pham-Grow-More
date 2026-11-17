@@ -972,8 +972,8 @@ bSync.onclick=async()=>{
  if(!auth.currentUser){await login();return}
  if(confirm('Đang đăng nhập: '+userEmail+'\n\nĐăng xuất?')){await signOut(auth);location.reload()}};
 const _rp=renderPrev;
-renderPrev=function(){_rp.apply(this,arguments);const p=cur(),e=document.querySelector('#prev .id');
- if(p&&e&&!document.getElementById('bPLog')){const b=document.createElement('button');b.id='bPLog';b.type='button';b.style.marginLeft='8px';b.innerHTML=ic('hist')+'Lịch sử';b.onclick=()=>openLog(p.m);e.after(b)}};
+renderPrev=function(){_rp.apply(this,arguments);const p=cur(),pa=document.querySelector('#prev .pa');
+ if(p&&pa&&!document.getElementById('bPLog')){const b=document.createElement('button');b.id='bPLog';b.type='button';b.innerHTML=ic('hist')+'Lịch sử';b.onclick=()=>openLog(p.m);const cp=pa.querySelector('#cp');cp?pa.insertBefore(b,cp):pa.appendChild(b)}};
 renderPrev();
 
 onAuthStateChanged(auth,u=>{

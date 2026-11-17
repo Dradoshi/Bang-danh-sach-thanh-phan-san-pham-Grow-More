@@ -989,7 +989,7 @@ function steady(){
  if(!ready){if(!gotP||!gotC)status('conn','Đang kết nối…');return}
  if(!auth.currentUser)status('ok','Xem trực tiếp · Khách','Dữ liệu tự cập nhật trực tiếp (chỉ xem). Bấm để đăng nhập và chỉnh sửa.');
  else if(canEdit===false)status('conn','Chỉ xem · '+userName,'Tài khoản '+userEmail+' chưa được cấp quyền chỉnh sửa. Dữ liệu vẫn cập nhật trực tiếp. Bấm để mở menu tài khoản.');
- else status('ok','Xin chào Đồng bộ · '+userName,'Dữ liệu tự cập nhật trực tiếp. Bấm để mở menu tài khoản.')}
+ else status('ok','Xin chào '+userName' Đồng bộ · Dữ liệu hiện tự cập nhật trực tiếp.')}
 
 async function login(){
  try{await signInWithPopup(auth,new GoogleAuthProvider());return true}

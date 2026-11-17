@@ -807,21 +807,49 @@ follow();render();if(document.fonts)document.fonts.ready.then(refit);
 })();
 </script>
 <script>
-/* ===== ĐỒNG BỘ DÙNG CHUNG (Firebase Firestore) + NHẬT KÝ THAY ĐỔI ===== */
+/* ===== ĐỒNG BỘ DÙNG CHUNG (Firebase Firestore) + NHẬT KÝ THAY ĐỔI + CÀI ĐẶT NGƯỜI DÙNG =====
+   - Dữ liệu cập nhật TRỰC TIẾP (onSnapshot) cho mọi người, kể cả khách chưa đăng nhập (chỉ xem).
+   - Đăng nhập Google mới được chỉnh sửa; tên hiển thị đổi được ở «Cài đặt người dùng». */
 (async()=>{
-/* >>> ĐIỀN THÔNG SỐ FIREBASE CỦA BẠN VÀO ĐÂY (xem HUONG-DAN.md) <<< */
+/* >>> THÔNG SỐ FIREBASE <<< */
 const CFG={apiKey:'AIzaSyBx-bGO1_1Fz8v1IyvZJQhE_VYUViRvFAA',authDomain:'danhsachsanphamgrowmore.firebaseapp.com',projectId:'danhsachsanphamgrowmore',appId:'1:115462058598:web:3a013cbae0ad08563233a7'};
 const configured=!!(CFG.apiKey&&CFG.projectId);
-const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+I.user='<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>';
+
+/* ---------- giao diện phụ: nút, thanh thông báo, trang cài đặt ---------- */
+const css=document.createElement('style');
+css.textContent=`
+#bLog[hidden],#bUser[hidden],#bPLog[hidden]{display:none!important}
+.usr-top{display:flex;gap:14px;align-items:center;margin:0 0 16px}
+.usr-av{position:relative;width:56px;height:56px;border-radius:50%;background:var(--acc);color:var(--on);display:grid;place-items:center;font:700 24px var(--ff);flex:none;overflow:hidden}
+.usr-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.usr-who{min-width:0}.usr-who b{display:block;font-size:18px;line-height:1.3;overflow-wrap:anywhere}.usr-who span{color:var(--mut);font-size:14px;overflow-wrap:anywhere}
+.usr-h{font-size:13.5px;color:var(--mut);margin:6px 0 0}
+#gbar{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;width:max-content;max-width:min(560px,calc(100vw - 24px));background:var(--card);color:var(--fg);border:1px solid var(--acc);border-radius:12px;padding:10px 14px;box-shadow:0 8px 28px #0004;font-size:14.5px;line-height:1.4}
+#gbar[hidden]{display:none}#gbar>span{flex:1 1 200px;min-width:0}#gbar button{padding:4px 10px}
+`;
+document.head.appendChild(css);
 const host=document.querySelector('.bs')||document.querySelector('.tb');
-const bLog=document.createElement('button');bLog.id='bLog';bLog.type='button';bLog.innerHTML=ic('hist')+'Nhật ký thay đổi';
-const bSync=document.createElement('button');bSync.id='bSync';bSync.type='button';
-host.append(bLog,bSync);
+const mkBtn=(id,html)=>{const b=document.createElement('button');b.id=id;b.type='button';b.innerHTML=html;return b};
+const bLog=mkBtn('bLog',ic('hist')+'Nhật ký thay đổi'),bUser=mkBtn('bUser',ic('user')+'Cài đặt người dùng'),bSync=mkBtn('bSync','');
+bLog.hidden=true;bUser.hidden=true;
+host.append(bLog,bUser,bSync);
 const COL={ok:'#2e9e5b',conn:'#d98a00',off:'#d33',cfg:'#999'};
 function status(k,t,title){bSync.innerHTML='<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+COL[k]+'"></span>'+esc(t);bSync.title=title||t}
-if(!configured){status('cfg','Chỉ lưu trên máy này','Chưa điền cấu hình Firebase trong file index.html');bLog.hidden=true;return}
+if(!configured){status('cfg','Chỉ lưu trên máy này','Chưa điền cấu hình Firebase trong file index.html');return}
 status('conn','Đang kết nối…');
 
+const gbar=document.createElement('div');gbar.id='gbar';gbar.hidden=true;gbar.setAttribute('role','status');gbar.setAttribute('aria-live','polite');document.body.appendChild(gbar);
+let gt=null;
+function toast(msg,act,fn,ms){
+ if(dlg.open){note(msg);return}
+ gbar.innerHTML='<span>'+esc(msg)+'</span>'+(act?'<button type="button" class="pri" id="gAct">'+esc(act)+'</button>':'')+'<button type="button" id="gX" aria-label="Đóng">✕</button>';
+ gbar.hidden=false;
+ const a=gbar.querySelector('#gAct');if(a)a.onclick=()=>{gbar.hidden=true;if(fn)fn()};
+ gbar.querySelector('#gX').onclick=()=>{gbar.hidden=true};
+ clearTimeout(gt);gt=setTimeout(()=>{gbar.hidden=true},ms||9000)}
+
+/* ---------- tải Firebase ---------- */
 let fb;
 try{
  const mock=window.__FB_MOCK;
@@ -831,14 +859,32 @@ try{
   fb={...a,...au,...fs};
  }
 }catch(e){status('off','Không tải được Firebase','Kiểm tra kết nối mạng rồi tải lại trang');return}
-const {initializeApp,getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,getFirestore,collection,doc,onSnapshot,writeBatch,serverTimestamp,query,where,orderBy,limit,getDocs}=fb;
-const app=initializeApp(CFG),auth=getAuth(app),db=getFirestore(app);
+const {initializeApp,getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,updateProfile,getFirestore,initializeFirestore,enableNetwork,collection,doc,onSnapshot,writeBatch,serverTimestamp,query,where,orderBy,limit,getDocs}=fb;
+const app=initializeApp(CFG),auth=getAuth(app);
+let db;
+/* Tự chuyển sang long-polling khi mạng/proxy chặn WebSocket → luôn nhận được cập nhật trực tiếp */
+try{db=initializeFirestore?initializeFirestore(app,{experimentalAutoDetectLongPolling:true}):getFirestore(app)}catch(e){db=getFirestore(app)}
+try{auth.languageCode='vi'}catch(e){}
 
-/* ---------- đăng nhập Google ---------- */
-let userName='',userEmail='',listening=false;
+/* ---------- trạng thái người dùng ---------- */
+let userName='',userEmail='',canEdit=null,listenErr=false,unsubs=[],lastUid;
+const editBlock=()=>!auth.currentUser?'guest':canEdit===false?'denied':'';
+function paintUser(){const u=auth.currentUser;bUser.hidden=!u;bLog.hidden=!u;bUser.title='Cài đặt thông tin người dùng'+(u&&userName?' · '+userName:'')}
+/* Trạng thái bình thường (khi không có lỗi) */
+function steady(){
+ if(listenErr)return;
+ if(!ready){if(!gotP||!gotC)status('conn','Đang kết nối…');return}
+ if(!auth.currentUser)status('ok','Xem trực tiếp · Khách','Dữ liệu tự cập nhật trực tiếp (chỉ xem). Bấm để đăng nhập và chỉnh sửa.');
+ else if(canEdit===false)status('conn','Chỉ xem · '+userName,'Tài khoản '+userEmail+' chưa được cấp quyền chỉnh sửa. Dữ liệu vẫn cập nhật trực tiếp. Bấm để mở Cài đặt người dùng.');
+ else status('ok','Đồng bộ · '+userName,'Dữ liệu tự cập nhật trực tiếp. Bấm để mở Cài đặt thông tin người dùng.')}
+
 async function login(){
  try{await signInWithPopup(auth,new GoogleAuthProvider());return true}
- catch(e){status('off','Đăng nhập Google','Chưa đăng nhập'+(e&&e.code?' ('+e.code+')':'')+'. Bấm để thử lại.');return false}}
+ catch(e){const c=e&&e.code||'';
+  if(c!=='auth/popup-closed-by-user'&&c!=='auth/cancelled-popup-request'){
+   toast(c==='auth/popup-blocked'?'Trình duyệt đã chặn cửa sổ đăng nhập. Hãy cho phép popup rồi bấm lại.':c==='auth/unauthorized-domain'?'Tên miền này chưa được thêm vào Firebase (Authentication → Settings → Authorized domains).':'Không đăng nhập được'+(c?' ('+c+')':'')+'. Bấm nút đồng bộ để thử lại.')}
+  steady();return false}}
+
 /* ---------- ảnh chụp sản phẩm theo TÊN thành phần (bền khi đổi thứ tự cột) ---------- */
 const sortO=o=>{const r={};Object.keys(o).sort().forEach(k=>r[k]=o[k]);return r};
 function snapP(p,FF){FF=FF||F;const v={};(p.v||[]).forEach((x,i)=>{if(FF[i]&&x!=null&&String(x).trim()!=='')v[FF[i][0]]=String(x)});
@@ -866,7 +912,7 @@ function sumC(bs,as){
  if(JSON.stringify(b.srt)!==JSON.stringify(a.srt))L.push('Sửa chế độ xếp thành phần');
  return L.length?L:['Cập nhật cài đặt']}
 
-/* ---------- trạng thái ---------- */
+/* ---------- trạng thái đồng bộ ---------- */
 const base={P:new Map(),cfg:null};
 const remote={P:new Map(),cfg:null};
 let gotP=false,gotC=false,fromCache=true,ready=false,applying=false,flushing=false,again=false,tm=null,pendingRemote=false,seedAsked=false;
@@ -876,26 +922,37 @@ function derive(){
  const c=remote.cfg?JSON.parse(remote.cfg):cfgO(),FF=c.F;
  const P=[];remote.P.forEach(j=>{try{P.push(fromSnap(JSON.parse(j),FF))}catch(e){}});
  P.sort((a,b)=>a.m.localeCompare(b.m));return{c,P}}
-function applyRemote(){
+/* force=true: bỏ qua việc chờ (dùng khi hủy thay đổi của khách / người chưa có quyền) */
+function applyRemote(force){
  if(!gotP||!gotC)return;
- if(tm||flushing||dlg.open){pendingRemote=true;return}
+ /* Hộp thoại «Cài đặt người dùng» không sửa dữ liệu nên không cần chặn cập nhật trực tiếp */
+ if(!force&&(tm||flushing||(dlg.open&&!dlg.classList.contains('usr')))){pendingRemote=true;return}
  pendingRemote=false;
  const{c,P}=derive();
  const sameCfg=JSON.stringify({F:c.F,C:c.C,foot:c.foot||'',srt:c.srt||{}})===cfgS();
  let sameP=P.length===S.P.length;
  if(sameP&&sameCfg){const cm=curMap();sameP=P.every(p=>cm.get(p.m)===snapS(p,c.F))}
+ let changed=false;
  if(!(sameP&&sameCfg)){
   applying=true;
   S.F=c.F;S.C=c.C;S.foot=c.foot||'';S.srt=c.srt||{};initF();
   S.P=P;S.P.forEach(p=>{while(p.v.length<F.length)p.v.push(null)});
   if(!S.C.some(x=>x.n===S.ctry))S.ctry=S.C[0]?S.C[0].n:'';
   try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
-  applying=false;render();
+  applying=false;render();changed=true;
  }
  base.P=curMap();base.cfg=cfgS();
- if(!ready){ready=true;status('ok','Đồng bộ · '+userName,'Đã kết nối dữ liệu dùng chung. Bấm để đổi tên.')}
+ if(!ready){ready=true;steady()}
+ else if(changed&&!force)toast('Dữ liệu vừa được cập nhật.',null,null,2500);
 }
 async function commit(items){for(let i=0;i<items.length;i+=400){const b=writeBatch(db);items.slice(i,i+400).forEach(f=>f(b));await b.commit()}}
+/* Khách / tài khoản chưa có quyền: bỏ thay đổi vừa làm, trả về đúng dữ liệu chung */
+function discardLocal(why){
+ clearTimeout(tm);tm=null;again=false;
+ if(remote.cfg!==null||remote.P.size){pendingRemote=false;applyRemote(true)}
+ if(why==='guest')toast('Bạn cần đăng nhập để lưu chỉnh sửa. Thay đổi vừa rồi chưa được lưu.','Đăng nhập',login,9000);
+ else toast('Tài khoản '+userEmail+' chưa có quyền chỉnh sửa nên thay đổi vừa rồi không được lưu. Nhờ quản lý thêm email này vào danh sách được phép.',null,null,10000);
+ steady()}
 async function flush(){
  tm=null;if(!ready||applying)return;
  if(flushing){again=true;return}
@@ -904,7 +961,7 @@ async function flush(){
  base.P.forEach((s,m)=>{if(!cur.has(m))ops.push({m,b:s,a:null})});
  const cfgCh=cs!==base.cfg;
  if(!ops.length&&!cfgCh){if(pendingRemote)applyRemote();return}
- if(!auth.currentUser){status('off','Chưa đăng nhập – chưa lưu chung','Bấm để đăng nhập');return}
+ const why=editBlock();if(why){discardLocal(why);return}
  flushing=true;status('conn','Đang lưu…');
  const by=userName||'?',em=userEmail,items=[];
  ops.forEach(o=>{
@@ -916,13 +973,14 @@ async function flush(){
  });
  if(cfgCh)items.push(b=>{b.set(doc(db,'meta','config'),{json:cs,by,email:em,at:serverTimestamp()});
   b.set(doc(collection(db,'history')),{m:'_config',by,email:em,at:serverTimestamp(),kind:'config',before:base.cfg,after:cs,changes:sumC(base.cfg,cs)})});
- try{await commit(items);base.P=cur;base.cfg=cs;ops.forEach(o=>kindMap.delete(o.m));status('ok','Đồng bộ · '+userName,'Đã lưu lên dữ liệu dùng chung')}
- catch(e){console.error(e);status('off','Lỗi lưu – đang thử lại','Không lưu được lên máy chủ: '+(e&&e.code||e));setTimeout(()=>flush(),5000)}
+ try{await commit(items);base.P=cur;base.cfg=cs;canEdit=true;ops.forEach(o=>kindMap.delete(o.m));steady()}
+ catch(e){console.error(e);
+  if(e&&e.code==='permission-denied'){canEdit=false;flushing=false;discardLocal('denied');return}
+  status('off','Lỗi lưu – đang thử lại','Không lưu được lên máy chủ: '+(e&&e.code||e));setTimeout(()=>flush(),5000)}
  flushing=false;
  if(again){again=false;flush()}else if(pendingRemote)applyRemote();
 }
 window.__sync={onSave(){if(!ready||applying)return;clearTimeout(tm);tm=setTimeout(flush,300)}};
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&tm){clearTimeout(tm);flush()}});
 dlg.addEventListener('close',()=>{if(tm){clearTimeout(tm);flush()}else if(pendingRemote)applyRemote()});
 
 async function seed(){
@@ -930,22 +988,48 @@ async function seed(){
  S.P.forEach(p=>{items.push(b=>b.set(doc(db,'products',p.m),{m:p.m,n:p.n||'',json:snapS(p),by,email:userEmail,at:serverTimestamp()}))});
  items.push(b=>{b.set(doc(db,'meta','config'),{json:cfgS(),by,email:userEmail,at:serverTimestamp()});
   b.set(doc(collection(db,'history')),{m:'_config',by,email:userEmail,at:serverTimestamp(),kind:'seed',before:null,after:null,changes:['Khởi tạo dữ liệu chung ('+S.P.length+' sản phẩm)']})});
- await commit(items);base.P=cur;base.cfg=cfgS();ready=true;status('ok','Đồng bộ · '+userName,'Đã tạo dữ liệu dùng chung')}
+ await commit(items);base.P=cur;base.cfg=cfgS();ready=true;steady()}
 function maybeApply(){
  if(!gotP||!gotC)return;
  if(remote.cfg===null&&!remote.P.size){
+  if(!auth.currentUser){status('conn','Chưa có dữ liệu chung','Dữ liệu dùng chung đang trống. Đăng nhập bằng tài khoản quản lý để tạo dữ liệu gốc.');return}
   if(!fromCache&&!seedAsked){seedAsked=true;
    if(confirm('Cơ sở dữ liệu dùng chung đang TRỐNG.\n\nTải dữ liệu hiện có trên máy này ('+S.P.length+' sản phẩm) lên làm dữ liệu gốc cho mọi người?'))seed().catch(e=>{console.error(e);status('off','Lỗi tạo dữ liệu gốc','Kiểm tra Rules của Firestore')});
    else status('off','Chưa có dữ liệu chung','Tải lại trang để thử lại')}
   return}
  applyRemote()}
+
+/* ---------- lắng nghe TRỰC TIẾP: chạy ngay khi mở trang, không cần đăng nhập ---------- */
 function listen(){
- const er=e=>{console.error(e);if(e&&e.code==='permission-denied')status('off','Chưa được cấp quyền: '+userEmail,'Email này chưa có trong danh sách được phép (meta/allowed). Nhờ quản lý thêm email rồi tải lại trang.');else status('off','Mất kết nối','Kiểm tra mạng hoặc Rules: '+(e&&e.code||e))};
- onSnapshot(collection(db,'products'),sn=>{remote.P=new Map();sn.forEach(d=>remote.P.set(d.id,d.data().json));gotP=true;fromCache=sn.metadata.fromCache;maybeApply()},er);
- onSnapshot(doc(db,'meta','config'),sn=>{remote.cfg=sn.exists()?sn.data().json:null;gotC=true;maybeApply()},er);
+ unsubs.forEach(f=>{try{f()}catch(e){}});unsubs=[];listenErr=false;gotP=false;gotC=false;
+ const er=e=>{console.error(e);listenErr=true;
+  if(e&&e.code==='permission-denied'){
+   if(!auth.currentUser)status('off','Chưa mở quyền xem công khai','Firestore Rules đang chặn khách xem dữ liệu. Cần cho phép đọc products và meta/config (xem hướng dẫn cập nhật Rules). Bấm để đăng nhập.');
+   else status('off','Chưa được cấp quyền: '+userEmail,'Email này chưa có trong danh sách được phép. Nhờ quản lý thêm email rồi tải lại trang.')}
+  else status('off','Mất kết nối','Kiểm tra mạng hoặc Rules: '+(e&&e.code||e))};
+ unsubs.push(
+  onSnapshot(collection(db,'products'),sn=>{remote.P=new Map();sn.forEach(d=>remote.P.set(d.id,d.data().json));gotP=true;fromCache=sn.metadata.fromCache;maybeApply()},er),
+  onSnapshot(doc(db,'meta','config'),sn=>{remote.cfg=sn.exists()?sn.data().json:null;gotC=true;maybeApply()},er));
 }
+/* Giữ kết nối sống: quay lại tab / có mạng lại / mở lại từ bộ nhớ đệm → nối lại và áp dụng dữ liệu đang chờ */
+function wake(){
+ if(enableNetwork){try{Promise.resolve(enableNetwork(db)).catch(()=>{})}catch(e){}}
+ if(listenErr)listen();else if(pendingRemote)applyRemote()}
+document.addEventListener('visibilitychange',()=>{if(document.hidden){if(tm){clearTimeout(tm);flush()}}else wake()});
+addEventListener('pageshow',e=>{if(e.persisted)wake()});
 addEventListener('offline',()=>status('off','Mất mạng','Thay đổi sẽ được gửi khi có mạng lại'));
-addEventListener('online',()=>ready&&status('ok','Đồng bộ · '+userName));
+addEventListener('online',()=>{wake();steady()});
+setInterval(()=>{if(listenErr&&!document.hidden)listen()},30000);
+
+/* ---------- chặn chỉnh sửa khi là khách / chưa có quyền ---------- */
+const EDIT_SEL='#bN,#bF,#bC,#bE,#bD,#bFix,#bHD,#hs,#pcOk,#bAll,#bi,#tl,#rs,#list [data-s]';
+function deny(why){
+ if(why==='guest')toast('Bạn đang xem ở chế độ khách. Hãy đăng nhập để chỉnh sửa.','Đăng nhập',login,8000);
+ else toast('Tài khoản '+userEmail+' chưa được cấp quyền chỉnh sửa. Nhờ quản lý thêm email này vào danh sách được phép.',null,null,9000)}
+document.addEventListener('click',e=>{
+ const t=e.target&&e.target.closest&&e.target.closest(EDIT_SEL);if(!t)return;
+ const why=editBlock();if(!why)return;
+ e.preventDefault();e.stopImmediatePropagation();deny(why)},true);
 
 /* ---------- nhật ký + khôi phục ---------- */
 const tmo=e=>e.at&&e.at.toDate?e.at.toDate():new Date();
@@ -968,17 +1052,60 @@ async function openLog(m){
   S.sel=p.m;kindMap.set(p.m,{kind:'restore',note:tmo(e).toLocaleString('vi-VN')+' (của '+e.by+')'});
   save();render();dlg.close()}}
 bLog.onclick=()=>openLog();
-bSync.onclick=async()=>{
- if(!auth.currentUser){await login();return}
- if(confirm('Đang đăng nhập: '+userEmail+'\n\nĐăng xuất?')){await signOut(auth);location.reload()}};
+
+/* ---------- TRANG CÀI ĐẶT THÔNG TIN NGƯỜI DÙNG ---------- */
+let savingName=false;
+async function saveName(raw){
+ const u=auth.currentUser;if(!u||savingName)return;
+ const n=String(raw||'').replace(/[\u0000-\u001f\u007f]/g,' ').replace(/\s+/g,' ').trim();
+ if(!n){note('Hãy nhập tên hiển thị.');const i=$('#uName');if(i)i.focus();return}
+ if(n.length>40){note('Tên hiển thị tối đa 40 ký tự.');return}
+ if(n===userName){dlg.close();return}
+ if(!updateProfile){note('Không đổi được tên ở phiên bản Firebase này.');return}
+ savingName=true;note('Đang lưu…');
+ try{
+  await updateProfile(u,{displayName:n});
+  userName=n;paintUser();steady();dlg.close();
+  toast('Đã đổi tên hiển thị thành «'+n+'». Các lần sửa tiếp theo sẽ ghi tên mới.',null,null,4500)}
+ catch(e){console.error(e);note('Không lưu được tên: '+(e&&e.code||e&&e.message||e))}
+ finally{savingName=false}}
+function openUser(){
+ const u=auth.currentUser;if(!u){login();return}
+ const g=(u.providerData||[]).find(p=>p&&p.displayName),gname=((g&&g.displayName)||'').trim();
+ const ini=(userName||'?').trim().charAt(0).toUpperCase()||'?';
+ openD('Cài đặt thông tin người dùng',
+  '<div class="usr-top"><span class="usr-av"><span>'+esc(ini)+'</span>'+(u.photoURL?'<img src="'+esc(u.photoURL)+'" alt="" referrerpolicy="no-referrer" onerror="this.remove()">':'')+'</span>'+
+  '<div class="usr-who"><b>'+esc(userName)+'</b><span>'+esc(userEmail)+'</span></div></div>'+
+  '<label for="uName">Tên hiển thị<input id="uName" maxlength="40" autocomplete="nickname" value="'+esc(userName)+'" placeholder="Ví dụ: Nguyễn Văn A"></label>'+
+  '<p class="usr-h">Tên này hiện trên nút đồng bộ và được ghi vào Nhật ký thay đổi mỗi khi bạn sửa dữ liệu. Các lần sửa trước đó vẫn giữ tên cũ.</p>'+
+  '<div class="act" style="justify-content:flex-start;margin:14px 0 0">'+(gname&&gname!==userName?'<button type="button" id="uG">Dùng tên Google: '+esc(gname)+'</button>':'')+'<button type="button" id="uOut">Đăng xuất</button></div>',
+  ()=>{saveName($('#uName').value);return false},'','usr');
+ const inp=$('#uName');
+ inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveName(inp.value)}});
+ const bg=$('#uG');if(bg)bg.onclick=()=>{inp.value=gname;inp.focus()};
+ $('#uOut').onclick=async e=>{if(!sure(e.currentTarget,'Bấm lần nữa để đăng xuất'))return;try{await signOut(auth)}catch(err){}location.reload()};
+ inp.focus();inp.select()}
+bUser.onclick=openUser;
+bSync.onclick=async()=>{if(!auth.currentUser){await login();return}openUser()};
+
+/* ---------- nút «Lịch sử» của từng sản phẩm (chỉ khi đã đăng nhập) + khóa ô quốc gia với khách ---------- */
 const _rp=renderPrev;
 renderPrev=function(){_rp.apply(this,arguments);const p=cur(),pa=document.querySelector('#prev .pa');
- if(p&&pa&&!document.getElementById('bPLog')){const b=document.createElement('button');b.id='bPLog';b.type='button';b.innerHTML=ic('hist')+'Lịch sử';b.onclick=()=>openLog(p.m);const cp=pa.querySelector('#cp');cp?pa.insertBefore(b,cp):pa.appendChild(b)}};
-renderPrev();
+ if(p&&pa&&auth.currentUser&&!document.getElementById('bPLog')){const b=document.createElement('button');b.id='bPLog';b.type='button';b.innerHTML=ic('hist')+'Lịch sử';b.onclick=()=>openLog(p.m);const cp=pa.querySelector('#cp');cp?pa.insertBefore(b,cp):pa.appendChild(b)}
+ const pc=document.getElementById('pc');if(pc&&editBlock()){pc.disabled=true;pc.title='Đăng nhập để chỉnh sửa'}};
 
-onAuthStateChanged(auth,u=>{
- if(u){userName=u.displayName||u.email;userEmail=u.email||'';status('conn','Đang kết nối…');if(!listening){listening=true;listen()}}
- else status('off','Đăng nhập Google','Bấm để đăng nhập bằng tài khoản Gmail');});
+/* ---------- đăng nhập / đăng xuất ---------- */
+onAuthStateChanged(auth,async u=>{
+ const uid=u?u.uid:null;
+ if(u){try{await u.reload()}catch(e){}
+  const cu=auth.currentUser||u;userName=(cu.displayName||'').trim()||cu.email||'Người dùng';userEmail=cu.email||''}
+ else{userName='';userEmail=''}
+ if(uid!==lastUid){lastUid=uid;canEdit=null;if(listenErr)listen()}
+ paintUser();renderPrev();
+ if(u&&gotP&&gotC&&!ready)maybeApply();
+ steady()});
+
+listen();
 })();
 </script>
 </body></html>

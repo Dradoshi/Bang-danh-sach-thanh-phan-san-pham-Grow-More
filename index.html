@@ -295,7 +295,7 @@ const lab=()=>{const b=$('#bAll'),n=filt().filter(hasProductData).length;delete 
 const MF=[['n','Tên sản phẩm','tên SP'],['l','Loại phân bón','loại phân bón'],['x','Phương thức sử dụng','phương thức'],['t','TCCS','TCCS'],['v','Thành phần','thành phần'],['d','Hướng dẫn sử dụng','HDSD']];
 const missList=p=>MF.filter(([k])=>k==='v'?!(p.v||[]).some(v=>v!=null&&String(v).trim()!==''):!String(p[k]||'').trim()).map(([k,t,s])=>({k,t,s}));
 /* Quốc gia sản xuất đã xác nhận cũng là thông tin bắt buộc: thêm vào cùng danh sách để nhãn dòng, bộ đếm và bộ lọc luôn khớp nhau */
-const cMiss={k:'c',t:'Quốc gia sản xuất',s:'quốc gia sản xuất'};
+const cMiss={k:'c',t:'Quốc gia sản xuất',s:'Quốc gia sản xuất'};
 const missAll=p=>{const L=missList(p);if(!String(p.c||'').trim())L.push(cMiss);return L};
 const miss=p=>missAll(p).length>0;
 const liMiss=p=>{const L=missAll(p);if(!L.length)return'';return`<small class="mi">${ic('alert')}${hasProductData(p)?'Thiếu: '+L.map(x=>x.s).join(', '):'Chưa nhập dữ liệu'}</small>`};

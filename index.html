@@ -241,8 +241,8 @@ dialog .dact{margin:12px -14px -14px;bottom:-14px;padding:10px 14px calc(10px + 
 <header><div class="logo" data-i="tag"></div><div class="ttl"><h1>Danh sách sản phẩm Grow More</h1><div class="e" id="sub"></div></div><button id="bT" class="ibtn" type="button"></button>
 <nav class="tb"><label class="ctw" title="Quốc gia được dùng để lấy thông tin sản xuất trên nội dung nhãn. Với sản phẩm chưa xác nhận, hệ thống tạm dùng quốc gia đang chọn."><span data-i="globe"></span>Quốc gia trên nhãn<select id="ct"></select><em class="tag" id="ctTag" hidden></em></label><div class="bs">
 <button id="bN"><span data-i="plus"></span>Thêm sản phẩm mới</button><button id="bF" title="Thêm, đổi tên, đổi đơn vị, sắp xếp hoặc xóa thành phần dinh dưỡng"><span data-i="list"></span>Quản lý thành phần</button><button id="bC"><span data-i="layers"></span>Cài đặt quốc gia sản xuất và NSX&HSD
-</button><button id="bB"><span data-i="sheet"></span>Excel &amp; sao lưu</button><button id="bS"><span data-i="down"></span>Script Illustrator: hạ thấp chữ + Justify
-</button><button id="bH"><span data-i="down"></span>Script Illustrator cho HDSD</button></div></nav></header>
+</button><button id="bB"><span data-i="sheet"></span>Excel &amp; sao lưu</button><button id="bS"><span data-i="down"></span>Script Illustrator: Hạ thấp chữ + Justify
+</button><button id="bH"><span data-i="down"></span>Script Illustrator: Làm HDSD</button></div></nav></header>
 <main>
 <section class="card"><div class="sr"><span data-i="search"></span><input id="q" placeholder="Tìm MSPB hoặc tên sản phẩm" autocomplete="off"></div>
 <div class="fr"><button class="chip on" data-f="all">Tất cả</button><button class="chip" data-f="root">Bón rễ</button><button class="chip" data-f="leaf">Bón lá</button><button class="chip" data-f="hot" title="Chỉ hiển thị sản phẩm được đánh dấu ưu tiên in">★ Sản phẩm<br class="wb"> hay in</button><button class="chip" data-f="miss" title="Sản phẩm còn thiếu ít nhất một trường: tên, loại phân bón, phương thức sử dụng, TCCS, thành phần hoặc quốc gia sản xuất">Thiếu thông tin sản phẩm</button><label class="fcw" title="Lọc theo quốc gia sản xuất đã được xác nhận cho từng sản phẩm"><select id="fc"></select></label></div>
@@ -295,7 +295,7 @@ const lab=()=>{const b=$('#bAll'),n=filt().filter(hasProductData).length;delete 
 const MF=[['n','Tên sản phẩm','tên SP'],['l','Loại phân bón','loại phân bón'],['x','Phương thức sử dụng','phương thức'],['t','TCCS','TCCS'],['v','Thành phần','thành phần'],['d','Hướng dẫn sử dụng','HDSD']];
 const missList=p=>MF.filter(([k])=>k==='v'?!(p.v||[]).some(v=>v!=null&&String(v).trim()!==''):!String(p[k]||'').trim()).map(([k,t,s])=>({k,t,s}));
 /* Quốc gia sản xuất đã xác nhận cũng là thông tin bắt buộc: thêm vào cùng danh sách để nhãn dòng, bộ đếm và bộ lọc luôn khớp nhau */
-const cMiss={k:'c',t:'Quốc gia sản xuất',s:'quốc gia SX'};
+const cMiss={k:'c',t:'Quốc gia sản xuất',s:'quốc gia sản xuất'};
 const missAll=p=>{const L=missList(p);if(!String(p.c||'').trim())L.push(cMiss);return L};
 const miss=p=>missAll(p).length>0;
 const liMiss=p=>{const L=missAll(p);if(!L.length)return'';return`<small class="mi">${ic('alert')}${hasProductData(p)?'Thiếu: '+L.map(x=>x.s).join(', '):'Chưa nhập dữ liệu'}</small>`};
@@ -387,7 +387,7 @@ const fOrd=()=>F.map((f,i)=>i).sort((a,b)=>F[a][1]-F[b][1]||a-b);
 const colL=n=>{let s='';n++;while(n>0){const m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=Math.floor((n-1)/26)}return s};
 const toRows=()=>{const o=fOrd(),n=F.length,g=Array(n+8).fill(null);g[0]='THÔNG TIN SP';
 [1,2,3,4].forEach(k=>{const j=o.findIndex(i=>F[i][1]===k);if(j>=0)g[3+j]=GN[k-1].toUpperCase()});
-g[3+n]='THÔNG TIN THÊM CỦA SP';g[5+n]='CÁC SẢN PHẨM LÀM NHÃN';g[6+n]='QUỐC GIA SX ĐÃ XÁC NHẬN';g[7+n]='HƯỚNG DẪN SỬ DỤNG';
+g[3+n]='THÔNG TIN THÊM CỦA SP';g[5+n]='CÁC SẢN PHẨM LÀM NHÃN';g[6+n]='QUỐC GIA SẢN XUẤT ĐÃ XÁC NHẬN';g[7+n]='HƯỚNG DẪN SỬ DỤNG';
 return[['BẢNG DỮ LIỆU DANH SÁCH MSPB'],[],g,['MSPB','Tên sản phẩm','Loại phân bón',...o.map(i=>F[i][0]),'Phương thức sử dụng','TCCS','Danh sách sản phẩm làm nhãn','Quốc gia sản xuất đã xác nhận','Hướng dẫn sử dụng'],...S.P.map(p=>[p.m,p.n||null,p.l||null,...o.map(i=>p.v[i]||null),p.x||null,p.t||null,!!p.h,p.c||null,p.d||null])]};
 const cell=v=>v==null||String(v).trim()===''?null:typeof v==='number'?v.toLocaleString('de-DE',{maximumFractionDigits:6}):String(v).trim();
 function fromRows(R){const nf=x=>String(x==null?'':x).normalize('NFC').trim().toLowerCase(),hi=R.findIndex(r=>nf(r[0])==='mspb'),H=hi<0?[]:R[hi].map(nf),
@@ -624,7 +624,7 @@ I=(k,l,v,ex='')=>`<label>${l}<input data-k="${k}" value="${esc(v)}" ${ex}></labe
 CV=(f,i,val)=>{const s=split(val),d=f[3],u=s.u===d?'':s.u,L=[...UN.filter(x=>x!==d),...(u&&!UN.includes(u)?[u]:[])];
 /* Mục đầu tiên (value rỗng) chính là đơn vị mặc định – chỉ hiện đơn vị, bỏ chữ "(mặc định)" dài gây cắt chữ */
 return`<div class="cv"><span>${esc(f[0])}</span><div><input data-k="v${i}" inputmode="decimal" placeholder="—" value="${esc(s.n)}"><select data-u="${i}" title="Đơn vị (mục đầu tiên là đơn vị mặc định)"><option value="">${esc(d||'(không)')}</option>${L.map(x=>`<option${x===u?' selected':''}>${esc(x)}</option>`).join('')}</select></div></div>`};
-openD(isNew?'Thêm sản phẩm':'Sửa sản phẩm '+p.m,`<div class="fg">${I('m','MSPB (tối đa 5 số)',p.m,'inputmode="numeric" maxlength="5"')}${I('n','Tên sản phẩm',p.n)}${I('l','Loại phân bón ▾',p.l,'list="dl-l" placeholder="Chọn hoặc gõ mới"')}${I('x','Phương thức sử dụng ▾',p.x,'list="dl-x" placeholder="Chọn hoặc gõ mới"')}${I('t','TCCS (Tiêu chuẩn cơ sở)',p.t,'placeholder="vd 06:2023/UNI"')}<label>Quốc gia SX đã xác nhận<select data-k="c"><option value="">— Chưa xác nhận —</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select></label></div>
+openD(isNew?'Thêm sản phẩm':'Sửa sản phẩm '+p.m,`<div class="fg">${I('m','MSPB (tối đa 5 số)',p.m,'inputmode="numeric" maxlength="5"')}${I('n','Tên sản phẩm',p.n)}${I('l','Loại phân bón ▾',p.l,'list="dl-l" placeholder="Chọn hoặc gõ mới"')}${I('x','Phương thức sử dụng ▾',p.x,'list="dl-x" placeholder="Chọn hoặc gõ mới"')}${I('t','TCCS (Tiêu chuẩn cơ sở)',p.t,'placeholder="vd 06:2023/UNI"')}<label>Quốc gia sản xuất đã xác nhận<select data-k="c"><option value="">— Chưa xác nhận —</option>${S.C.map(c=>`<option${c.n===p.c?' selected':''}>${esc(c.n)}</option>`).join('')}</select></label></div>
 ${DL('dl-l',uniq(S.P.map(q=>q.l)))}${DL('dl-x',uniq(['BÓN RỄ','BÓN LÁ',...S.P.map(q=>q.x)]))}${DL('dl-un',UN)}
 <label>Hướng dẫn sử dụng (HDSD) – dán từ trang tra cứu<textarea data-k="d" rows="5" spellcheck="false" placeholder="1. Cây công nghiệp (…). Liều lượng pha …">${esc(p.d||'')}</textarea></label>
 <label class="chk"><input type="checkbox" id="eh" ${p.h?'checked':''}> SP hay in (★)</label>
@@ -698,7 +698,7 @@ S.C=c;S.foot=$('#ft').value;if(!c.some(x=>x.n===S.ctry))S.ctry=c[0].n;save();ren
 $('#ca').onclick=()=>$('#cl').insertAdjacentHTML('beforeend',row({n:'',t:''}));
 const grow=t=>{t.style.height='auto';t.style.height=t.scrollHeight+2+'px'};
 dlg.querySelectorAll('[data-t]').forEach(grow);dlg.oninput=e=>{if(e.target.matches('[data-t]'))grow(e.target)}}
-function backup(){openD('Excel & sao lưu',`<p class="e">Website và file Excel dùng chung cấu trúc sheet <b>Short SP</b> (cột A:${colL(F.length+7)} – cột ${colL(F.length+7)} là Hướng dẫn sử dụng, ngay trước đó là quốc gia SX đã xác nhận) và <b>Sản xuất</b>. Xuất ra để đưa vào Heineken.xlsx, hoặc nhập trực tiếp từ Heineken.xlsx / file đã xuất. File xuất có thêm sheet <b>Thành phần</b> ghi danh sách thành phần (kể cả thành phần bạn tự thêm) để nhập lại không bị mất.</p>
+function backup(){openD('Excel & sao lưu',`<p class="e">Website và file Excel dùng chung cấu trúc sheet <b>Short SP</b> (cột A:${colL(F.length+7)} – cột ${colL(F.length+7)} là Hướng dẫn sử dụng, ngay trước đó là quốc gia sản xuất đã xác nhận) và <b>Sản xuất</b>. Xuất ra để đưa vào Heineken.xlsx, hoặc nhập trực tiếp từ Heineken.xlsx / file đã xuất. File xuất có thêm sheet <b>Thành phần</b> ghi danh sách thành phần (kể cả thành phần bạn tự thêm) để nhập lại không bị mất.</p>
 <label>Cách nhập<select id="im"><option value="m">Gộp theo MSPB (cập nhật SP trùng, thêm SP mới, giữ SP không có trong file)</option><option value="r">Thay thế toàn bộ bằng dữ liệu trong file</option></select></label>
 <div class="act" style="justify-content:flex-start;margin:0 0 8px"><button id="bx" class="pri">📤 Xuất ra Excel (.xlsx)</button><button id="bi">📥 Nhập từ Excel</button><button id="bt">📋 Sao chép bảng (dán vào sheet Short SP)</button></div>
 <input type="file" id="fi" accept=".xlsx,.xlsm,.xls" hidden>

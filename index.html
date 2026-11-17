@@ -249,9 +249,9 @@ header .logo{flex:none;order:1}
 header .ttl{flex:1 1 0;min-width:0;order:2}
 header h1,header .ttl .e{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 header #bN,header .mg{order:3}
-header #bT{order:4}
 header .mg.acct{order:5}
-header #bMenu{order:6;display:none}
+header #bT{order:6}
+header #bMenu{order:7;display:none}
 header button[hidden]{display:none!important}
 header .tb{display:contents}
 .mg{position:relative;display:flex;min-width:0}
@@ -289,6 +289,37 @@ header .tb{display:contents}
 @media(max-width:700px){
  header h1{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 }
+
+/* ===== Nút đồng cỡ + hiệu ứng chuyển động bổ sung ===== */
+@media(min-width:1181px){
+ header #bN,header .mg>.mt,header #bT{height:38px;min-height:38px;box-sizing:border-box;padding-top:0;padding-bottom:0;border-radius:10px}
+ header #bT{width:38px;min-width:38px;padding:0}
+}
+@keyframes mnu{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes spin{from{transform:rotate(-90deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
+@keyframes dot{0%,100%{box-shadow:0 0 0 0 rgba(42,157,74,.45)}60%{box-shadow:0 0 0 6px rgba(42,157,74,0)}}
+@keyframes sh{from{background-position:120% 0}to{background-position:-120% 0}}
+@media(min-width:1181px){header #bN,header .mg,header #bT{animation:up .45s cubic-bezier(.2,.7,.2,1) both}
+ header #bN{animation-delay:.1s}header .mg:nth-of-type(1){animation-delay:.16s}header .mg:nth-of-type(2){animation-delay:.22s}header .mg:nth-of-type(3){animation-delay:.28s}header .mg.acct{animation-delay:.34s}header #bT{animation-delay:.4s}}
+.mg.open>.mp{animation:mnu .18s cubic-bezier(.2,.8,.2,1);transform-origin:top left}
+.mg.r.open>.mp,.mg.acct.open>.mp{transform-origin:top right}
+.mp button{transition:background-color .15s,padding-left .15s}
+.mp button:hover{padding-left:14px;transform:none;box-shadow:none}
+header.nav-open .tb{animation:down .22s cubic-bezier(.2,.8,.2,1)}
+#bMenu svg,#bT svg{animation:spin .3s cubic-bezier(.2,.8,.2,1)}
+#bT:hover svg{transform:rotate(18deg) scale(1.08)}
+#bT svg,#bMenu svg{transition:transform .25s}
+body,header,.card,dialog,#list li,button,select,input,textarea,.chip{transition-property:background-color,border-color,color,box-shadow,transform;transition-duration:.25s}
+#list li{transition:background-color .2s,border-color .2s,transform .2s,box-shadow .2s}
+#list li:hover{transform:translateX(3px);box-shadow:0 3px 10px rgba(184,74,71,.12)}
+.chip{transition:background-color .2s,border-color .2s,color .2s,transform .15s}
+.chip:hover{transform:translateY(-1px)}
+.chip.on{animation:pop .3s ease-out}
+#bSync span[style*="border-radius:50%"]{animation:dot 2.2s ease-out infinite}
+.card:hover{box-shadow:0 6px 18px rgba(0,0,0,.06)}
+.card{transition:box-shadow .25s}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px var(--tint);transition:box-shadow .2s}
+html{scroll-behavior:smooth}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script></head><body>
 <header><div class="logo" data-i="tag"></div><div class="ttl"><h1>Danh sách sản phẩm Grow More</h1><div class="e" id="sub"></div></div><button id="bT" class="ibtn" type="button"></button>
@@ -301,8 +332,8 @@ header .tb{display:contents}
 <button id="bB" type="button"><span data-i="sheet"></span>Excel &amp; sao lưu</button>
 <button id="bHK" type="button" title="Liệt kê các MSPB có đoạn HDSD chưa nhận ra tiêu đề"><span data-i="chk"></span>Kiểm tra HDSD</button>
 <button id="bLog" type="button" hidden><span data-i="hist"></span>Nhật ký thay đổi</button></div></div>
-<div class="mg"><button class="mt" type="button" aria-haspopup="true" aria-expanded="false"><span data-i="down"></span>Script Illustrator</button><div class="mp">
-<button id="bS" type="button" title="Script Illustrator: Làm ký hiệu hóa học + căn đều hai bên"><span data-i="down"></span>Làm ký hiệu hóa học + Justify</button>
+<div class="mg"><button class="mt" type="button" aria-haspopup="true" aria-expanded="false"><span data-i="down"></span>Illustrator</button><div class="mp">
+<button id="bS" type="button" title="Script Illustrator: hạ thấp chữ + căn đều hai bên"><span data-i="down"></span>Hạ thấp chữ + Justify</button>
 <button id="bH" type="button" title="Script Illustrator: làm hướng dẫn sử dụng"><span data-i="down"></span>Làm HDSD</button></div></div>
 <div class="mg acct"><button id="bSync" class="mt" type="button" aria-haspopup="true" aria-expanded="false" data-nomenu></button><div class="mp">
 <button id="bUser" type="button" hidden><span data-i="user"></span>Cài đặt thông tin người dùng</button>
@@ -588,7 +619,7 @@ return{shift:sh,rules,jus:J}}
 function subDlg(){const c=subCfg(),J=c.jus,jt=()=>dlg.querySelectorAll('#jf input').forEach(x=>x.disabled=!$('#ju').checked),
 setJ=o=>{$('#ju').checked=o.on;[0,1,2].forEach(i=>{$('#jw'+i).value=o.w[i];$('#jl'+i).value=o.l[i];$('#jg'+i).value=o.g[i]});$('#jx').checked=o.last;$('#ja').checked=o.al;$('#jp').value=o.alp;jt()},
 tri=(id,t,a)=>`<div class="cv"><span>${t}</span><div>${[0,1,2].map(i=>`<input id="${id}${i}" inputmode="decimal" value="${esc(String(a[i]).replace('.',','))}">`).join('')}</div></div>`;
-openD('Script Illustrator: Làm ký hiệu hóa học + Justify',`<p class="e" style="margin-top:0">Chữ thường không mang được định dạng hạ thấp, nên nút <b>Sao chép</b> vẫn dán chữ thường vào Illustrator. Sau khi dán, chạy script bên dưới để tự hạ thấp 2, 5hh, ts, H2O… (Baseline Shift) như mẫu. Script này cũng tự <b>căn đều hai bên (Justify)</b> nếu bạn bật ở dưới, nên chỉ cần chạy 1 lần.</p>
+openD('Script Illustrator: hạ thấp chữ + Justify',`<p class="e" style="margin-top:0">Chữ thường không mang được định dạng hạ thấp, nên nút <b>Sao chép</b> vẫn dán chữ thường vào Illustrator. Sau khi dán, chạy script bên dưới để tự hạ thấp 2, 5hh, ts, H2O… (Baseline Shift) như mẫu. Script này cũng tự <b>căn đều hai bên (Justify)</b> nếu bạn bật ở dưới, nên chỉ cần chạy 1 lần.</p>
 <div class="fg"><label>Độ hạ 1 mức – Baseline Shift (pt) <span class="e" style="font-size:13px">· nhập 1 thì H, O hạ 1 pt, số 2 hạ 2 pt</span><input id="sh" inputmode="decimal" value="${esc(String(c.shift).replace('.',','))}"></label></div>
 <label>Công thức cần hạ thấp (mỗi dòng một mẫu)<textarea id="sr" rows="8" spellcheck="false">${esc(c.rules.join('\n'))}</textarea></label>
 <p class="e" style="font-size:14px">Phần trong <b>[ ]</b> hạ 1 mức, trong <b>{ }</b> hạ 2 mức (như số 2 của H₂O). Trong <b>&lt; &gt;</b> là chữ <b>viết mũ</b> (nâng lên), vd <b>m&lt;2&gt;</b> → m². Không phân biệt hoa/thường; chỉ khớp khi đứng riêng, không dính vào chữ khác. Ví dụ: <b>P[2]O[5hh]</b>, <b>pH[H]{2}[O]</b> (nhãn ghi pHH2O: H và O hạ 1 mức, số 2 hạ 2 mức).</p>
@@ -602,7 +633,7 @@ openD('Script Illustrator: Làm ký hiệu hóa học + Justify',`<p class="e" s
 <div class="bar">Cách dùng trong Illustrator</div>
 <div class="how"><p><b>1.</b> Tải script một lần, lưu vào thư mục <b>Presets › Scripts</b> của Illustrator (mở lại Illustrator sẽ thấy ở File › Scripts). Hoặc chạy thẳng bằng File › Scripts › Other Script… (Ctrl+F12).</p>
 <p><b>2.</b> Bấm <b>Sao chép</b> ở tool, dán vào Illustrator.</p>
-<p><b>3.</b> Chọn khung chữ vừa dán (không chọn gì thì script hỏi để chạy cho cả file) rồi chạy script (1 lần xong cả Làm ký hiệu hóa học và Justify nếu đã bật). Làm lại bước 3 bao nhiêu lần cũng được; Ctrl+Z để hoàn tác.</p></div>`,
+<p><b>3.</b> Chọn khung chữ vừa dán (không chọn gì thì script hỏi để chạy cho cả file) rồi chạy script (1 lần xong cả hạ thấp chữ và Justify nếu đã bật). Làm lại bước 3 bao nhiêu lần cũng được; Ctrl+Z để hoàn tác.</p></div>`,
 ()=>{const r=readSub();if(!r)return false;S.shift=r.shift;S.sub=r.rules;S.jus=r.jus;save();renderPrev()},
 '<button id="jr">Về mặc định</button>');
 $('#ju').onchange=jt;jt();$('#jd').onclick=()=>{const r=readSub();if(r)dlJsx(jsxText(r),r.jus.on?'Heineken-ha-thap-chu-justify.jsx':'Heineken-ha-thap-chu.jsx')};
@@ -989,7 +1020,7 @@ function steady(){
  if(!ready){if(!gotP||!gotC)status('conn','Đang kết nối…');return}
  if(!auth.currentUser)status('ok','Xem trực tiếp · Khách','Dữ liệu tự cập nhật trực tiếp (chỉ xem). Bấm để đăng nhập và chỉnh sửa.');
  else if(canEdit===false)status('conn','Chỉ xem · '+userName,'Tài khoản '+userEmail+' chưa được cấp quyền chỉnh sửa. Dữ liệu vẫn cập nhật trực tiếp. Bấm để mở menu tài khoản.');
- else status('ok','Xin chào '+userName,' Đồng bộ · Dữ liệu hiện tự cập nhật trực tiếp.')}
+ else status('ok','Đồng bộ · '+userName,'Dữ liệu tự cập nhật trực tiếp. Bấm để mở menu tài khoản.')}
 
 async function login(){
  try{await signInWithPopup(auth,new GoogleAuthProvider());return true}

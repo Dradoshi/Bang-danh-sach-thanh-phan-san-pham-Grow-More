@@ -780,9 +780,8 @@ follow();render();if(document.fonts)document.fonts.ready.then(refit);
 /* ===== ĐỒNG BỘ DÙNG CHUNG (Firebase Firestore) + NHẬT KÝ THAY ĐỔI ===== */
 (async()=>{
 /* >>> ĐIỀN THÔNG SỐ FIREBASE CỦA BẠN VÀO ĐÂY (xem HUONG-DAN.md) <<< */
-const CFG={apiKey:'AIzaSyBx-bGO1_1Fz8v1IyvZJQhE_VYUViRvFAA',authDomain:'danhsachsanphamgrowmore.firebaseapp.com',projectId:'danhsachsanphamgrowmore',appId:'1:115462058598:web:3a013cbae0ad08563233a7',teamEmail:'team@growmore.local'};
+const CFG={apiKey:'AIzaSyBx-bGO1_1Fz8v1IyvZJQhE_VYUViRvFAA',authDomain:'danhsachsanphamgrowmore.firebaseapp.com',projectId:'danhsachsanphamgrowmore',appId:'1:115462058598:web:3a013cbae0ad08563233a7'};
 const configured=!!(CFG.apiKey&&CFG.projectId);
-const NAME_K='gm-user-name',PW_K='gm-team-pw';
 const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
 const host=document.querySelector('.bs')||document.querySelector('.tb');
 const bLog=document.createElement('button');bLog.id='bLog';bLog.type='button';bLog.innerHTML=ic('hist')+'Nhật ký thay đổi';
@@ -802,31 +801,14 @@ try{
   fb={...a,...au,...fs};
  }
 }catch(e){status('off','Không tải được Firebase','Kiểm tra kết nối mạng rồi tải lại trang');return}
-const {initializeApp,getAuth,signInWithEmailAndPassword,getFirestore,collection,doc,onSnapshot,writeBatch,serverTimestamp,query,where,orderBy,limit,getDocs}=fb;
+const {initializeApp,getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,getFirestore,collection,doc,onSnapshot,writeBatch,serverTimestamp,query,where,orderBy,limit,getDocs}=fb;
 const app=initializeApp(CFG),auth=getAuth(app),db=getFirestore(app);
 
-/* ---------- tên + mật khẩu nhóm ---------- */
-let userName=lsGet(NAME_K)||'';
-function loginDlg(o){return new Promise(res=>{
- const d=document.createElement('dialog');d.style.cssText='background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:16px;padding:18px;max-width:380px;width:92vw';
- d.innerHTML='<h2 style="margin:0 0 6px;font-size:18px">'+esc(o.title)+'</h2><p class="e" style="margin:0 0 10px">'+esc(o.hint||'')+'</p>'+(o.err?'<p style="color:#d33;margin:0 0 8px">'+esc(o.err)+'</p>':'')+
- '<label>Tên của bạn (hiện trong nhật ký)<input id="lgN" maxlength="40" autocomplete="off" value="'+esc(o.name||'')+'"></label>'+
- (o.needPw?'<label>Mật khẩu nhóm<input id="lgP" type="password" autocomplete="off"></label>':'')+
- '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px"><button type="button" id="lgC">Bỏ qua</button><button type="button" id="lgK" class="pri">Vào</button></div>';
- document.body.append(d);let done=false;
- const fin=v=>{if(done)return;done=true;d.close();d.remove();res(v)};
- const ok=()=>{const n=d.querySelector('#lgN').value.trim(),p=o.needPw?d.querySelector('#lgP').value:'';if(!n){d.querySelector('#lgN').focus();return}if(o.needPw&&!p){d.querySelector('#lgP').focus();return}fin({name:n,pw:p})};
- d.querySelector('#lgK').onclick=ok;d.querySelector('#lgC').onclick=()=>fin(null);
- d.addEventListener('keydown',e=>{if(e.key==='Enter')ok()});d.addEventListener('cancel',e=>{e.preventDefault();fin(null)});
- d.showModal();d.querySelector(o.name?(o.needPw?'#lgP':'#lgN'):'#lgN').focus()})}
+/* ---------- đăng nhập Google ---------- */
+let userName='',userEmail='',listening=false;
 async function login(){
- let name=lsGet(NAME_K)||'',pw=lsGet(PW_K)||'',err='';
- for(;;){
-  if(!name||!pw){const r=await loginDlg({title:'Đăng nhập dữ liệu dùng chung',hint:'Nhập tên của bạn và mật khẩu nhóm (hỏi người quản lý).',name,needPw:true,err});if(!r)return false;name=r.name;pw=r.pw}
-  try{await signInWithEmailAndPassword(auth,CFG.teamEmail,pw);lsSet(NAME_K,name);lsSet(PW_K,pw);userName=name;return true}
-  catch(e){err=(e&&e.code==='auth/network-request-failed')?'Không có mạng.':'Sai mật khẩu hoặc tài khoản nhóm chưa được tạo.';pw='';lsSet(PW_K,'')}
- }}
-
+ try{await signInWithPopup(auth,new GoogleAuthProvider());return true}
+ catch(e){status('off','Đăng nhập Google','Chưa đăng nhập'+(e&&e.code?' ('+e.code+')':'')+'. Bấm để thử lại.');return false}}
 /* ---------- ảnh chụp sản phẩm theo TÊN thành phần (bền khi đổi thứ tự cột) ---------- */
 const sortO=o=>{const r={};Object.keys(o).sort().forEach(k=>r[k]=o[k]);return r};
 function snapP(p,FF){FF=FF||F;const v={};(p.v||[]).forEach((x,i)=>{if(FF[i]&&x!=null&&String(x).trim()!=='')v[FF[i][0]]=String(x)});
@@ -894,16 +876,16 @@ async function flush(){
  if(!ops.length&&!cfgCh){if(pendingRemote)applyRemote();return}
  if(!auth.currentUser){status('off','Chưa đăng nhập – chưa lưu chung','Bấm để đăng nhập');return}
  flushing=true;status('conn','Đang lưu…');
- const by=userName||'?',items=[];
+ const by=userName||'?',em=userEmail,items=[];
  ops.forEach(o=>{
   const meta=kindMap.get(o.m),B=o.b?JSON.parse(o.b):null,A=o.a?JSON.parse(o.a):null,kind=meta?meta.kind:!B?'create':!A?'delete':'update';
   const ch=meta?['Khôi phục về bản lúc '+meta.note,...sumP(B,A)]:sumP(B,A);
   items.push(b=>{
-   if(A)b.set(doc(db,'products',o.m),{m:o.m,n:A.n,json:o.a,by,at:serverTimestamp()});else b.delete(doc(db,'products',o.m));
-   b.set(doc(collection(db,'history')),{m:o.m,by,at:serverTimestamp(),kind,before:o.b,after:o.a,changes:ch.slice(0,40)})});
+   if(A)b.set(doc(db,'products',o.m),{m:o.m,n:A.n,json:o.a,by,email:em,at:serverTimestamp()});else b.delete(doc(db,'products',o.m));
+   b.set(doc(collection(db,'history')),{m:o.m,by,email:em,at:serverTimestamp(),kind,before:o.b,after:o.a,changes:ch.slice(0,40)})});
  });
- if(cfgCh)items.push(b=>{b.set(doc(db,'meta','config'),{json:cs,by,at:serverTimestamp()});
-  b.set(doc(collection(db,'history')),{m:'_config',by,at:serverTimestamp(),kind:'config',before:base.cfg,after:cs,changes:sumC(base.cfg,cs)})});
+ if(cfgCh)items.push(b=>{b.set(doc(db,'meta','config'),{json:cs,by,email:em,at:serverTimestamp()});
+  b.set(doc(collection(db,'history')),{m:'_config',by,email:em,at:serverTimestamp(),kind:'config',before:base.cfg,after:cs,changes:sumC(base.cfg,cs)})});
  try{await commit(items);base.P=cur;base.cfg=cs;ops.forEach(o=>kindMap.delete(o.m));status('ok','Đồng bộ · '+userName,'Đã lưu lên dữ liệu dùng chung')}
  catch(e){console.error(e);status('off','Lỗi lưu – đang thử lại','Không lưu được lên máy chủ: '+(e&&e.code||e));setTimeout(()=>flush(),5000)}
  flushing=false;
@@ -915,9 +897,9 @@ dlg.addEventListener('close',()=>{if(tm){clearTimeout(tm);flush()}else if(pendin
 
 async function seed(){
  const cur=curMap(),by=userName||'?',items=[];
- S.P.forEach(p=>{items.push(b=>b.set(doc(db,'products',p.m),{m:p.m,n:p.n||'',json:snapS(p),by,at:serverTimestamp()}))});
- items.push(b=>{b.set(doc(db,'meta','config'),{json:cfgS(),by,at:serverTimestamp()});
-  b.set(doc(collection(db,'history')),{m:'_config',by,at:serverTimestamp(),kind:'seed',before:null,after:null,changes:['Khởi tạo dữ liệu chung ('+S.P.length+' sản phẩm)']})});
+ S.P.forEach(p=>{items.push(b=>b.set(doc(db,'products',p.m),{m:p.m,n:p.n||'',json:snapS(p),by,email:userEmail,at:serverTimestamp()}))});
+ items.push(b=>{b.set(doc(db,'meta','config'),{json:cfgS(),by,email:userEmail,at:serverTimestamp()});
+  b.set(doc(collection(db,'history')),{m:'_config',by,email:userEmail,at:serverTimestamp(),kind:'seed',before:null,after:null,changes:['Khởi tạo dữ liệu chung ('+S.P.length+' sản phẩm)']})});
  await commit(items);base.P=cur;base.cfg=cfgS();ready=true;status('ok','Đồng bộ · '+userName,'Đã tạo dữ liệu dùng chung')}
 function maybeApply(){
  if(!gotP||!gotC)return;
@@ -928,7 +910,7 @@ function maybeApply(){
   return}
  applyRemote()}
 function listen(){
- const er=e=>{console.error(e);status('off','Mất kết nối / không có quyền','Kiểm tra mạng, mật khẩu hoặc Rules: '+(e&&e.code||e))};
+ const er=e=>{console.error(e);if(e&&e.code==='permission-denied')status('off','Chưa được cấp quyền: '+userEmail,'Email này chưa có trong danh sách được phép (meta/allowed). Nhờ quản lý thêm email rồi tải lại trang.');else status('off','Mất kết nối','Kiểm tra mạng hoặc Rules: '+(e&&e.code||e))};
  onSnapshot(collection(db,'products'),sn=>{remote.P=new Map();sn.forEach(d=>remote.P.set(d.id,d.data().json));gotP=true;fromCache=sn.metadata.fromCache;maybeApply()},er);
  onSnapshot(doc(db,'meta','config'),sn=>{remote.cfg=sn.exists()?sn.data().json:null;gotC=true;maybeApply()},er);
 }
@@ -957,15 +939,16 @@ async function openLog(m){
   save();render();dlg.close()}}
 bLog.onclick=()=>openLog();
 bSync.onclick=async()=>{
- if(!auth.currentUser){if(await login()){status('conn','Đang kết nối…');if(!gotP)listen();else maybeApply()}return}
- const r=await loginDlg({title:'Đổi tên hiển thị',hint:'Tên này ghi vào nhật ký mỗi khi bạn chỉnh sửa.',name:userName,needPw:false});
- if(r){userName=r.name;lsSet(NAME_K,r.name);status('ok','Đồng bộ · '+userName)}};
+ if(!auth.currentUser){await login();return}
+ if(confirm('Đang đăng nhập: '+userEmail+'\n\nĐăng xuất?')){await signOut(auth);location.reload()}};
 const _rp=renderPrev;
 renderPrev=function(){_rp.apply(this,arguments);const p=cur(),e=document.querySelector('#prev .id');
  if(p&&e&&!document.getElementById('bPLog')){const b=document.createElement('button');b.id='bPLog';b.type='button';b.style.marginLeft='8px';b.innerHTML=ic('hist')+'Lịch sử';b.onclick=()=>openLog(p.m);e.after(b)}};
 renderPrev();
 
-if(await login())listen();else status('off','Chưa đăng nhập – chỉ lưu trên máy','Bấm để đăng nhập');
+onAuthStateChanged(auth,u=>{
+ if(u){userName=u.displayName||u.email;userEmail=u.email||'';status('conn','Đang kết nối…');if(!listening){listening=true;listen()}}
+ else status('off','Đăng nhập Google','Bấm để đăng nhập bằng tài khoản Gmail');});
 })();
 </script>
 </body></html>

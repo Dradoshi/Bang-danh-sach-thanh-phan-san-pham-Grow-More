@@ -333,7 +333,7 @@ html{scroll-behavior:smooth}
 <button id="bHK" type="button" title="Liệt kê các MSPB có đoạn HDSD chưa nhận ra tiêu đề"><span data-i="chk"></span>Kiểm tra HDSD</button>
 <button id="bLog" type="button" hidden><span data-i="hist"></span>Nhật ký thay đổi</button></div></div>
 <div class="mg"><button class="mt" type="button" aria-haspopup="true" aria-expanded="false"><span data-i="down"></span>Illustrator</button><div class="mp">
-<button id="bS" type="button" title="Script Illustrator: hạ thấp chữ + căn đều hai bên"><span data-i="down"></span>Hạ thấp chữ + Justify</button>
+<button id="bS" type="button" title="Script Illustrator: Làm ký hiệu hóa học + căn đều hai bên"><span data-i="down"></span>Làm ký hiệu hóa học + Justify</button>
 <button id="bH" type="button" title="Script Illustrator: làm hướng dẫn sử dụng"><span data-i="down"></span>Làm HDSD</button></div></div>
 <div class="mg acct"><button id="bSync" class="mt" type="button" aria-haspopup="true" aria-expanded="false" data-nomenu></button><div class="mp">
 <button id="bUser" type="button" hidden><span data-i="user"></span>Cài đặt thông tin người dùng</button>
@@ -619,7 +619,7 @@ return{shift:sh,rules,jus:J}}
 function subDlg(){const c=subCfg(),J=c.jus,jt=()=>dlg.querySelectorAll('#jf input').forEach(x=>x.disabled=!$('#ju').checked),
 setJ=o=>{$('#ju').checked=o.on;[0,1,2].forEach(i=>{$('#jw'+i).value=o.w[i];$('#jl'+i).value=o.l[i];$('#jg'+i).value=o.g[i]});$('#jx').checked=o.last;$('#ja').checked=o.al;$('#jp').value=o.alp;jt()},
 tri=(id,t,a)=>`<div class="cv"><span>${t}</span><div>${[0,1,2].map(i=>`<input id="${id}${i}" inputmode="decimal" value="${esc(String(a[i]).replace('.',','))}">`).join('')}</div></div>`;
-openD('Script Illustrator: hạ thấp chữ + Justify',`<p class="e" style="margin-top:0">Chữ thường không mang được định dạng hạ thấp, nên nút <b>Sao chép</b> vẫn dán chữ thường vào Illustrator. Sau khi dán, chạy script bên dưới để tự hạ thấp 2, 5hh, ts, H2O… (Baseline Shift) như mẫu. Script này cũng tự <b>căn đều hai bên (Justify)</b> nếu bạn bật ở dưới, nên chỉ cần chạy 1 lần.</p>
+openD('Script Illustrator: Làm ký hiệu hóa học + Justify',`<p class="e" style="margin-top:0">Chữ thường không mang được định dạng hạ thấp, nên nút <b>Sao chép</b> vẫn dán chữ thường vào Illustrator. Sau khi dán, chạy script bên dưới để tự hạ thấp 2, 5hh, ts, H2O… (Baseline Shift) như mẫu. Script này cũng tự <b>căn đều hai bên (Justify)</b> nếu bạn bật ở dưới, nên chỉ cần chạy 1 lần.</p>
 <div class="fg"><label>Độ hạ 1 mức – Baseline Shift (pt) <span class="e" style="font-size:13px">· nhập 1 thì H, O hạ 1 pt, số 2 hạ 2 pt</span><input id="sh" inputmode="decimal" value="${esc(String(c.shift).replace('.',','))}"></label></div>
 <label>Công thức cần hạ thấp (mỗi dòng một mẫu)<textarea id="sr" rows="8" spellcheck="false">${esc(c.rules.join('\n'))}</textarea></label>
 <p class="e" style="font-size:14px">Phần trong <b>[ ]</b> hạ 1 mức, trong <b>{ }</b> hạ 2 mức (như số 2 của H₂O). Trong <b>&lt; &gt;</b> là chữ <b>viết mũ</b> (nâng lên), vd <b>m&lt;2&gt;</b> → m². Không phân biệt hoa/thường; chỉ khớp khi đứng riêng, không dính vào chữ khác. Ví dụ: <b>P[2]O[5hh]</b>, <b>pH[H]{2}[O]</b> (nhãn ghi pHH2O: H và O hạ 1 mức, số 2 hạ 2 mức).</p>
@@ -633,7 +633,7 @@ openD('Script Illustrator: hạ thấp chữ + Justify',`<p class="e" style="mar
 <div class="bar">Cách dùng trong Illustrator</div>
 <div class="how"><p><b>1.</b> Tải script một lần, lưu vào thư mục <b>Presets › Scripts</b> của Illustrator (mở lại Illustrator sẽ thấy ở File › Scripts). Hoặc chạy thẳng bằng File › Scripts › Other Script… (Ctrl+F12).</p>
 <p><b>2.</b> Bấm <b>Sao chép</b> ở tool, dán vào Illustrator.</p>
-<p><b>3.</b> Chọn khung chữ vừa dán (không chọn gì thì script hỏi để chạy cho cả file) rồi chạy script (1 lần xong cả hạ thấp chữ và Justify nếu đã bật). Làm lại bước 3 bao nhiêu lần cũng được; Ctrl+Z để hoàn tác.</p></div>`,
+<p><b>3.</b> Chọn khung chữ vừa dán (không chọn gì thì script hỏi để chạy cho cả file) rồi chạy script (1 lần xong cả Làm ký hiệu hóa học và Justify nếu đã bật). Làm lại bước 3 bao nhiêu lần cũng được; Ctrl+Z để hoàn tác.</p></div>`,
 ()=>{const r=readSub();if(!r)return false;S.shift=r.shift;S.sub=r.rules;S.jus=r.jus;save();renderPrev()},
 '<button id="jr">Về mặc định</button>');
 $('#ju').onchange=jt;jt();$('#jd').onclick=()=>{const r=readSub();if(r)dlJsx(jsxText(r),r.jus.on?'Heineken-ha-thap-chu-justify.jsx':'Heineken-ha-thap-chu.jsx')};
@@ -1018,7 +1018,7 @@ function paintUser(){const u=auth.currentUser;bUser.hidden=!u;bLog.hidden=!u;bOu
 function steady(){
  if(listenErr)return;
  if(!ready){if(!gotP||!gotC)status('conn','Đang kết nối…');return}
- if(!auth.currentUser)status('ok','Vui lòng đăng nhập để chỉnh sửa','Dữ liệu tự cập nhật trực tiếp (chỉ xem). Bấm để đăng nhập và chỉnh sửa.');
+ if(!auth.currentUser)status('ok','Đăng nhập','Dữ liệu tự cập nhật trực tiếp (chỉ xem). Bấm để đăng nhập và chỉnh sửa.');
  else if(canEdit===false)status('conn','Chỉ xem · '+userName,'Tài khoản '+userEmail+' chưa được cấp quyền chỉnh sửa. Dữ liệu vẫn cập nhật trực tiếp. Bấm để mở menu tài khoản.');
  else status('ok','Đồng bộ · '+userName,'Dữ liệu tự cập nhật trực tiếp. Bấm để mở menu tài khoản.')}
 

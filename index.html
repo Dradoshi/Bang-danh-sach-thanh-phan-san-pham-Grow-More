@@ -240,13 +240,75 @@ dialog .dact{margin:12px -14px -14px;bottom:-14px;padding:10px 14px calc(10px + 
   #list li .st{flex:0 0 28px;width:28px;min-width:28px;padding:0}
 }
 
-.hd .bad{border-left:3px solid var(--wl);background:var(--wbg);padding:2px 8px;margin:4px 0;border-radius:4px}</style>
+.hd .bad{border-left:3px solid var(--wl);background:var(--wbg);padding:2px 8px;margin:4px 0;border-radius:4px}
+/* ===== Thanh công cụ MỘT HÀNG: nút chính + menu thả xuống (máy tính) / hamburger (điện thoại) =====
+   Dùng selector «header …» để thắng các luật cũ của .tb/.bs/.ttl ở khối Responsive phía trên.
+   Ngưỡng 1180px phải trùng với matchMedia trong đoạn script «THANH CÔNG CỤ MỘT HÀNG». */
+header{position:relative;z-index:30;flex-wrap:nowrap;gap:10px 12px}
+header .logo{flex:none;order:1}
+header .ttl{flex:1 1 0;min-width:0;order:2}
+header h1,header .ttl .e{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header #bN,header .mg{order:3}
+header #bT{order:4}
+header .mg.acct{order:5}
+header #bMenu{order:6;display:none}
+header button[hidden]{display:none!important}
+header .tb{display:contents}
+.mg{position:relative;display:flex;min-width:0}
+.mt{white-space:nowrap}
+.mt::after{content:"";flex:none;width:6px;height:6px;margin:-3px 0 0 3px;border:solid currentColor;border-width:0 1.8px 1.8px 0;transform:rotate(45deg);opacity:.7}
+.mt[data-nomenu]::after{display:none}
+.mg.open>.mt{border-color:var(--acc);background:var(--tint)}
+.mg.open>.mt::after{margin-top:3px;transform:rotate(-135deg)}
+.mp{display:none;position:absolute;left:0;top:calc(100% + 6px);z-index:40;flex-direction:column;gap:2px;width:max-content;min-width:max(100%,240px);max-width:min(380px,calc(100vw - 24px));padding:6px;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px #0003}
+.mg.open>.mp{display:flex}
+.mg.r>.mp,.mg.acct>.mp{left:auto;right:0}
+.mp button{width:100%;justify-content:flex-start;border:0;background:none;border-radius:8px;padding:8px 10px;text-align:left}
+.mp button:hover{background:var(--tint)}
+#bSync{max-width:240px}
+#bSync .stx{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mt:focus-visible,.mp button:focus-visible,#bMenu:focus-visible,#bN:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+
+@media(max-width:1180px){
+ header{padding:10px max(12px,env(safe-area-inset-right,0px)) 10px max(12px,env(safe-area-inset-left,0px))}
+ header #bMenu{display:inline-flex}
+ header .tb{display:none;position:absolute;left:0;right:0;top:100%;z-index:40;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:2px;max-width:none;
+  max-height:calc(100vh - 76px);max-height:calc(100dvh - 76px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow-y:auto;
+  padding:10px max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));
+  background:var(--card);border-bottom:1px solid var(--line);box-shadow:0 14px 30px #0003}
+ header.nav-open .tb{display:flex}
+ header #bN{width:100%;justify-content:center;padding:10px 12px}
+ .mg{display:block;margin-top:6px;padding-top:6px;border-top:1px solid var(--line)}
+ .mt{display:flex;pointer-events:none;min-height:0;padding:4px 4px 2px;border:0;background:none;color:var(--mut);font-size:13px;font-weight:600;cursor:default}
+ .mt::after{display:none}
+ .mp,.mg.acct>.mp{display:flex;position:static;width:auto;min-width:0;max-width:none;padding:0;border:0;border-radius:0;background:none;box-shadow:none}
+ .mp button{padding:10px;white-space:normal}
+ .mg.acct>.mt{pointer-events:auto;width:100%;margin-bottom:4px;padding:8px 12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:14px;font-weight:500;cursor:pointer}
+ #bSync{max-width:none}
+}
+@media(max-width:700px){
+ header h1{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+}
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script></head><body>
 <header><div class="logo" data-i="tag"></div><div class="ttl"><h1>Danh sách sản phẩm Grow More</h1><div class="e" id="sub"></div></div><button id="bT" class="ibtn" type="button"></button>
-<nav class="tb"><label class="ctw" title="Quốc gia được dùng để lấy thông tin sản xuất trên nội dung nhãn. Với sản phẩm chưa xác nhận, hệ thống tạm dùng quốc gia đang chọn."><span data-i="globe"></span>Quốc gia trên nhãn<select id="ct"></select><em class="tag" id="ctTag" hidden></em></label><div class="bs">
-<button id="bN"><span data-i="plus"></span>Thêm sản phẩm mới</button><button id="bF" title="Thêm, đổi tên, đổi đơn vị, sắp xếp hoặc xóa thành phần dinh dưỡng"><span data-i="list"></span>Quản lý thành phần</button><button id="bC"><span data-i="layers"></span>Cài đặt quốc gia sản xuất và NSX&HSD
-</button><button id="bB"><span data-i="sheet"></span>Excel &amp; sao lưu</button><button id="bHK" title="Liệt kê các MSPB có đoạn HDSD chưa nhận ra tiêu đề"><span data-i="chk"></span>Kiểm tra HDSD</button><button id="bS"><span data-i="down"></span>Script Illustrator: Hạ thấp chữ + Justify
-</button><button id="bH"><span data-i="down"></span>Script Illustrator: Làm HDSD</button></div></nav></header>
+<nav class="tb" id="nav" aria-label="Chức năng"><label class="ctw" title="Quốc gia được dùng để lấy thông tin sản xuất trên nội dung nhãn. Với sản phẩm chưa xác nhận, hệ thống tạm dùng quốc gia đang chọn."><span data-i="globe"></span>Quốc gia trên nhãn<select id="ct"></select><em class="tag" id="ctTag" hidden></em></label>
+<button id="bN" class="pri" type="button"><span data-i="plus"></span>Thêm sản phẩm mới</button>
+<div class="mg"><button class="mt" type="button" aria-haspopup="true" aria-expanded="false"><span data-i="cog"></span>Cài đặt</button><div class="mp">
+<button id="bF" type="button" title="Thêm, đổi tên, đổi đơn vị, sắp xếp hoặc xóa thành phần dinh dưỡng"><span data-i="list"></span>Quản lý thành phần</button>
+<button id="bC" type="button"><span data-i="layers"></span>Cài đặt quốc gia sản xuất và NSX&amp;HSD</button></div></div>
+<div class="mg"><button class="mt" type="button" aria-haspopup="true" aria-expanded="false"><span data-i="db"></span>Dữ liệu</button><div class="mp">
+<button id="bB" type="button"><span data-i="sheet"></span>Excel &amp; sao lưu</button>
+<button id="bHK" type="button" title="Liệt kê các MSPB có đoạn HDSD chưa nhận ra tiêu đề"><span data-i="chk"></span>Kiểm tra HDSD</button>
+<button id="bLog" type="button" hidden><span data-i="hist"></span>Nhật ký thay đổi</button></div></div>
+<div class="mg"><button class="mt" type="button" aria-haspopup="true" aria-expanded="false"><span data-i="down"></span>Illustrator</button><div class="mp">
+<button id="bS" type="button" title="Script Illustrator: hạ thấp chữ + căn đều hai bên"><span data-i="down"></span>Hạ thấp chữ + Justify</button>
+<button id="bH" type="button" title="Script Illustrator: làm hướng dẫn sử dụng"><span data-i="down"></span>Làm HDSD</button></div></div>
+<div class="mg acct"><button id="bSync" class="mt" type="button" aria-haspopup="true" aria-expanded="false" data-nomenu></button><div class="mp">
+<button id="bUser" type="button" hidden><span data-i="user"></span>Cài đặt thông tin người dùng</button>
+<button id="bOut" type="button" hidden><span data-i="out"></span>Đăng xuất</button></div></div>
+</nav>
+<button id="bMenu" class="ibtn" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="nav"></button></header>
 <main>
 <section class="card"><div class="sr"><span data-i="search"></span><input id="q" placeholder="Tìm MSPB hoặc tên sản phẩm" autocomplete="off"></div>
 <div class="fr"><button class="chip on" data-f="all">Tất cả</button><button class="chip" data-f="root">Bón rễ</button><button class="chip" data-f="leaf">Bón lá</button><button class="chip" data-f="hot" title="Chỉ hiển thị sản phẩm được đánh dấu ưu tiên in">★ Sản phẩm<br class="wb"> hay in</button><button class="chip" data-f="miss" title="Sản phẩm còn thiếu ít nhất một trường: tên, loại phân bón, phương thức sử dụng, TCCS, thành phần hoặc quốc gia sản xuất">Thiếu thông tin sản phẩm</button><label class="fcw" title="Lọc theo quốc gia sản xuất đã được xác nhận cho từng sản phẩm"><select id="fc"></select></label></div>
@@ -290,7 +352,7 @@ initF();
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(window.__sync)window.__sync.onSave()};
 const cur=()=>S.P.find(p=>p.m===S.sel);
 /* Quốc gia đã xác nhận: p.c = tên quốc gia (rỗng = chưa xác nhận) */
-const I={sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',up:'<path d="m18 15-6-6-6 6"/>',search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',plus:'<path d="M5 12h14M12 5v14"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>',copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',pen:'<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',layers:'<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',sheet:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/>',down:'<path d="M12 15V3m0 12-4-4m4 4 4-4M5 21h14"/>',tag:'<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>',chk:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',alert:'<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',hist:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',dup:'<rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2"/>'};
+const I={user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',x:'<path d="M18 6 6 18M6 6l12 12"/>',out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',cog:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',db:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',up:'<path d="m18 15-6-6-6 6"/>',search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',plus:'<path d="M5 12h14M12 5v14"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>',copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',pen:'<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',layers:'<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',sheet:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/>',down:'<path d="M12 15V3m0 12-4-4m4 4 4-4M5 21h14"/>',tag:'<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>',chk:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',alert:'<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',hist:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',dup:'<rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2"/>'};
 const ic=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
 let mf='',cf='all',animList=true,lastM=null,fl=false;const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const hasProductData=p=>!!((p.n||'').trim()||(p.l||'').trim()||(p.x||'').trim()||(p.t||'').trim()||(p.d||'').trim()||(p.v||[]).some(v=>v!=null&&String(v).trim()!==''));
@@ -807,6 +869,57 @@ follow();render();if(document.fonts)document.fonts.ready.then(refit);
 })();
 </script>
 <script>
+/* ===== THANH CÔNG CỤ MỘT HÀNG: menu thả xuống (máy tính) / menu hamburger (điện thoại) =====
+   Cùng một bộ nút: máy tính ≥1181px → nhóm nút gom vào menu thả xuống;
+   hẹp hơn → thu vào nút ☰ ở góc phải, mở ra là danh sách đã chia nhóm.
+   Ngưỡng 1180px phải trùng với @media trong CSS «Thanh công cụ». */
+(function(){
+ var hdr=document.querySelector('header'),nav=document.getElementById('nav'),mb=document.getElementById('bMenu');
+ if(!hdr||!nav||!mb)return;
+ var mq=matchMedia('(max-width:1180px)'),groups=[].slice.call(nav.querySelectorAll('.mg'));
+ var tgOf=function(g){return g.querySelector('.mt')};
+ function closeMenus(except){groups.forEach(function(g){if(g===except)return;g.classList.remove('open');g.classList.remove('r');tgOf(g).setAttribute('aria-expanded','false')})}
+ function setNav(on){hdr.classList.toggle('nav-open',on);mb.setAttribute('aria-expanded',on?'true':'false');
+  mb.setAttribute('aria-label',on?'Đóng menu':'Mở menu');mb.title=on?'Đóng menu':'Mở menu';mb.innerHTML=ic(on?'x':'menu');if(!on)closeMenus()}
+ function openG(g){closeMenus(g);g.classList.remove('r');g.classList.add('open');tgOf(g).setAttribute('aria-expanded','true');
+  var r=g.querySelector('.mp').getBoundingClientRect();if(r.right>innerWidth-8)g.classList.add('r')}
+ setNav(false);
+
+ /* Bắt ở giai đoạn capture và đăng ký trước đoạn đồng bộ → vẫn đóng menu khi nút bị chặn (khách chưa đăng nhập) */
+ document.addEventListener('click',function(e){
+  var el=e.target&&e.target.closest?e.target:null;if(!el)return;
+  if(el.closest('#bMenu')){setNav(!hdr.classList.contains('nav-open'));return}
+  var tg=el.closest('.mt');
+  if(tg&&!mq.matches&&!tg.hasAttribute('data-nomenu')){var g=tg.closest('.mg');if(g.classList.contains('open'))closeMenus();else openG(g);return}
+  if(el.closest('.mp button')){setTimeout(function(){closeMenus();if(mq.matches)setNav(false)},0);return}
+  if(!el.closest('.mg'))closeMenus();
+  if(mq.matches&&!el.closest('#nav'))setNav(false)
+ },true);
+
+ function items(scope){return[].slice.call(scope.querySelectorAll('.mp button')).filter(function(b){return !b.hidden})}
+ document.addEventListener('keydown',function(e){
+  var el=e.target,og=nav.querySelector('.mg.open');
+  if(e.key==='Escape'){
+   if(og){e.stopPropagation();var t=tgOf(og);closeMenus();t.focus();return}
+   if(hdr.classList.contains('nav-open')){e.stopPropagation();setNav(false);mb.focus()}
+   return}
+  if(e.key!=='ArrowDown'&&e.key!=='ArrowUp')return;
+  var tg=el&&el.closest?el.closest('.mt'):null;
+  if(tg&&!mq.matches&&!tg.hasAttribute('data-nomenu')&&e.key==='ArrowDown'){
+   e.preventDefault();e.stopPropagation();var g=tg.closest('.mg');openG(g);var it=items(g);if(it[0])it[0].focus();return}
+  var inP=el&&el.closest?el.closest('.mp'):null;
+  if(inP){
+   e.preventDefault();e.stopPropagation();
+   var list=items(mq.matches?nav:inP.closest('.mg')),i=list.indexOf(el);
+   if(!list.length)return;
+   i=e.key==='ArrowDown'?(i+1)%list.length:(i<=0?list.length-1:i-1);list[i].focus()}
+ },true);
+
+ var onMq=function(){setNav(false);closeMenus()};
+ if(mq.addEventListener)mq.addEventListener('change',onMq);else if(mq.addListener)mq.addListener(onMq);
+})();
+</script>
+<script>
 /* ===== ĐỒNG BỘ DÙNG CHUNG (Firebase Firestore) + NHẬT KÝ THAY ĐỔI + CÀI ĐẶT NGƯỜI DÙNG =====
    - Dữ liệu cập nhật TRỰC TIẾP (onSnapshot) cho mọi người, kể cả khách chưa đăng nhập (chỉ xem).
    - Đăng nhập Google mới được chỉnh sửa; tên hiển thị đổi được ở «Cài đặt người dùng». */
@@ -814,12 +927,11 @@ follow();render();if(document.fonts)document.fonts.ready.then(refit);
 /* >>> THÔNG SỐ FIREBASE <<< */
 const CFG={apiKey:'AIzaSyBx-bGO1_1Fz8v1IyvZJQhE_VYUViRvFAA',authDomain:'danhsachsanphamgrowmore.firebaseapp.com',projectId:'danhsachsanphamgrowmore',appId:'1:115462058598:web:3a013cbae0ad08563233a7'};
 const configured=!!(CFG.apiKey&&CFG.projectId);
-I.user='<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>';
 
 /* ---------- giao diện phụ: nút, thanh thông báo, trang cài đặt ---------- */
 const css=document.createElement('style');
 css.textContent=`
-#bLog[hidden],#bUser[hidden],#bPLog[hidden]{display:none!important}
+#bPLog[hidden]{display:none!important}
 .usr-top{display:flex;gap:14px;align-items:center;margin:0 0 16px}
 .usr-av{position:relative;width:56px;height:56px;border-radius:50%;background:var(--acc);color:var(--on);display:grid;place-items:center;font:700 24px var(--ff);flex:none;overflow:hidden}
 .usr-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
@@ -829,13 +941,11 @@ css.textContent=`
 #gbar[hidden]{display:none}#gbar>span{flex:1 1 200px;min-width:0}#gbar button{padding:4px 10px}
 `;
 document.head.appendChild(css);
-const host=document.querySelector('.bs')||document.querySelector('.tb');
-const mkBtn=(id,html)=>{const b=document.createElement('button');b.id=id;b.type='button';b.innerHTML=html;return b};
-const bLog=mkBtn('bLog',ic('hist')+'Nhật ký thay đổi'),bUser=mkBtn('bUser',ic('user')+'Cài đặt người dùng'),bSync=mkBtn('bSync','');
-bLog.hidden=true;bUser.hidden=true;
-host.append(bLog,bUser,bSync);
+const byId=id=>document.getElementById(id);
+const bLog=byId('bLog'),bUser=byId('bUser'),bOut=byId('bOut'),bSync=byId('bSync');
+bLog.hidden=true;bUser.hidden=true;bOut.hidden=true;
 const COL={ok:'#2e9e5b',conn:'#d98a00',off:'#d33',cfg:'#999'};
-function status(k,t,title){bSync.innerHTML='<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+COL[k]+'"></span>'+esc(t);bSync.title=title||t}
+function status(k,t,title){bSync.innerHTML='<span style="display:inline-block;flex:none;width:9px;height:9px;border-radius:50%;background:'+COL[k]+'"></span><span class="stx">'+esc(t)+'</span>';bSync.title=title||t}
 if(!configured){status('cfg','Chỉ lưu trên máy này','Chưa điền cấu hình Firebase trong file index.html');return}
 status('conn','Đang kết nối…');
 
@@ -869,14 +979,17 @@ try{auth.languageCode='vi'}catch(e){}
 /* ---------- trạng thái người dùng ---------- */
 let userName='',userEmail='',canEdit=null,listenErr=false,unsubs=[],lastUid;
 const editBlock=()=>!auth.currentUser?'guest':canEdit===false?'denied':'';
-function paintUser(){const u=auth.currentUser;bUser.hidden=!u;bLog.hidden=!u;bUser.title='Cài đặt thông tin người dùng'+(u&&userName?' · '+userName:'')}
+function paintUser(){const u=auth.currentUser;bUser.hidden=!u;bLog.hidden=!u;bOut.hidden=!u;
+ /* Nút trạng thái: khách → bấm để đăng nhập; đã đăng nhập → mở menu tài khoản */
+ if(u)bSync.removeAttribute('data-nomenu');else bSync.setAttribute('data-nomenu','');
+ bUser.title='Cài đặt thông tin người dùng'+(u&&userName?' · '+userName:'')}
 /* Trạng thái bình thường (khi không có lỗi) */
 function steady(){
  if(listenErr)return;
  if(!ready){if(!gotP||!gotC)status('conn','Đang kết nối…');return}
  if(!auth.currentUser)status('ok','Xem trực tiếp · Khách','Dữ liệu tự cập nhật trực tiếp (chỉ xem). Bấm để đăng nhập và chỉnh sửa.');
- else if(canEdit===false)status('conn','Chỉ xem · '+userName,'Tài khoản '+userEmail+' chưa được cấp quyền chỉnh sửa. Dữ liệu vẫn cập nhật trực tiếp. Bấm để mở Cài đặt người dùng.');
- else status('ok','Đồng bộ · '+userName,'Dữ liệu tự cập nhật trực tiếp. Bấm để mở Cài đặt thông tin người dùng.')}
+ else if(canEdit===false)status('conn','Chỉ xem · '+userName,'Tài khoản '+userEmail+' chưa được cấp quyền chỉnh sửa. Dữ liệu vẫn cập nhật trực tiếp. Bấm để mở menu tài khoản.');
+ else status('ok','Đồng bộ · '+userName,'Dữ liệu tự cập nhật trực tiếp. Bấm để mở menu tài khoản.')}
 
 async function login(){
  try{await signInWithPopup(auth,new GoogleAuthProvider());return true}
@@ -1086,7 +1199,8 @@ function openUser(){
  $('#uOut').onclick=async e=>{if(!sure(e.currentTarget,'Bấm lần nữa để đăng xuất'))return;try{await signOut(auth)}catch(err){}location.reload()};
  inp.focus();inp.select()}
 bUser.onclick=openUser;
-bSync.onclick=async()=>{if(!auth.currentUser){await login();return}openUser()};
+bOut.onclick=()=>{if(!confirm('Đăng xuất khỏi tài khoản '+userEmail+'?'))return;Promise.resolve(signOut(auth)).catch(()=>{}).then(()=>location.reload())};
+bSync.onclick=async()=>{if(!auth.currentUser)await login()};
 
 /* ---------- nút «Lịch sử» của từng sản phẩm (chỉ khi đã đăng nhập) + khóa ô quốc gia với khách ---------- */
 const _rp=renderPrev;

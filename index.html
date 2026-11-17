@@ -1222,7 +1222,7 @@ function openUser(){
   '<div class="usr-who"><b>'+esc(userName)+'</b><span>'+esc(userEmail)+'</span></div></div>'+
   '<label for="uName">Tên hiển thị<input id="uName" maxlength="40" autocomplete="nickname" value="'+esc(userName)+'" placeholder="Ví dụ: Nguyễn Văn A"></label>'+
   '<p class="usr-h">Tên này hiện trên nút đồng bộ và được ghi vào Nhật ký thay đổi mỗi khi bạn sửa dữ liệu. Các lần sửa trước đó vẫn giữ tên cũ.</p>'+
-  '<div class="act" style="justify-content:flex-start;margin:14px 0 0">'+(gname&&gname!==userName?'<button type="button" id="uG">Dùng tên Google: '+esc(gname)+'</button>':'')+'<button type="button" id="uOut">Đăng xuất</button></div>',
+  '<div class="act" style="justify-content:flex-start;margin:14px 0 0">'+(gname&&gname!==userName?'<button type="button" id="uG">Dùng tên trên Google: '+esc(gname)+'</button>':'')+'<button type="button" id="uOut">Đăng xuất</button></div>',
   ()=>{saveName($('#uName').value);return false},'','usr');
  const inp=$('#uName');
  inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveName(inp.value)}});

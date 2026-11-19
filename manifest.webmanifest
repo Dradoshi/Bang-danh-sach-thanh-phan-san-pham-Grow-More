@@ -1,0 +1,17 @@
+{
+  "name": "Danh sách sản phẩm Grow More",
+  "short_name": "Grow More",
+  "description": "Công cụ chuẩn bị nội dung nhãn Heineken cho sản phẩm Grow More",
+  "lang": "vi",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f6f1f0",
+  "theme_color": "#b84a47",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="utf-8"><title>Bảng danh sản phẩm Grow More</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600&display=swap" rel="stylesheet">
-<meta name="theme-color" content="#f6f1f0">
+<meta name="theme-color" content="#f6f1f0"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Grow More">
 <script>try{var t=localStorage.getItem("heiniken-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
@@ -320,6 +320,72 @@ body,header,.card,dialog,#list li,button,select,input,textarea,.chip{transition-
 .card{transition:box-shadow .25s}
 input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px var(--tint);transition:box-shadow .2s}
 html{scroll-behavior:smooth}
+
+/* ===== In trang: chỉ in phần chi tiết sản phẩm, bố cục riêng cho giấy dọc / ngang ===== */
+@page{margin:10mm}
+.hdtag,#pfoot,#pbatch{display:none}
+</style>
+<style id="printcss" media="print">
+ :root,:root[data-theme="dark"]{--bg:#fff;--card:#fff;--fg:#141414;--mut:#555;--line:#d8d0cf;--tint:#fbf2f1;--on:#fff;--bd2:#d9aeab;--acc:#9c2f2c;--wbg:#fff;--wfg:#000;color-scheme:light}
+ html,body{height:auto!important;min-height:0!important;overflow:visible!important;background:#fff!important;color:#141414!important;display:block!important;font-size:13px}
+ *,*::before,*::after{animation:none!important;transition:none!important;box-shadow:none!important;text-shadow:none!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ header,main>section:first-child,dialog,#gbar,.toast,#toast,.wbar,.rec,.pa,.mwl,:is(#prev,.pbi) button,:is(#prev,.pbi) select,:is(#prev,.pbi) .bs,:is(#prev,.pbi) .bar,:is(#prev,.pbi) .pr,:is(#prev,.pbi) .cst,.noprint,:is(#prev,.pbi) .eb:has(+ .noprint){display:none!important}
+ body{display:flex!important;flex-direction:column;min-height:100vh!important}
+ main{display:flex!important;flex-direction:column;flex:1 1 auto;padding:0!important;margin:0!important}
+ main>section{overflow:visible!important;max-height:none!important;height:auto!important}
+ :is(#prev,.pbi){display:flex!important;flex-direction:column;flex:1 1 auto;zoom:var(--pz,1);border:0!important;border-radius:0!important;padding:0!important;margin:0!important;width:100%!important;max-width:100%!important;background:#fff!important}
+ :is(#prev,.pbi) *{max-width:100%}
+ /* đầu trang */
+ :is(#prev,.pbi) .ph{display:block!important;border-bottom:2px solid var(--acc);padding-bottom:calc(8px*var(--sp,1));margin-bottom:calc(2px*var(--sp,1))}
+ :is(#prev,.pbi) .id{display:inline-block;background:var(--acc);color:#fff;padding:1px 11px;border-radius:999px;font-size:11.5px;letter-spacing:.1em}
+ :is(#prev,.pbi) h2{font-size:22px;line-height:1.25;margin:calc(5px*var(--sp,1)) 0 calc(2px*var(--sp,1));color:#000}
+ :is(#prev,.pbi) .sub{font-size:12.5px;color:var(--mut)}
+ /* tiêu đề từng mục */
+ :is(#prev,.pbi) .eb{margin:auto 0 calc(7px*var(--sp,1));border-top:calc(15px*var(--sp,1)) solid transparent;font-size:11px;letter-spacing:.14em;color:var(--acc)}
+ :is(#prev,.pbi) .eb i{border-top:1px solid var(--bd2)}
+ :is(#prev,.pbi) .eb .m{font-size:11.5px;color:var(--mut)}
+ /* thành phần: 4 khối có màu riêng, giấy dọc 2 cột, giấy ngang 4 cột */
+ :is(#prev,.pbi) .gs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:calc(8px*var(--sp,1)) calc(10px*var(--sp,1))}
+ @media (orientation:landscape){:is(#prev,.pbi) .gs{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+ html[data-po=landscape] :is(#prev,.pbi) .gs{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ html[data-po=portrait] :is(#prev,.pbi) .gs{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ :is(#prev,.pbi) .g{border:1px solid var(--gc,var(--acc));border-radius:7px;overflow:hidden;background:#fff}
+ :is(#prev,.pbi) .gs .g:nth-child(1){--gc:#9c2f2c}:is(#prev,.pbi) .gs .g:nth-child(2){--gc:#a8691a}:is(#prev,.pbi) .gs .g:nth-child(3){--gc:#2f7d4f}:is(#prev,.pbi) .gs .g:nth-child(4){--gc:#44587a}
+ :is(#prev,.pbi) .g h4{margin:0;background:var(--gc,var(--acc));color:#fff;padding:calc(5px*var(--sp,1)) 10px;font-size:11.5px;letter-spacing:.07em}
+ :is(#prev,.pbi) .g div{padding:calc(3px*var(--sp,1)) 10px;font-size:13px;border-bottom:1px solid var(--line)}
+ :is(#prev,.pbi) .g div:nth-child(even){background:#faf5f4}
+ :is(#prev,.pbi) .g div:last-child{border-bottom:0}
+ :is(#prev,.pbi) .g div span{color:#222}
+ :is(#prev,.pbi) .g div b{font-size:13.5px;color:#000}
+ :is(#prev,.pbi) .g .n{color:#777}
+ /* nội dung nhãn */
+ :is(#prev,.pbi) .out{background:var(--tint)!important;border:1.5px solid var(--bd2)!important;border-radius:8px;padding:calc(11px*var(--sp,1)) 14px;font-size:14px;line-height:calc(1.45 + .15*var(--sp,1));color:#000}
+ :is(#prev,.pbi) .out .sd,:is(#prev,.pbi) .out .sd2{color:inherit!important;font-weight:inherit!important}
+ /* HDSD: ghi rõ bản nhãn hay bản đầy đủ */
+ :is(#prev,.pbi) .hdtag{display:flex!important;flex-wrap:wrap;align-items:center;gap:2px 10px;margin:0 0 calc(7px*var(--sp,1));padding:calc(5px*var(--sp,1)) 11px;border-radius:6px;border:1.5px solid;font-size:12px}
+ :is(#prev,.pbi) .hdtag b{font-size:12.5px;letter-spacing:.06em}
+ :is(#prev,.pbi) .hdtag.label{color:#1d5f3c;background:#e6f3ec;border-color:#2f7d4f}
+ :is(#prev,.pbi) .hdtag.full{color:#7a4604;background:#fcf0d8;border-color:#b7791f}
+ :is(#prev,.pbi) .hdtag.label~.box{border-left:5px solid #2f7d4f}
+ :is(#prev,.pbi) .hdtag.full~.box{border-left:5px solid #b7791f}
+ :is(#prev,.pbi) .box{background:#fff!important;border:1px solid var(--line);border-radius:6px;padding:calc(10px*var(--sp,1)) 14px;margin-top:0!important}
+ :is(#prev,.pbi) .hd{font-size:13px;line-height:calc(1.35 + .15*var(--sp,1));color:#000}
+ :is(#prev,.pbi) .hd>div{margin-top:calc(3px*var(--sp,1) - 3px)}
+ :is(#prev,.pbi) .hd .bad{border-left:0!important;background:transparent!important;padding:0!important;margin:0!important}
+ /* chân trang */
+ #pfoot{display:block;margin-top:calc(14px*var(--sp,1));padding-top:6px;border-top:1px solid var(--line);font-size:10.5px;color:#666}
+ /* không tràn khổ giấy */
+ :is(#prev,.pbi) #fl,:is(#prev,.pbi) .addf{overflow:visible!important}
+ :is(#prev,.pbi) .frow{min-width:0!important;flex-wrap:wrap!important}
+ :is(#prev,.pbi) .out,:is(#prev,.pbi) .hd,:is(#prev,.pbi) .box{overflow:visible!important;max-height:none!important;overflow-wrap:anywhere}
+ :is(#prev,.pbi) .g,:is(#prev,.pbi) .eb,:is(#prev,.pbi) .hdtag,:is(#prev,.pbi) h4,:is(#prev,.pbi) tr{break-inside:avoid;page-break-inside:avoid}
+ :is(#prev,.pbi) .eb,:is(#prev,.pbi) .hdtag{break-after:avoid;page-break-after:avoid}
+ :is(#prev,.pbi) img,:is(#prev,.pbi) svg{max-width:100%}
+ .pbi{min-height:100vh;box-sizing:border-box;display:flex;flex-direction:column}
+ .pbi:not(:last-child){break-after:page;page-break-after:always}
+ html[data-pm=batch] main,html[data-pm=batch] #pfoot{display:none!important}
+ #pbatch{display:block}
+ .pf2{display:block;margin-top:calc(14px*var(--sp,1));padding-top:6px;border-top:1px solid var(--line);font-size:10.5px;color:#666}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script></head><body>
 <header><div class="logo" data-i="tag"></div><div class="ttl"><h1>Danh sách sản phẩm Grow More</h1><div class="e" id="sub"></div></div><button id="bT" class="ibtn" type="button"></button>
@@ -327,10 +393,13 @@ html{scroll-behavior:smooth}
 <button id="bN" class="pri" type="button"><span data-i="plus"></span>Thêm sản phẩm mới</button>
 <div class="mg"><button class="mt" type="button" aria-haspopup="true" aria-expanded="false"><span data-i="cog"></span>Cài đặt</button><div class="mp">
 <button id="bF" type="button" title="Thêm, đổi tên, đổi đơn vị, sắp xếp hoặc xóa thành phần dinh dưỡng"><span data-i="list"></span>Quản lý thành phần</button>
-<button id="bC" type="button"><span data-i="layers"></span>Cài đặt quốc gia sản xuất và NSX&amp;HSD</button></div></div>
+<button id="bC" type="button"><span data-i="layers"></span>Cài đặt quốc gia sản xuất và NSX&amp;HSD</button>
+<button id="bInst" type="button" hidden title="Cài lên màn hình chính để mở nhanh như một ứng dụng"><span data-i="down"></span>Cài lên máy / điện thoại</button></div></div>
 <div class="mg"><button class="mt" type="button" aria-haspopup="true" aria-expanded="false"><span data-i="db"></span>Dữ liệu</button><div class="mp">
 <button id="bB" type="button"><span data-i="sheet"></span>Excel &amp; sao lưu</button>
 <button id="bHK" type="button" title="Liệt kê các MSPB có đoạn HDSD chưa nhận ra tiêu đề"><span data-i="chk"></span>Kiểm tra HDSD</button>
+<button id="bVal" type="button" title="Soát toàn bộ dữ liệu: trùng tên, sai dấu chấm/phẩy, TCCS lạ, % quá 100…"><span data-i="chk"></span>Kiểm tra dữ liệu</button>
+<button id="bPAll" type="button" title="In mỗi sản phẩm trong danh sách đang lọc ra một trang"><span data-i="print"></span>In danh sách đang lọc</button>
 <button id="bLog" type="button" hidden><span data-i="hist"></span>Nhật ký thay đổi</button></div></div>
 <div class="mg"><button class="mt" type="button" aria-haspopup="true" aria-expanded="false"><span data-i="down"></span>Script Illustrator</button><div class="mp">
 <button id="bS" type="button" title="Script Illustrator: Làm ký hiệu hóa học + căn đều hai bên"><span data-i="down"></span>Làm ký hiệu hóa học + Justify</button>
@@ -347,6 +416,7 @@ html{scroll-behavior:smooth}
 <div class="lf"><label class="chk" title="Khi chọn sản phẩm đã xác nhận quốc gia, tự đổi quốc gia đang dùng trên nhãn theo sản phẩm đó."><input type="checkbox" id="fol"> Tự đổi quốc gia nhãn theo sản phẩm</label><button id="bAll" hidden></button></div></section>
 <section class="card" id="prev"></section>
 </main>
+<div id="pfoot"></div><div id="pbatch"></div>
 <dialog id="dlg"></dialog>
 <script>
 const D={"F": [["Đạm tổng số (Nts)", 1, 1, "%"], ["Lân hữu hiệu (P2O5hh)", 1, 2, "%"], ["Kali hữu hiệu (K2Ohh)", 1, 3, "%"], ["Chất hữu cơ", 1, 4, "%"], ["Canxi (Ca)", 2, 1, "%"], ["Magie (Mg)", 2, 2, "%"], ["Lưu huỳnh (S)", 2, 3, "%"], ["Silic hữu hiệu (SiO2hh)", 2, 4, "%"], ["Bo (B)", 3, 5, "ppm"], ["Đồng (Cu)", 3, 3, "ppm"], ["Sắt (Fe)", 3, 1, "ppm"], ["Kẽm (Zn)", 3, 4, "ppm"], ["Mangan (Mn)", 3, 2, "ppm"], ["Molypden (Mo)", 3, 6, "ppm"], ["Độ ẩm", 4, 4, "%"], ["pH (H₂O)", 4, 5, ""], ["Tỷ trọng", 4, 6, ""], ["Axit amin", 4, 1, "%"], ["Axit fulvic (axit fulvic)", 4, 2, "%"], ["Axit humic (axit humic)", 4, 3, "%"]], "P": [{"m": "08672", "n": "Phoska", "l": "Phân bón hỗn hợpPK", "v": [null, "52", "34", null, null, null, null, null, null, null, null, null, null, null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "44:2023/UNI", "h": false}, {"m": "08673", "n": "Grow More NPK 30-9-9 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["30", "9", "9", null, null, null, null, null, "150", null, "150", "150", "150", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "01:2023/UNI", "h": false}, {"m": "08674", "n": "Grow More NPK 12-12-18 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["12", "12", "18", null, null, "1,2", null, null, "150", null, "150", "150", "150", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08675", "n": "Grow More NPK 15-15-15 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["15", "15", "15", null, null, null, null, null, "150", null, "150", "150", "150", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "02:2023/UNI", "h": false}, {"m": "08676", "n": "Grow More NPK 15-9-20 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["15", "9", "20", null, null, null, null, null, "150", null, "150", "150", "150", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08677", "n": "Grow More Plantacote NPK 14-14-14 +7S", "l": "Phân bón hỗn hợpNPK", "v": ["14", "14", "14", null, null, null, "7", null, null, null, null, null, null, null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08678", "n": "Grow MorePlantacote NPK 13-13-13 +7S", "l": "Phân bón hỗn hợpNPK", "v": ["13", "13", "13", null, null, null, "7", null, null, null, null, null, null, null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08679", "n": "POLYCOTE NPK 14-14-14 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["14", "14", "14", null, null, null, null, null, "400", "200", "100", "100", "100", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08680", "n": "POLYCOTEN PK 23-9-13+TE", "l": "Phân bón hỗn hợpNPK", "v": ["23", "9", "13", null, null, null, null, null, "400", "200", "100", "100", "100", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08681", "n": "POLYCOTE NPK  15-5-20+TE", "l": "Phân bón hỗn hợpNPK", "v": ["15", "5", "20", null, null, null, null, null, "400", "200", "100", "100", "100", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08682", "n": "Grow More POLYCOTE NPK 28-8-8 +TE", "l": "Phân bón hỗn hợpNPK", "v": ["28", "8", "8", null, null, null, null, null, "400", "200", "100", "100", "100", null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08683", "n": "Grow More Ultramax", "l": "Phân bón trung lượng", "v": [null, null, null, null, "28", null, null, "5", null, null, null, null, null, null, "4", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08684", "n": "Grow More Rootone", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, "2.000", null, null, null, null, null, null, null, "1,013", null, null, null], "x": "BÓN RỄ", "t": "31:2023/UNI", "h": false}, {"m": "08685", "n": "Grow More NITCABOR", "l": "Phân canxi nitrat", "v": ["15", null, null, null, "18,6", null, null, null, null, null, null, null, null, null, "1", null, null, null, null, null], "x": "BÓN RỄ", "t": "11:2026/UNI", "h": false}, {"m": "08686", "n": "Rootplex Seaweed Extract", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, null, null, "30.000 mg/l", null, null, null, null, null, "1", null, null, null], "x": "BÓN RỄ", "t": "11:2024/UNI", "h": false}, {"m": "08687", "n": "Grow More Vitamax", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, null, null, "10.000 mg/l", null, null, null, null, null, "1,1", null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08688", "n": "Grow More Boron", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, "80.000 mg/l", null, null, null, null, null, null, null, "1,3", null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08689", "n": "Grow More lron", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, null, null, "50.000 mg/l", null, null, null, null, null, "1,2", null, null, null], "x": "BÓN RỄ", "t": "12:2024/UNI", "h": false}, {"m": "08691", "n": "Grow More Agrifos Optimus", "l": "Phân bón hỗn hợp PK", "v": [null, "30", "20", null, null, null, null, null, null, null, null, null, null, null, null, null, "1,4", null, null, null], "x": "BÓN RỄ", "t": "28:2023/UNI", "h": false}, {"m": "08692", "n": "Grow More Minors", "l": "Phân bón vi lượng", "v": [null, null, null, null, null, null, null, null, null, null, "30.000 mg/l", null, null, null, null, null, "1,3", null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08693", "n": "Grow More D&P Si02-Ca 5-20", "l": "Phân bón trung lượng", "v": [null, null, null, null, "20", null, null, "5", null, null, null, null, null, null, "4", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08694", "n": "Grow MorePlantacote NPK 15-15-15 +1,5S", "l": "Phân bón hỗn hợpNPK", "v": ["15", "15", "15", null, null, null, "1,5", null, null, null, null, null, null, null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "01:2025/UNI", "h": false}, {"m": "08695", "n": "Grow More Plantacote NPK 19-6-12 +4,5S", "l": "Phân bón hỗn hợpNPK", "v": ["19", "6", "12", null, null, null, "4,5", null, null, null, null, null, null, null, "5", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08696", "n": "Kalimax", "l": "Phân kali suphat", "v": [null, null, "50", null, null, null, "17", null, null, null, null, null, null, null, "1", null, null, null, null, null], "x": "BÓN RỄ", "t": "12:2023/UNI", "h": false}, {"m": "08697", "n": "Grow More LIQUINOX START", "l": "Phân bón lá đa-vi lượng", "v": [null, "2", null, null, null, null, null, null, null, null, "1.000", null, null, null, null, "1", "1,1", null, null, null], "x": "BÓN LÁ", "t": "10:2026/UNI", "h": true}, {"m": "08698", "n": "Phosgard", "l": "Phân bón hỗn hợpPK", "v": [null, "25", "20", null, null, null, null, null, null, null, null, null, null, null, "5", "3", null, null, null, null], "x": "BÓN LÁ", "t": "29:2023/UNI", "h": false}, {"m": "08699", "n": "Fertaplex Agriplex", "l": "Phân bón lá PK-trung-vi lượng", "v": [null, "4", "4", null, null, "1", null, null, null, null, "50.000", "5.000", "5.000", null, null, "1", "1,4", null, null, null], "x": "BÓN LÁ", "t": "09:2026/UNI", "h": false}, {"m": "08700", "n": "Alaska Fish Emulsion", "l": "Phân bón lá NPK- trung lượng", "v": ["5", "1", "1", null, "0,01", "0,1", "0,5", null, null, null, null, null, null, null, null, "3,7", "1,1", null, null, null], "x": "BÓN LÁ", "t": "13:2023/UNI", "h": true}, {"m": "08701", "n": "Grow More NPK 6-30-30+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["6", "30", "30", null, null, null, null, null, "200", "500", "1.000", "500", null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "07:2026/UNI", "h": true}, {"m": "08702", "n": "Grow MoreNPK 15-30-15+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["15", "30", "15", null, null, null, null, null, "200", "500", "2.000", "500", null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "12:2026/UNI", "h": true}, {"m": "08703", "n": "Grow MoreNPK 20-20-20+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["20", "20", "20", null, null, null, null, null, "200", "500", "1.000", "500", null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "08:2026/UNI", "h": true}, {"m": "08704", "n": "Grow More NPK30-10-10+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["30", "10", "10", null, null, null, null, null, "200", "500", "1.000", null, null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "03:2026/UNI", "h": true}, {"m": "08705", "n": "Grow More NK 12-40 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["12", null, "40", null, "3", null, null, null, "100", "200", "1.000", "500", null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08706", "n": "Grow More Bloom", "l": "Phân bón lá NPK-vi lượng", "v": ["10", "55", "10", null, null, null, null, null, "100", null, null, null, null, null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "02:2026/UNI", "h": true}, {"m": "08707", "n": "Gro-Folan NPK 10-8-6+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["10", "8", "6", null, null, null, null, null, "100", "100", "200", "100", null, null, null, "5,1", "1,2", null, null, null], "x": "BÓN LÁ", "t": "04:2026/UNI", "h": true}, {"m": "08708", "n": "Gro-Folan NPK 4-17-5+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["4", "17", "5", null, null, null, null, null, "100", "100", "300", "100", null, null, null, "2,5", "1,1", null, null, null], "x": "BÓN LÁ", "t": "05:2026/UNI", "h": true}, {"m": "08709", "n": "Gro-Folan NPK 1-18-18+TE", "l": "Phân bón lá NPK-vi lượng", "v": ["1", "18", "18", null, null, null, null, null, "100", "100", "300", "100", null, null, null, "7", "1,4", null, null, null], "x": "BÓN LÁ", "t": "06:2026/UNI", "h": true}, {"m": "08710", "n": "Foliage BoosterNK 5-2+TE", "l": "Phân bón lá NK- trung-vi lượng", "v": ["5", null, "2", null, null, null, "4", null, null, "100", "10.000", "40.000", null, null, null, "5,5", "1,1", null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08711", "n": "Rootplex", "l": "Phân bón lá đa lượng-vi lượng", "v": [null, "1", null, null, null, null, null, null, null, null, "30.000", "500", null, null, null, "3", "1,09", null, null, null], "x": "BÓN LÁ", "t": "01:2026/UNI", "h": true}, {"m": "08712", "n": "Grow More NPK 33-11-11 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["33", "11", "11", null, null, null, null, null, "500", null, "1.000", "500", "500", "500", "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "13:2023/UNI", "h": true}, {"m": "08713", "n": "Grow More NPK20-30-20 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["20", "30", "20", null, null, null, null, null, null, null, "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "14:2026/UNI", "h": true}, {"m": "08714", "n": "Grow More NPK10-15-10 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["10", "15", "10", null, null, null, null, null, null, null, "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "32:2023/UNI", "h": false}, {"m": "08715", "n": "Grow More NPK10-60-10 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["10", "60", "10", null, null, null, null, null, null, null, "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "30:2023/UNI", "h": false}, {"m": "08716", "n": "Grow More NPK5-30-5 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["5", "30", "5", null, null, null, null, null, null, null, "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08717", "n": "Grow More NPK 40-4-4 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["40", "4", "4", null, null, null, null, null, "200", "700", "3.300", "700", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08718", "n": "Grow More NPK 19-31-17 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["19", "31", "17", null, null, null, null, null, "200", "700", "3300", "700", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "33:2023/UNI", "h": false}, {"m": "08719", "n": "Grow More NPK 19-24-24 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["19", "24", "24", null, null, null, null, null, null, "500", "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08720", "n": "Grow More NPK 18-19-30 +TE", "l": "Phân bón lá NPK-vi lượng", "v": ["18", "19", "30", null, null, null, null, null, null, "500", "1.000", "500", "500", null, "1", "3", null, null, null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08721", "n": "Grow More HUMMER H2", "l": "Phân bón lá sinh học-đa lượng", "v": [null, null, "2,56", null, null, null, null, null, null, null, null, null, null, null, null, "5", "1,1", null, "2,6", "14"], "x": "BÓN LÁ", "t": "27:2023/UNI", "h": true}, {"m": "08722", "n": "Grow More HUMMER H1", "l": "Phân bón lá đa-vi-lượng-sinh học", "v": ["3", "2", "2", null, null, null, null, null, null, "500", "1.000", "500", "500", null, null, "5", "1,1", null, "1,2", "6,3"], "x": "BÓN LÁ", "t": "10:2024/UNI", "h": true}, {"m": "08723", "n": "Grow More HUMMER H3", "l": "Phân bón lá NK-sinh học", "v": ["4", null, "8", null, null, null, null, null, null, null, null, null, null, null, null, "5", "1,1", null, "1,36", "7,3"], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08724", "n": "Grow More HUMMER", "l": "Phân bón lá sinh học", "v": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "5", "1,1", null, "7,78", "0,01"], "x": "BÓN LÁ", "t": "01:2024/UNI", "h": true}, {"m": "08725", "n": "Grow More Flower and Bloom", "l": "Phân bón hữu cơ-đa-vi lượng", "v": ["3", "6", "6", null, null, null, null, null, null, "1.000", "1.000", "1.000", "1.000", null, "18", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08726", "n": "Grow More Citrus and Orange", "l": "Phân bón hữu cơ-đa-vi lượng", "v": ["6", "3", "3", null, null, null, null, null, null, "1.000", "1.000", "1.000", "1.000", null, "18", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08727", "n": "Grow More All-Purpose Soil Builder", "l": "Phân bón hữu cơ-đa-vi lượng", "v": ["5", "5", "5", null, null, null, null, null, null, "1.000", "1.000", "1.000", "1.000", null, "18", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08728", "n": "Grow More Vegetarian", "l": "Phân bón hữu cơ-đa-vi lượng", "v": ["8", "2", "2", null, null, null, null, null, null, "1.000", "1.000", "1.000", "1.000", null, "18", "5", null, null, null, null], "x": "BÓN RỄ", "t": "09:2023/UNI", "h": false}, {"m": "08729", "n": "Grow More Fruit and Vegetable", "l": "Phân bón đa lượng-vi lượng", "v": ["4", "5", "3", null, null, null, null, null, null, "1.000", "1.000", "1.000", "1.000", null, "18", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08730", "n": "Grow More Bio-Cozyme", "l": "Phân bón lá đa-vi lượng- sinh học", "v": ["0,1", null, "5", null, null, null, null, null, null, null, "100.000", null, null, null, "15", "3", null, null, null, "8"], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08731", "n": "Jump Start Super Thrive", "l": "Phân bón lá NK-vi lượng", "v": ["0,1", null, "0,1", null, null, null, null, null, null, null, "1.000", "500", null, null, null, "5", "1,1", null, null, null], "x": "BÓN LÁ", "t": "19:2023/UNI", "h": true}, {"m": "08732", "n": "Grow More Indo Guano", "l": "Phân bón trung-vi lượng", "v": [null, "11", null, null, "17,8", null, null, "5", null, null, null, null, "5.000", null, "3", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08733", "n": "Grow More Hạ phèn", "l": "Phân bón trung-vi lượng", "v": [null, "10", null, null, "17,8", null, null, "5", null, null, null, null, "5.000", null, "3", null, null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08734", "n": "Grow More Organic NPK8-4-4", "l": "Phân bón hữu cơ- khoáng", "v": ["8", "4", "4", "15", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "05:2024/UNI", "h": true}, {"m": "08735", "n": "Grow More OrganicNPK 6-3-3", "l": "Phân bón hữu cơ- khoáng", "v": ["6", "3", "3", "15", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "04:2024/UNI", "h": true}, {"m": "08736", "n": "Grow More Organic NPK 5-5-5", "l": "Phân bón hữu cơ- khoáng", "v": ["5", "5", "5", "15", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "03:2024/UNI", "h": true}, {"m": "08737", "n": "Grow More Organic NPK 4-5-3", "l": "Phân bón hữu cơ- khoáng", "v": ["4", "5", "3", "15", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "06:2023/UNI", "h": true}, {"m": "08738", "n": "Grow More Organic NPK 3-6-6", "l": "Phân bón hữu cơ- khoáng", "v": ["3", "6", "6", "15", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "06:2026/UNI", "h": true}, {"m": "08739", "n": "Grow More Fuego Soil", "l": "Phân bón hữu cơ- khoáng", "v": ["3", "2,5", "4,5", "18", null, null, null, null, null, null, null, null, null, null, "25", "5", null, null, null, null], "x": "BÓN RỄ", "t": "08:2023/UNI", "h": false}, {"m": "08740", "n": "Grow More Osmocote NPK 17-17-17", "l": "Phân bón NPK-vi lượng", "v": ["17", "17", "17", "15", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08741", "n": "Grow More Osmocote NPK 17-14-14", "l": "Phân bón NPK-vi lượng", "v": ["17", "14", "14", "15", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08742", "n": "Grow More Osmocote NPK14-14-14", "l": "Phân bón NPK-vi lượng", "v": ["14", "14", "14", "15", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08743", "n": "Grow More Osmocote NPK 19-6-12", "l": "Phân bón NPK-vi lượng", "v": ["19", "6", "12", "18", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08744", "n": "Grow More Osmocote NPK 9-6-6", "l": "Phân bón NPK-vi lượng", "v": ["9", "6", "6", "20", null, null, "18,7", null, null, null, "20.000", null, null, null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08745", "n": "Grow More Osmocote NPK 18-6-12", "l": "Phân bón NPK-vi lượng", "v": ["18", "6", "12", "15", null, "1", null, null, "200", "500", "1.500", null, "600", "70", "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08746", "n": "Grow More Osmocote NPK 15-17-15", "l": "Phân bón NPK-vi lượng", "v": ["15", "17", "15", "15", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08747", "n": "Grow More Osmocote NPK 15-15-15", "l": "Phân bón NPK-vi lượng", "v": ["15", "15", "15", "15", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08748", "n": "Grow More Osmocote NPK 14-14-16", "l": "Phân bón NPK-vi lượng", "v": ["14", "14", "16", "18", null, null, "3,8", null, null, null, "3.000", null, "600", null, "10", "5", null, null, null, null], "x": "BÓN RỄ", "t": "", "h": false}, {"m": "08749", "n": "", "l": "", "v": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "x": "", "t": "", "h": false}, {"m": "08750", "n": "", "l": "", "v": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "x": "", "t": "", "h": false}, {"m": "08751", "n": "Grow More Fuego Plus", "l": "Phân bón lá hữucơ- sinh học-đa lượng", "v": ["6", null, null, "16", null, null, null, null, null, null, null, null, null, null, "18", "3", null, "16", null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08752", "n": "Grow MoreFuego Copper", "l": "Phân bón lá sinh học nhiều thành phần", "v": ["3", null, null, "10", null, null, null, null, null, "6,2 %", null, null, null, null, "18", "3", null, "10", null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "08753", "n": "Grow MoreFuego lodine", "l": "Phân bón lá hữu cơ- khoáng", "v": ["2", null, null, "21", null, null, null, null, null, null, null, null, null, null, "18", "3", null, null, null, null], "x": "BÓN LÁ", "t": "02:2024/UNI", "h": false}, {"m": "08754", "n": "Grow MoreFuego Calcium 6", "l": "Phân bón lá hữucơ- sinh học-đa lượng", "v": ["0,9", null, null, "1,6", "6", null, null, null, null, null, null, null, null, null, null, "3", "1,2", "5,5", null, null], "x": "BÓN LÁ", "t": "", "h": false}, {"m": "11057", "n": "Aminoquelant K", "l": "Phân bón lá NK-hữu cơ- sinh học", "v": ["1", null, "30", "7", null, null, null, null, null, null, null, null, null, null, null, "10,5", "1,50", "5", null, null], "x": "BÓN LÁ", "t": "36:2023/UNI", "h": true}, {"m": "11058", "n": "Aminoquelant Ca", "l": "Phân bón lá hữu cơ nhiều thành phần", "v": ["4,9", null, null, "6,8", "5,72", null, null, null, null, null, null, null, null, null, null, "5,2", "1,26", "4,6", null, null], "x": "BÓN LÁ", "t": "37:2023/UNI", "h": true}, {"m": "11059", "n": "Terra-Sorb Foliar", "l": "Phân bón lá hữu cơ nhiều thành phần", "v": ["2,1", null, null, "14,8", null, null, null, null, "190", null, null, "670", "460", null, null, "5,2", "1,09", "9,3", null, null], "x": "BÓN LÁ", "t": "35:2023/UNI", "h": true}, {"m": "11060", "n": "Terra-Sorb 4 Macro Radicular", "l": "Phân bón lá hữu cơ- sinh học-đa lượng", "v": ["3", "1", "2", "7", null, null, null, null, null, null, null, null, null, null, null, "5,2", "1,1", "4", null, null], "x": "BÓN RỄ", "t": "34:2023/UNI", "h": true}, {"m": "11061", "n": "Aminoalexin Optimus", "l": "Phân bón lá PK- sinh học", "v": [null, "30", "20", null, null, null, null, null, null, null, null, null, null, null, null, "5", "1,42", "4", null, null], "x": "BÓN LÁ", "t": "41:2023/UNI", "h": true}, {"m": "11062", "n": "Aminoquelant 05", "l": "Phân bón lá sinh học-đa lượng", "v": ["3", null, null, null, null, null, null, null, null, null, null, null, null, null, null, "7,2", "1,37", "5", null, null], "x": "BÓN LÁ", "t": "39:2023/UNI", "h": true}, {"m": "11063", "n": "Aminoquelant Fe", "l": "Phân bón lá đa lượng-vi lượng- sinh học", "v": ["2", null, null, null, null, null, null, null, null, null, "50.000", null, null, null, null, "4,3", "1,25", "5", null, null], "x": "BÓN LÁ", "t": "38:2023/UNI", "h": true}, {"m": "11064", "n": "Aminoquelant-Minors", "l": "Phân bón lá sinh học nhiều thành phần", "v": ["2,8", null, null, null, null, "0,5", null, null, "200", "100", "30.000", "10.000", "10.000", null, null, "4,5", "1,3", "5", null, null], "x": "BÓN LÁ", "t": "40:2023/UNI", "h": true}, {"m": "20867", "n": "Amino Quelant-Zn/Mn", "l": "Phân bón lá đa lượng-vi lượng-sinh học", "v": ["2", null, null, null, null, null, null, null, null, null, null, "50.000", "50.000", null, null, "5", "1,4", "5", null, null], "x": "BÓN LÁ", "t": "13:2024/UNI", "h": true}, {"m": "20868", "n": "Amino Quelant Zn", "l": "Phân bón lá đa lượng-vi lượng-sinh học", "v": ["2", null, null, null, null, null, null, null, null, null, null, "70.000", null, null, null, "5", "1,2", "5", null, null], "x": "BÓN LÁ", "t": "14:2024/UNI", "h": true}, {"m": "20869", "n": "Amino Quelant Mg", "l": "Phân bón lá đa lượng-trung lượng-sinh học", "v": ["8", null, null, null, null, "5,909", null, null, null, null, null, null, null, null, null, "4", "1,4", "6", null, null], "x": "BÓN LÁ", "t": "15:2024/UNI", "h": true}, {"m": "20870", "n": "Amurox", "l": "Phân bón lá trung lượng-sinh học", "v": [null, null, null, null, null, null, null, "8", null, null, null, null, null, null, null, "12", "1,2", "3,37", null, null], "x": "BÓN LÁ", "t": "16:2024/UNI", "h": true}], "C": [{"n": "Trung Quốc", "t": "SẢN XUẤT THEO TIÊU CHUẨN CỦA GROW MORE. NHẬP KHẨU VÀ PHÂN PHỐI: CÔNG TY TNHH UNIGREEN. ĐỊA CHỈ: TẦNG 1 - 49 ĐIỆN BIÊN PHỦ, P. TÂN ĐỊNH, TP. HỒ CHÍ MINH. ĐT: (0283)-755-9000. ĐÓNG GÓI TẠI CHI NHÁNH CÔNG TY TRÁCH NHIỆM HỮU HẠN UNIGREEN, KHU CÔNG NGHIỆP VĨNH LỘC 2, ẤP VOI LÁ, XÃ MỸ YÊN, TỈNH TÂY NINH. SẢN XUẤT BỞI GUANGDONG YUECHUANG ECOAGRICULTURE TECHNOLOGY CO., LTD, CHINA (TRUNG QUỐC)."}, {"n": "Mỹ", "t": "SẢN XUẤT TẠI GROW MORE U.S.A (HOA KỲ). NHẬP KHẨU VÀ PHÂN PHỐI BỞI CÔNG TY TNHH UNIGREEN. ĐỊA CHỈ: TẦNG 1 - 49 ĐIỆN BIÊN PHỦ, P. TÂN ĐỊNH, TP. HỒ CHÍ MINH. ĐT: (0283)-755-9000. ĐÓNG GÓI TẠI CN CÔNG TY TNHH UNIGREEN, KCN VĨNH LỘC 2, ẤP VOI LÁ, XÃ MỸ YÊN, TỈNH TÂY NINH."}, {"n": "Tây Ban Nha", "t": "SẢN XUẤT TẠI BIOIBÉRICA, SPAIN (TÂY BAN NHA). NK&PP: CÔNG TY TNHH UNIGREEN. ĐỊA CHỈ: TẦNG 1 - 49 ĐIỆN BIÊN PHỦ, P. TÂN ĐỊNH, TP. HỒ CHÍ MINH. ĐT: (0283)-755-9000. ĐÓNG GÓI TẠI CHI NHÁNH CÔNG TY TRÁCH NHIỆM HỮU HẠN UNIGREEN, KHU CÔNG NGHIỆP VĨNH LỘC 2, ẤP VOI LÁ, XÃ MỸ YÊN, TỈNH TÂY NINH."}], "foot": "NSX&HSD XEM TRÊN BAO BÌ."};
@@ -383,7 +453,7 @@ initF();
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(window.__sync)window.__sync.onSave()};
 const cur=()=>S.P.find(p=>p.m===S.sel);
 /* Quốc gia đã xác nhận: p.c = tên quốc gia (rỗng = chưa xác nhận) */
-const I={user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',x:'<path d="M18 6 6 18M6 6l12 12"/>',out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',cog:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',db:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',up:'<path d="m18 15-6-6-6 6"/>',search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',plus:'<path d="M5 12h14M12 5v14"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>',copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',pen:'<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',layers:'<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',sheet:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/>',down:'<path d="M12 15V3m0 12-4-4m4 4 4-4M5 21h14"/>',tag:'<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>',chk:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',alert:'<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',hist:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',dup:'<rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2"/>'};
+const I={print:'<path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',x:'<path d="M18 6 6 18M6 6l12 12"/>',out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',cog:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',db:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',up:'<path d="m18 15-6-6-6 6"/>',search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',plus:'<path d="M5 12h14M12 5v14"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>',copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',pen:'<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',layers:'<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',sheet:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/>',down:'<path d="M12 15V3m0 12-4-4m4 4 4-4M5 21h14"/>',tag:'<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>',chk:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',alert:'<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',hist:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',dup:'<rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2"/>'};
 const ic=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
 let mf='',cf='all',animList=true,lastM=null,fl=false;const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const hasProductData=p=>!!((p.n||'').trim()||(p.l||'').trim()||(p.x||'').trim()||(p.t||'').trim()||(p.d||'').trim()||(p.v||[]).some(v=>v!=null&&String(v).trim()!==''));
@@ -420,6 +490,24 @@ renderMbd();lab()}
 function renderMbd(){const m=$('#mbd');if(cf!=='miss'){m.hidden=true;return}
 const A=S.P.filter(miss),n=[...MF,[cMiss.k,cMiss.t,cMiss.s]].map(([k,t,sh])=>({k,t,n:A.filter(p=>missAll(p).some(x=>x.k===k)).length})).filter(x=>x.n);
 m.hidden=false;m.innerHTML=n.length?'<span>Đang thiếu:</span>'+n.map(x=>`<button type="button" class="chip${mf===x.k?' on':''}" data-mf="${x.k}" title="Bấm để chỉ xem sản phẩm thiếu: ${x.t}">${x.t} <b class="cn">${x.n}</b></button>`).join('')+(mf?'<button type="button" class="lk" data-mf="">Xem tất cả</button>':''):'<span>Không còn sản phẩm nào thiếu thông tin.</span>'}
+function fillFoot(){const f=document.getElementById('pfoot'),p=cur();if(!f)return;
+ f.textContent=p?'Danh sách sản phẩm Grow More · MSPB '+p.m+' · Quốc gia nhãn: '+S.ctry+((p.d||'').trim()?' · HDSD: '+(hdMode()==='full'?'bản đầy đủ (gốc)':'bản nhãn'):'')+' · In lúc '+new Date().toLocaleString('vi-VN'):''}
+window.addEventListener('beforeprint',fillFoot);
+/* Tự phóng chữ/bố cục cho vừa khít khổ giấy (giảm khoảng trắng): đo bằng chính CSS in rồi chọn tỉ lệ lớn nhất còn vừa 1 trang */
+function fitPrint(o){
+ const st=document.getElementById('printcss'),pv=document.getElementById('prev'),rt=document.documentElement;if(!st||!pv||!cur())return;
+ const W=o==='landscape'?1047:718,H=Math.floor((o==='landscape'?718:1047)*.96),ZM=o==='landscape'?1.2:1.25,SM=3.5,bw=document.body.style.width;
+ rt.dataset.po=o;st.media='all';document.body.style.width=W+'px';
+ const hh=()=>document.body.getBoundingClientRect().height,sz=z=>pv.style.setProperty('--pz',z),ss=k=>rt.style.setProperty('--sp',k);
+ const best=(set,max)=>{set(1);if(hh()>H)return 1;set(max);if(hh()<=H)return max;let lo=1,hi=max;for(let n=0;n<9;n++){const m=(lo+hi)/2;set(m);if(hh()<=H)lo=m;else hi=m}return Math.floor(lo*100)/100};
+ ss(1);const z=best(sz,ZM);sz(z);const k=best(ss,SM);ss(k);
+ st.media='print';document.body.style.width=bw}
+function askPrint(){
+ openD('In trang','<p class="e" style="margin:0 0 10px">Chọn hướng giấy A4 để in phần chi tiết sản phẩm đang xem.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button id="pvP" type="button" class="pri" style="flex:1 1 150px;justify-content:center;padding:12px">Giấy dọc</button><button id="pvL" type="button" style="flex:1 1 150px;justify-content:center;padding:12px">Giấy ngang</button></div>',null,'','');
+ const go=o=>{let st=document.getElementById('pgsz');if(!st){st=document.createElement('style');st.id='pgsz';document.head.appendChild(st)}
+  st.textContent='@page{size:A4 '+o+';margin:10mm}';document.documentElement.dataset.po=o;dlg.close();fillFoot();fitPrint(o);setTimeout(()=>window.print(),150)};
+ $('#pvP').onclick=()=>go('portrait');$('#pvL').onclick=()=>go('landscape')}
+window.addEventListener('afterprint',()=>{const st=document.getElementById('pgsz');if(st)st.textContent='';delete document.documentElement.dataset.po;delete document.documentElement.dataset.pm;const pb=document.getElementById('pbatch');if(pb)pb.innerHTML='';const pv=document.getElementById('prev');if(pv)pv.style.removeProperty('--pz');document.documentElement.style.removeProperty('--sp')});
 function renderPrev(){const p=cur(),b=$('#prev');
 if(!p){b.innerHTML='<p class="e">Chọn một MSPB ở danh sách bên trái.</p>';return}
 if(p.c&&p.c!==S.ctry&&S.C.some(x=>x.n===p.c))S.ctry=p.c;
@@ -434,17 +522,17 @@ wb=(mi.length||!ok)?`<div class="wbar" role="alert">${mi.length?`<span class="wi
 rc=(S.rec||[]).filter(m=>m!==S.sel&&S.P.some(x=>x.m===m)).slice(0,6);
 b.innerHTML=`<button id="bk" class="back" type="button">${ic('up')}Danh sách</button>${wb}<div class="ph"><div class="pt"><div class="id">MSPB ${esc(p.m)}</div><h2>${p.n?esc(p.n):'<span class="mk">(chưa có tên)</span>'}</h2>
 <div class="sub">${[[p.l,'loại phân bón'],[p.x,'phương thức sử dụng'],[p.t&&'TCCS '+p.t,'TCCS']].map(([v,n])=>v?esc(v):`<span class="mk">Chưa có ${n}</span>`).join(' · ')}</div>${st}</div>
-<div class="pa"><button id="hs" class="hs ${p.h?'h':''}" title="Bật/tắt SP hay in">★</button><button id="bD">${ic('dup')}Nhân bản</button><button id="bE">${ic('pen')}Sửa</button><button id="cp" class="pri">${ic('copy')}Sao chép Heineken</button></div></div>
+<div class="pa"><button id="hs" class="hs ${p.h?'h':''}" title="Bật/tắt SP hay in">★</button><button id="bD">${ic('dup')}Nhân bản</button><button id="bE">${ic('pen')}Sửa</button><button id="bPrint" type="button" title="In trang chi tiết sản phẩm này (vừa khổ A4)">${ic('print')}In trang</button><button id="cp" class="pri">${ic('copy')}Sao chép Heineken</button></div></div>
 ${rc.length?`<div class="rec">${ic('hist')} Vừa xem: ${rc.map(m=>`<button class="chip" data-r="${m}">${m}</button>`).join('')}</div>`:''}
 ${sec('Thành phần',mi.some(x=>x.k==='v')?'<span class="m mkk">Chưa nhập thành phần nào</span>':'<span class="m"></span>')}<div class="gs" style="--sd:${(sd.shift/5).toFixed(2)}em">${G.map((n,gi)=>{const a=r.it.filter(x=>x.g==gi+1);return`<div class="g"><h4>${n}</h4>${a.map(x=>`<div><span${lblN(x.i)!==F[x.i][0]?` title="Tên trong form: ${esc(F[x.i][0])}"`:''}>${subHTML(lblN(x.i)).h}</span><b>${esc(x.val)}</b></div>`).join('')||'<div class="n">—</div>'}</div>`}).join('')}</div>
 ${sec('Nội dung nhãn hoàn chỉnh (địa chỉ + thành phần)',`<span class="m">${r.out.length} ký tự · ${words} từ</span><button id="cp5" type="button">${ic('copy')}Chép</button><button id="sb" type="button">${ic('down')}Tuỳ chỉnh &amp; tải script</button>`)}<div class="out ${ok&&!om.length?'':'w'}" style="--sd:${(sd.shift/5).toFixed(2)}em">${sd.h}</div>
-<div class="e" style="font-size:14px;margin-top:6px">Chữ màu đỏ (${sd.n} chỗ) sẽ được hạ khi chạy script trong Illustrator: mức 1 (H, O, ts, 5hh…) hạ ${String(sd.shift).replace('.',',')} pt, mức 2 (số 2 của H2O) hạ ${String(Math.round(sd.shift*200)/100).replace('.',',')} pt.${jusCfg().on?' Script cũng tự căn đều hai bên (Justify).':''}</div>
+<div class="e noprint" style="font-size:14px;margin-top:6px">Chữ màu đỏ (${sd.n} chỗ) sẽ được hạ khi chạy script trong Illustrator: mức 1 (H, O, ts, 5hh…) hạ ${String(sd.shift).replace('.',',')} pt, mức 2 (số 2 của H2O) hạ ${String(Math.round(sd.shift*200)/100).replace('.',',')} pt.${jusCfg().on?' Script cũng tự căn đều hai bên (Justify).':''}</div>
 <div class="pr"><span>Chép riêng:</span><button id="cp2" type="button" title="Chỉ phần thành phần, chưa chỉnh Heineken">${ic('copy')}Thành phần</button><button id="cp3" type="button" title="Chỉ phần thông tin sản xuất theo quốc gia đang chọn">${ic('copy')}Thông tin sản xuất (${esc(S.ctry)})</button></div>
-${sec('Hướng dẫn sử dụng (HDSD)',`<button id="bHD">${ic('pen')}${(p.d||'').trim()?'Sửa':'Dán'} HDSD</button>`,(p.d||'').trim()?`<div class="hdb"><span class="seg"><button id="hvL" type="button" class="${hdMode()==='label'?'pri':''}" title="Bản nhãn: tiêu đề rút gọn, gộp mục trùng nội dung, dùng để in lên nhãn">Bản nhãn</button><button id="hvF" type="button" class="${hdMode()==='full'?'pri':''}" title="Bản đầy đủ: giữ nguyên toàn bộ tiêu đề, không gộp mục, chỉ để đọc/đối chiếu">Đầy đủ</button></span><button id="cp4" type="button" title="Chép bản ${hdMode()==='full'?'đầy đủ':'nhãn'}">${ic('copy')}Chép</button>${hdMode()==='label'?`<button id="bHC" type="button" title="Cài đặt rút gọn tiêu đề">${ic('list')}Rút gọn</button><button id="bHS" type="button">${ic('down')}Script HDSD</button>`:''}</div>`:'')}${(p.d||'').trim()?`${hdMode()==='full'?`<div class="mwl">${ic('alert')}Bản đầy đủ chỉ để đọc, không dùng in nhãn.</div>`:''}<div class="box" style="margin-top:8px"><div class="hd" style="--sd:${(sd.shift/5).toFixed(2)}em">${hdHTML(p.d,hdMode())}</div></div>${hdWarn(p.d)}<div class="e" style="font-size:14px;margin-top:6px">${hdMode()==='full'?'Giữ nguyên toàn bộ tiêu đề, mỗi mục cách nhau một dòng trống khi chép.':'Chép ra: mỗi tiêu đề một dòng, nội dung một dòng. Dán vào khung chữ Illustrator rồi chạy <b>Script HDSD</b>: mũ m², căn đều hai bên, tiêu đề căn trái và in đậm.'}</div>`:`<p class="e">Chưa có HDSD cho MSPB này. Bấm <b>Dán HDSD</b> để dán nội dung từ trang tra cứu.</p>`}`;
+${sec('Hướng dẫn sử dụng (HDSD)',`<button id="bHD">${ic('pen')}${(p.d||'').trim()?'Sửa':'Dán'} HDSD</button>`,(p.d||'').trim()?`<div class="hdb"><span class="seg"><button id="hvL" type="button" class="${hdMode()==='label'?'pri':''}" title="Bản nhãn: tiêu đề rút gọn, gộp mục trùng nội dung, dùng để in lên nhãn">Bản nhãn</button><button id="hvF" type="button" class="${hdMode()==='full'?'pri':''}" title="Bản đầy đủ: giữ nguyên toàn bộ tiêu đề, không gộp mục, chỉ để đọc/đối chiếu">Đầy đủ</button></span><button id="cp4" type="button" title="Chép bản ${hdMode()==='full'?'đầy đủ':'nhãn'}">${ic('copy')}Chép</button>${hdMode()==='label'?`<button id="bHC" type="button" title="Cài đặt rút gọn tiêu đề">${ic('list')}Rút gọn</button><button id="bHS" type="button">${ic('down')}Script HDSD</button>`:''}</div>`:'')}${(p.d||'').trim()?`<div class="hdtag ${hdMode()}">${hdMode()==='full'?'<b>BẢN ĐẦY ĐỦ (GỐC)</b><span>Giữ nguyên toàn bộ tiêu đề · chỉ để đọc, đối chiếu · KHÔNG dùng in lên nhãn</span>':'<b>BẢN NHÃN</b><span>Đã rút gọn tiêu đề, gộp mục trùng · dùng để in lên nhãn</span>'}</div>${hdMode()==='full'?`<div class="mwl">${ic('alert')}Bản đầy đủ chỉ để đọc, không dùng in nhãn.</div>`:''}<div class="box" style="margin-top:8px"><div class="hd" style="--sd:${(sd.shift/5).toFixed(2)}em">${hdHTML(p.d,hdMode())}</div></div>${hdWarn(p.d)}<div class="e noprint" style="font-size:14px;margin-top:6px">${hdMode()==='full'?'Giữ nguyên toàn bộ tiêu đề, mỗi mục cách nhau một dòng trống khi chép.':'Chép ra: mỗi tiêu đề một dòng, nội dung một dòng. Dán vào khung chữ Illustrator rồi chạy <b>Script HDSD</b>: mũ m², căn đều hai bên, tiêu đề căn trái và in đậm.'}</div>`:`<p class="e noprint">Chưa có HDSD cho MSPB này. Bấm <b>Dán HDSD</b> để dán nội dung từ trang tra cứu.</p>`}`;
 if(lastM!==p.m){lastM=p.m;[...b.children].forEach((c,i)=>c.style.setProperty('--n',i));b.classList.remove('anim');void b.offsetWidth;b.classList.add('anim');b.scrollTo({top:0,behavior:RM?'auto':'smooth'})}else b.classList.remove('anim');
 if(fl){fl=false;const o=$('.out');if(o)o.classList.add('fl')}
 const setC=v=>{p.c=v;if(v&&S.fol!==false)S.ctry=v;save();fl=true;render()};
-$('#cp').onclick=e=>copy(r.out,e.currentTarget);$('#cp5').onclick=e=>copy(r.out,e.currentTarget);$('#cp2').onclick=e=>copy(r.comp,e.currentTarget);$('#cp3').onclick=e=>copy(r.c,e.currentTarget);$('#sb').onclick=subDlg;$('#bHD').onclick=editD;if($('#cp4'))$('#cp4').onclick=e=>copy(hdText(p.d,hdMode()),e.currentTarget);if($('#hvL'))$('#hvL').onclick=()=>{S.hdv='label';save();render()};if($('#hvF'))$('#hvF').onclick=()=>{S.hdv='full';save();render()};if($('#bHS'))$('#bHS').onclick=hdDlg;if($('#bHC'))$('#bHC').onclick=hdCfgDlg;
+$('#bPrint').onclick=askPrint;$('#cp').onclick=e=>copy(r.out,e.currentTarget);$('#cp5').onclick=e=>copy(r.out,e.currentTarget);$('#cp2').onclick=e=>copy(r.comp,e.currentTarget);$('#cp3').onclick=e=>copy(r.c,e.currentTarget);$('#sb').onclick=subDlg;$('#bHD').onclick=editD;if($('#cp4'))$('#cp4').onclick=e=>copy(hdText(p.d,hdMode()),e.currentTarget);if($('#hvL'))$('#hvL').onclick=()=>{S.hdv='label';save();render()};if($('#hvF'))$('#hvF').onclick=()=>{S.hdv='full';save();render()};if($('#bHS'))$('#bHS').onclick=hdDlg;if($('#bHC'))$('#bHC').onclick=hdCfgDlg;
 $('#hs').onclick=()=>{p.h=!p.h;save();render()};$('#bE').onclick=()=>editP(false);if($('#bFix'))$('#bFix').onclick=()=>editP(false);
 $('#bk').onclick=()=>document.querySelector('main>section').scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});
 $('#bD').onclick=()=>{const c=clone(p);c.m='';c.n=(c.n||'')+' (bản sao)';c.h=false;editP(true,c)};
@@ -732,15 +820,217 @@ if(foot)S.foot=String(foot);
 if(!S.C.some(x=>x.n===S.ctry))S.ctry=S.C[0].n;
 if(!S.P.some(p=>p.m===S.sel))S.sel=null;
 save();renderCt();render();note(`Đã nhập ${P.length} sản phẩm`+(C&&C.length?` và ${C.length} quốc gia`:'')+(nf?` · thêm ${nf} thành phần mới`:'')+'.')}
-async function exportX(){if(!window.XLSX)return note('Chưa tải được thư viện Excel (cần kết nối mạng).');
-try{const d=XLSX.write(buildWb(),{bookType:'xlsx',type:'array'}),fn='Heineken-du-lieu.xlsx',dl=window.claude?await claude.use('downloads'):null;
+/* ===== Xuất Excel có định dạng giống file mẫu Heineken.xlsx (tự dựng file .xlsx, không cần thư viện ngoài) ===== */
+const XW=(()=>{
+ const escT=s=>String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+ const escA=s=>escT(s).replace(/"/g,'&quot;');
+ const crcT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+ const crc=b=>{let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=crcT[(c^b[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0};
+ const u16=v=>[v&255,(v>>8)&255],u32=v=>[v&255,(v>>8)&255,(v>>16)&255,(v>>24)&255];
+ function zip(files){const enc=new TextEncoder(),parts=[],cd=[];let off=0;
+  for(const f of files){const nm=enc.encode(f.n),d=typeof f.d==='string'?enc.encode(f.d):f.d,c=crc(d);
+   const lh=Uint8Array.from([0x50,0x4b,3,4,...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(c),...u32(d.length),...u32(d.length),...u16(nm.length),...u16(0)]);
+   parts.push(lh,nm,d);
+   cd.push(Uint8Array.from([0x50,0x4b,1,2,...u16(20),...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(c),...u32(d.length),...u32(d.length),...u16(nm.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(off)]),nm);
+   off+=lh.length+nm.length+d.length}
+  const cdLen=cd.reduce((a,b)=>a+b.length,0),end=Uint8Array.from([0x50,0x4b,5,6,...u16(0),...u16(0),...u16(files.length),...u16(files.length),...u32(cdLen),...u32(off),...u16(0)]);
+  const all=[...parts,...cd,end],out=new Uint8Array(all.reduce((a,b)=>a+b.length,0));let p=0;for(const a of all){out.set(a,p);p+=a.length}return out}
+ /* Kiểu ô: o = {f:{n,s,b,i,c}, fill, b:{l,r,t,b:'t'|'m'|'k'}, bc, h, v, w, nf} */
+ function Styles(){const fonts=['<font><sz val="11"/><color rgb="FF000000"/><name val="Montserrat"/></font>'],fills=['<fill><patternFill patternType="none"/></fill>','<fill><patternFill patternType="gray125"/></fill>'],borders=['<border><left/><right/><top/><bottom/><diagonal/></border>'],nfs=[],xfs=['<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'],map=new Map();
+  const idx=(a,x)=>{let i=a.indexOf(x);if(i<0){i=a.length;a.push(x)}return i},T={t:'thin',m:'medium',k:'thick'};
+  const side=(n,v,c)=>v?`<${n} style="${T[v]||v}"><color rgb="FF${c}"/></${n}>`:`<${n}/>`;
+  return{get(o){if(!o)return 0;const key=JSON.stringify(o);if(map.has(key))return map.get(key);
+    const f=o.f||{},b=o.b||{},bc=o.bc||'000000',al=`<alignment${o.h?` horizontal="${o.h}"`:''} vertical="${o.v||'center'}"${o.w?' wrapText="1"':''}/>`;
+    const font=`<font>${f.b?'<b/>':''}${f.i?'<i/>':''}<sz val="${f.s||11}"/><color rgb="FF${f.c||'000000'}"/><name val="${f.n||'Montserrat'}"/></font>`;
+    const fill=o.fill?`<fill><patternFill patternType="solid"><fgColor rgb="FF${o.fill}"/><bgColor indexed="64"/></patternFill></fill>`:null;
+    const border=`<border>${side('left',b.l,bc)}${side('right',b.r,bc)}${side('top',b.t,bc)}${side('bottom',b.b,bc)}<diagonal/></border>`;
+    const nf=o.nf?(o.nf==='@'?49:164+idx(nfs,o.nf)):0;
+    const xf=`<xf numFmtId="${nf}" fontId="${idx(fonts,font)}" fillId="${fill?idx(fills,fill):0}" borderId="${idx(borders,border)}" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1">${al}</xf>`;
+    const i=xfs.length;xfs.push(xf);map.set(key,i);return i},
+   xml(){const L=(t,a)=>`<${t} count="${a.length}">${a.join('')}</${t}>`;
+    return`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">${nfs.length?L('numFmts',nfs.map((x,i)=>`<numFmt numFmtId="${164+i}" formatCode="${escA(x)}"/>`)):''}${L('fonts',fonts)}${L('fills',fills)}${L('borders',borders)}<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>${L('cellXfs',xfs)}<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`}}}
+ const cl=n=>{let s='';n++;while(n>0){const m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=Math.floor((n-1)/26)}return s};
+ /* Sheet: r là số dòng (từ 1), c là số cột (từ 0). Giá trị: chuỗi | số | boolean | {f:'công thức', v:'giá trị tính sẵn'} */
+ function Sheet(name){const cells=new Map(),merges=[],cw={},rh={},dvs=[];const o={name,tab:null,grid:false,freeze:null,filter:null,landscape:false};
+  const k=(r,c)=>r*20000+c;
+  Object.assign(o,{
+   set(r,c,v,s){const e=cells.get(k(r,c));cells.set(k(r,c),{r,c,v:v===undefined&&e?e.v:v,s:s===undefined&&e?e.s:s});return o},
+   paint(r1,c1,r2,c2,s){for(let r=r1;r<=r2;r++)for(let c=c1;c<=c2;c++)o.set(r,c,undefined,s);return o},
+   merge(r1,c1,r2,c2){merges.push(cl(c1)+r1+':'+cl(c2)+r2);return o},
+   col(c,w){cw[c]=w;return o},row(r,h){rh[r]=h;return o},
+   list(sq,f,msg){dvs.push(`<dataValidation type="list" allowBlank="1" showErrorMessage="1" errorTitle="Giá trị không hợp lệ" error="${escA(msg||'Hãy chọn một giá trị trong danh sách.')}" sqref="${sq}"><formula1>${escT(f)}</formula1></dataValidation>`);return o},
+   xml(first,sty){const rows=new Map();let maxR=1,maxC=0;
+    for(const e of cells.values()){if(!rows.has(e.r))rows.set(e.r,[]);rows.get(e.r).push(e);maxR=Math.max(maxR,e.r);maxC=Math.max(maxC,e.c)}
+    for(const r of Object.keys(rh))if(!rows.has(+r)){rows.set(+r,[]);maxR=Math.max(maxR,+r)}
+    const sd=[...rows.keys()].sort((a,b)=>a-b).map(r=>{const cs=rows.get(r).sort((a,b)=>a.c-b.c).map(e=>{const a=cl(e.c)+e.r,s=e.s?` s="${typeof e.s==='number'?e.s:sty.get(e.s)}"`:'',v=e.v;
+       if(v===null||v===undefined||v==='')return`<c r="${a}"${s}/>`;
+       if(typeof v==='boolean')return`<c r="${a}"${s} t="b"><v>${v?1:0}</v></c>`;
+       if(typeof v==='number')return`<c r="${a}"${s}><v>${v}</v></c>`;
+       if(typeof v==='object'){const cv=v.v;return cv===undefined||cv===null?`<c r="${a}"${s}><f>${escT(v.f)}</f></c>`:typeof cv==='number'?`<c r="${a}"${s}><f>${escT(v.f)}</f><v>${cv}</v></c>`:`<c r="${a}"${s} t="str"><f>${escT(v.f)}</f><v>${escT(cv)}</v></c>`}
+       return`<c r="${a}"${s} t="inlineStr"><is><t xml:space="preserve">${escT(v)}</t></is></c>`}).join('');
+      return`<row r="${r}"${rh[r]?` ht="${rh[r]}" customHeight="1"`:''}>${cs}</row>`}).join('');
+    const cols=Object.keys(cw).map(Number).sort((a,b)=>a-b).map(c=>`<col min="${c+1}" max="${c+1}" width="${cw[c]}" customWidth="1"/>`).join('');
+    let pane='';if(o.freeze){const[fr,fc]=o.freeze;pane=`<pane${fc?` xSplit="${fc}"`:''}${fr?` ySplit="${fr}"`:''} topLeftCell="${cl(fc)}${fr+1}" activePane="${fr&&fc?'bottomRight':fr?'bottomLeft':'topRight'}" state="frozen"/><selection pane="${fr&&fc?'bottomRight':fr?'bottomLeft':'topRight'}"/>`}
+    return`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetPr>${o.tab?`<tabColor rgb="FF${o.tab}"/>`:''}<pageSetUpPr fitToPage="1"/></sheetPr><dimension ref="A1:${cl(maxC)}${maxR}"/><sheetViews><sheetView${o.grid?'':' showGridLines="0"'}${first?' tabSelected="1"':''} workbookViewId="0">${pane}</sheetView></sheetViews><sheetFormatPr defaultRowHeight="15"/>${cols?`<cols>${cols}</cols>`:''}<sheetData>${sd}</sheetData>${o.filter?`<autoFilter ref="${o.filter}"/>`:''}${merges.length?`<mergeCells count="${merges.length}">${merges.map(m=>`<mergeCell ref="${m}"/>`).join('')}</mergeCells>`:''}${dvs.length?`<dataValidations count="${dvs.length}">${dvs.join('')}</dataValidations>`:''}<pageMargins left="0.4" right="0.4" top="0.5" bottom="0.5" header="0.3" footer="0.3"/><pageSetup paperSize="9" orientation="${o.landscape?'landscape':'portrait'}" fitToWidth="1" fitToHeight="0"/></worksheet>`}});
+  return o}
+ function write(sheets,sty){const files=[],n=sheets.length;
+  files.push({n:'[Content_Types].xml',d:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((s,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>`});
+  files.push({n:'_rels/.rels',d:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`});
+  files.push({n:'xl/workbook.xml',d:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView activeTab="0"/></bookViews><sheets>${sheets.map((s,i)=>`<sheet name="${escA(s.name)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')}</sheets>${sheets.some(s=>s.printArea)?`<definedNames>${sheets.map((s,i)=>s.printArea?`<definedName name="_xlnm.Print_Area" localSheetId="${i}">${escT(s.printArea)}</definedName>`:'').join('')}</definedNames>`:''}<calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>`});
+  files.push({n:'xl/_rels/workbook.xml.rels',d:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((s,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')}<Relationship Id="rId${n+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`});
+  sheets.forEach((s,i)=>files.push({n:`xl/worksheets/sheet${i+1}.xml`,d:s.xml(i===0,sty)}));
+  files.push({n:'xl/styles.xml',d:sty.xml()});return zip(files)}
+ return{Styles,Sheet,write,cl}})();
+/* Dựng workbook theo mẫu Heineken.xlsx: Nhập liệu · Short SP · Sản xuất · Heiniken hoàn chỉnh · Cài đặt · Thành phần */
+function buildStyledXlsx(){
+ const sty=new XW.Styles(),cl=XW.cl,RED='C0504D',GRP=['548235','2E75B6','C55A11','7030A0'],PINK='F2DBDB',BAND='FBF3F3',GRAY='A6A6A6',W='FFFFFF';
+ const n=F.length,o=fOrd(),rows=toRows(),N=S.P.length,LAST=7+n,MAXR=1000;
+ const cMeth=cl(3+n),cTc=cl(4+n),cFlag=cl(5+n),cCty=cl(6+n),cHd=cl(7+n);
+ const SP="'Short SP'",rng=c=>`${SP}!$${c}$5:$${c}$${MAXR}`,key='MATCH(RIGHT("00000"&$B$2,5),'+rng('A')+',0)',look=c=>`INDEX(${rng(c)},${key})`;
+ const q=s=>'"'+String(s).replace(/"/g,'""')+'"';
+ const cur0=S.P.find(p=>p.m===S.sel)||S.P[0]||null,R0=cur0?build(cur0,S):null;
+ const B=(v,c)=>({l:v,r:v,t:v,b:v}),hdr=(sz,fill,extra)=>Object.assign({f:{s:sz,b:1,c:W},fill:fill||RED,h:'center',v:'center',b:{l:'t',r:'t',t:'t',b:'t'}},extra||{});
+
+ /* ---------- 1) Nhập liệu ---------- */
+ const nl=XW.Sheet('Nhập liệu');nl.tab=RED;nl.landscape=true;
+ const T16=hdr(16),T15L=hdr(15,RED,{h:'left',b:{l:'m',r:'m',t:'m',b:'m'}}),IN15={f:{s:15,b:1},fill:W,h:'center',b:{l:'m',r:'m',t:'m',b:'m'}};
+ nl.set(1,0,'BẢNG THÀNH PHẦN HEINIKEN',Object.assign({},T16,{b:{l:'k',r:'k',t:'k',b:'m'}})).paint(1,1,1,10,Object.assign({},T16)).merge(1,0,1,10).row(1,30);
+ nl.set(2,0,'MSPB:',T15L).set(3,0,'Tên sản phẩm:',T15L).set(4,0,'Phương thức sử dụng:',T15L).row(2,26).row(3,24).row(4,24);
+ nl.set(2,1,S.sel||'',Object.assign({nf:'@'},IN15)).paint(2,2,2,6,IN15).merge(2,1,2,6);
+ nl.set(3,1,{f:'IFERROR('+look('B')+'&"","")',v:cur0?cur0.n:''},IN15).paint(3,2,3,6,IN15).merge(3,1,3,6);
+ nl.set(4,1,{f:'IFERROR('+look(cMeth)+'&"","")',v:cur0?cur0.x:''},IN15).paint(4,2,4,6,IN15).merge(4,1,4,6);
+ nl.set(2,7,'Loại phân bón:',T15L).paint(2,8,4,8,T15L).paint(3,7,4,7,T15L).merge(2,7,4,8);
+ nl.set(2,9,{f:'IFERROR('+look('C')+'&"","")',v:cur0?cur0.l:''},Object.assign({w:1},IN15)).paint(2,10,4,10,IN15).paint(3,9,4,9,IN15).merge(2,9,4,10);
+ const ban=(r,txt,sz)=>nl.set(r,0,txt,hdr(sz||15)).paint(r,1,r,10,hdr(sz||15)).merge(r,0,r,10);
+ ban(5,'THÀNH PHẦN').row(5,24);
+ nl.set(6,0,'Chọn MSPB ở ô B2 (danh sách thả xuống). Các ô còn lại tự tính từ sheet Short SP — cột M:X bên phải là cột tính, không cần sửa.',{f:{s:10,i:1,c:'666666'},h:'left'}).merge(6,0,6,10).row(6,18);
+ nl.list('B2',rng('A'),'Chọn MSPB có trong sheet Short SP.');
+ const NC=[[0,1],[3,4],[6,7],[9,10]],gsz=[1,2,3,4].map(g=>o.filter(i=>F[i][1]===g)),RN=Math.max(1,...gsz.map(a=>a.length)),addr={};
+ const items0=cur0?items(cur0):[],valOf={};if(cur0)cur0.v.forEach((v,i)=>{if(v!=null&&String(v).trim()!=='')valOf[i]=String(v).trim()});
+ GN.forEach((g,k)=>{const[c0,c1]=NC[k];nl.set(7,c0,g.toUpperCase(),hdr(13)).set(7,c1,'GIÁ TRỊ',hdr(13));
+  gsz[k].forEach((i,j)=>{const r=8+j,vc=cl(c1),dc=cl(3+o.indexOf(i)),has=valOf[i]!==undefined;addr[i]=vc+r;
+   nl.set(r,c0,{f:`IF(AND($B$2<>"",${vc}${r}=""),"",${q(F[i][0])})`,v:has||!cur0?F[i][0]:''},{f:{s:13},h:'left',b:B('t')});
+   nl.set(r,c1,{f:'IFERROR('+look(dc)+'&"","")',v:has?valOf[i]:''},{f:{s:13,b:1},fill:PINK,h:'center',b:B('t')})});
+  for(let r=8+gsz[k].length;r<8+RN;r++)nl.set(r,c0,null,{b:{l:'t'}}).set(r,c1,null,{fill:null})});
+ nl.row(7,26);for(let j=0;j<RN;j++)nl.row(8+j,22);
+ const rEnd=8+RN;ban(rEnd+1,'THÀNH PHẦN HOÀN CHỈNH',16).row(rEnd+1,26);
+ const compRow=rEnd+2;nl.printArea="'Nhập liệu'!$A$1:$K$"+compRow;const H1=7,HN=6+n,hr=c=>`$${c}$${H1}:$${c}$${HN}`;
+ /* cột tính M:X */
+ const hh=hdr(10,'7F7F7F',{w:1});['Tên trên nhãn','Giá trị','Đơn vị mặc định','Nhóm','Thứ tự','Hợp lệ','Thứ hạng','Nội dung theo thứ hạng','Giá trị số','Chế độ xếp','Đứng đầu nhóm (0=có)','Khóa chế độ'].forEach((t,j)=>nl.set(6,12+j,t,hh));
+ nl.set(5,12,'CỘT TÍNH (tự động — không sửa)',{f:{s:11,b:1,c:'7F7F7F'},h:'left'});nl.row(6,32);
+ const nodig=x=>['0','1','2','3','4','5','6','7','8','9','.',','].reduce((a,d)=>`SUBSTITUTE(${a},"${d}","")`,`${x}&""`);
+ const cs={f:{s:10,c:'595959'},h:'left',b:B('t'),bc:'BFBFBF'};
+ o.forEach((i,j)=>{const r=H1+j,u=F[i][3]||'',mode=F[i][4]?'fixed':srtMode(F[i][1]),disp=u==='%'?'"%"':u?q(' '+u):'""';
+  nl.set(r,12,lblN(i),cs).set(r,13,{f:addr[i]},cs).set(r,14,{f:`IF(N${r}="","",IF(LEN(${nodig('N'+r)})>0,"",${disp}))`},cs)
+   .set(r,15,F[i][1],cs).set(r,16,F[i][2],cs).set(r,17,{f:`IF(N${r}<>"",1,0)`},cs)
+   .set(r,18,{f:`IF(R${r}=0,"",1+SUMPRODUCT(($R$${H1}:$R$${HN}=1)*(($P$${H1}:$P$${HN}<P${r})+($P$${H1}:$P$${HN}=P${r})*(($W$${H1}:$W$${HN}<W${r})+($W$${H1}:$W$${HN}=W${r})*(($X$${H1}:$X$${HN}<X${r})+($X$${H1}:$X$${HN}=X${r})*(($Q$${H1}:$Q$${HN}<Q${r})+($Q$${H1}:$Q$${HN}=Q${r})*(ROW($Q$${H1}:$Q$${HN})<ROW())))))))`},cs)
+   .set(r,19,{f:`IFERROR(INDEX(${hr('M')},MATCH(ROWS($T$${H1}:T${r}),${hr('S')},0))&": "&INDEX(${hr('N')},MATCH(ROWS($T$${H1}:T${r}),${hr('S')},0))&INDEX(${hr('O')},MATCH(ROWS($T$${H1}:T${r}),${hr('S')},0)),"")`},cs)
+   .set(r,20,{f:`IF(R${r}=0,0,IFERROR(_xlfn.NUMBERVALUE(SUBSTITUTE(LEFT(N${r},FIND(" ",N${r}&" ")-1),"%",""),",",".")*IF(OR(UN${r}="%"),10000,IF(OR(UN${r}="g/l",UN${r}="g/kg"),1000,IF(UN${r}="ppb",0.001,1))),0))`.replace(/UN\d+/g,m=>`IF(ISNUMBER(FIND(" ",N${r})),TRIM(MID(N${r},FIND(" ",N${r})+1,20)),IF(RIGHT(N${r},1)="%","%",${q(u)}))`)},cs)
+   .set(r,21,mode,cs).set(r,22,F[i][4]?0:1,cs)
+   .set(r,23,{f:`IF(R${r}=0,0,IF(W${r}=0,0,IF(V${r}="desc",-U${r},IF(V${r}="asc",U${r},0))))`},cs)});
+ const zc=cl(25);nl.set(6,25,'Chuỗi thô (đã loại trùng)',hh);
+ nl.set(7,25,{f:'CONCATENATE('+o.map((_,j)=>{const r=H1+j;return`IF(AND(T${r}<>"",COUNTIF($T$${H1}:T${r},T${r})=1),T${r}&"; ","")`}).join(',')+')'},cs);
+ const compV=R0?R0.comp:'',CP={f:{s:12,b:1},fill:PINK,h:'center',w:1,b:{l:'m',r:'m',t:'m',b:'m'}};
+ nl.set(compRow,0,{f:`IF($Z$7="","",LEFT($Z$7,LEN($Z$7)-2))`,v:compV},CP).paint(compRow,1,compRow,10,CP).merge(compRow,0,compRow,10).row(compRow,96);
+ [[0,39.7],[1,19.7],[2,3],[3,34],[4,18],[5,3],[6,30],[7,18],[8,3],[9,40],[10,16],[11,3],[12,24],[13,14],[14,10],[15,8],[16,8],[17,8],[18,9],[19,36],[20,12],[21,11],[22,12],[23,11],[24,3],[25,36]].forEach(([c,w])=>nl.col(c,w));
+
+ /* ---------- 2) Short SP ---------- */
+ const sp=XW.Sheet('Short SP');sp.tab=RED;sp.freeze=[4,3];sp.filter=`A4:${cl(LAST)}${4+N}`;
+ const gcol=j=>j>=3&&j<3+n?GRP[F[o[j-3]][1]-1]:RED;
+ sp.set(1,0,rows[0][0],hdr(14)).paint(1,1,1,LAST,hdr(14)).merge(1,0,1,LAST).row(1,28).row(2,10);
+ const g=rows[2];let segs=[];g.forEach((t,j)=>{if(t)segs.push([j,t])});
+ segs.forEach(([s,t],i)=>{const e=(segs[i+1]?segs[i+1][0]:LAST+1)-1,f=hdr(15,gcol(s));sp.set(3,s,t,f).paint(3,s+1,3,e,f);if(e>s)sp.merge(3,s,3,e)});sp.row(3,32);
+ rows[3].forEach((t,j)=>sp.set(4,j,t,hdr(12,gcol(j),{w:1})));sp.row(4,46);
+ const bd={l:'t',r:'t',t:'t',b:'t'};
+ rows.slice(4).forEach((rw,i)=>{const r=5+i,fl=i%2?BAND:null;rw.forEach((v,j)=>{const ing=j>=3&&j<3+n;
+   const st=j===0?{f:{s:11,b:1},nf:'@',h:'center',b:bd,bc:GRAY,fill:fl}:ing?{f:{s:12,b:1},nf:'@',h:'center',b:bd,bc:GRAY,fill:fl}
+    :j===LAST?{f:{s:10},nf:'@',h:'left',b:bd,bc:GRAY,fill:fl}:j===1||j===2?{f:{s:11},nf:'@',h:'left',b:bd,bc:GRAY,fill:fl}:{f:{s:11,b:1},nf:'@',h:'center',b:bd,bc:GRAY,fill:fl};
+   sp.set(r,j,v===null||v===undefined?null:(typeof v==='boolean'?v:String(v)),st)});sp.row(r,22)});
+ sp.col(0,9).col(1,40).col(2,34);for(let j=3;j<3+n;j++)sp.col(j,17);sp.col(3+n,20).col(4+n,18).col(5+n,18).col(6+n,18).col(LAST,60);
+
+ /* ---------- 3) Sản xuất ---------- */
+ const sx=XW.Sheet('Sản xuất');sx.tab=GRP[1];
+ sx.set(1,0,'Quốc gia',hdr(12)).set(1,1,'Nội dung',hdr(12)).row(1,26).col(0,20).col(1,125);
+ S.C.forEach((c,i)=>{const r=2+i;sx.set(r,0,c.n,{f:{s:11,b:1},h:'left',b:bd,bc:GRAY}).set(r,1,c.t,{f:{s:10.5},h:'left',w:1,b:bd,bc:GRAY}).row(r,Math.max(34,Math.ceil(String(c.t).length/105)*17+8))});
+
+ /* ---------- 4) Heiniken hoàn chỉnh ---------- */
+ const hc=XW.Sheet('Heiniken hoàn chỉnh');hc.tab=GRP[0];hc.col(0,3).col(1,30).col(2,130);
+ const sxr="'Sản xuất'",lab={f:{s:14,b:1},h:'left',b:bd},val={f:{s:14},h:'left',w:1,b:bd};
+ hc.set(1,1,'Chọn quốc gia sản xuất ở ô B2 (danh sách thả xuống) — các ô còn lại tự lấy từ sheet Nhập liệu.',{f:{s:10,i:1,c:'666666'},h:'left'}).merge(1,1,1,2).row(1,20);
+ const ctyV=S.ctry||'',ctyT=((S.C.find(x=>x.n===ctyV)||{}).t||'').trim();
+ hc.set(2,1,ctyV,Object.assign({},lab,{fill:PINK})).list('B2',`${sxr}!$A$2:$A$${Math.max(3,S.C.length+1)}`,'Chọn quốc gia có trong sheet Sản xuất.');
+ hc.set(2,2,{f:`IFERROR(INDEX(${sxr}!$B$2:$B$200,MATCH($B$2,${sxr}!$A$2:$A$200,0)),"")`,v:ctyT},val).row(2,70);
+ const nlr="'Nhập liệu'",pv={method:cur0?cur0.x:'',tc:cur0?cur0.t:'',hd:cur0?cur0.d:''};
+ [['TÊN SẢN PHẨM:',{f:`${nlr}!B3`,v:cur0?cur0.n:''},26],['PHƯƠNG THỨC SỬ DỤNG:',{f:`${nlr}!B4`,v:pv.method},26],['THÀNH PHẦN:',{f:`${nlr}!A${compRow}`,v:compV},76],['MSPB:',{f:`${nlr}!B2`,v:S.sel||''},26],
+  ['TCCS:',{f:`IFERROR(INDEX(${rng(cTc)},MATCH(RIGHT("00000"&C6,5),${rng('A')},0))&"","")`,v:pv.tc},26],['HƯỚNG DẪN SỬ DỤNG:',{f:`IFERROR(INDEX(${rng(cHd)},MATCH(RIGHT("00000"&C6,5),${rng('A')},0))&"","")`,v:pv.hd},76]].forEach(([t,f,h],i)=>{const r=3+i;hc.set(r,1,t,lab).set(r,2,f,Object.assign({},val,i===3?{nf:'@'}:{})).row(r,h)});
+ hc.set(10,1,'HEINIKEN HOÀN CHỈNH',hdr(15)).paint(10,2,10,2,hdr(15)).merge(10,1,10,2).row(10,32);
+ const fullV=R0?R0.out:'',FP={f:{s:14},fill:PINK,h:'left',w:1,b:{l:'m',r:'m',t:'m',b:'m'}};
+ hc.set(11,1,{f:`TRIM(C2&IF(C4<>""," PHƯƠNG THỨC SỬ DỤNG: "&C4&".","")&IF(C5<>""," THÀNH PHẦN: "&C5&".","")&" MSPB: "&C6&"."&IF(C7<>""," TCCS: "&C7&".","")&" "&'Cài đặt'!$B$1)`,v:fullV},FP).paint(11,2,11,2,FP).merge(11,1,11,2).row(11,120);
+
+ /* ---------- 5) Cài đặt ---------- */
+ const cd=XW.Sheet('Cài đặt');cd.tab='7F7F7F';
+ cd.set(1,0,'Câu kết thúc',hdr(12)).set(1,1,S.foot||'',{f:{s:11},h:'left',w:1,b:bd,bc:GRAY}).row(1,30).col(0,20).col(1,100);
+
+ /* ---------- 6) Thành phần ---------- */
+ const tp=XW.Sheet('Thành phần');tp.tab='7F7F7F';
+ ['Tên thành phần','Nhóm','Đơn vị mặc định','Thứ tự trên nhãn','Đứng đầu nhóm','Tên trên nhãn'].forEach((t,j)=>tp.set(1,j,t,hdr(12,RED,{w:1})));tp.row(1,32);
+ F.forEach((f,i)=>{const r=2+i,gc=GRP[f[1]-1],a={f:{s:11},h:'left',b:bd,bc:GRAY},c={f:{s:11},h:'center',b:bd,bc:GRAY};
+  tp.set(r,0,f[0],Object.assign({},a,{f:{s:11,b:1}})).set(r,1,GN[f[1]-1],{f:{s:11,b:1,c:W},fill:gc,h:'center',b:bd,bc:GRAY}).set(r,2,f[3]||null,c).set(r,3,f[2],c).set(r,4,f[4]?1:null,c).set(r,5,f[5]||null,a)});
+ [30,16,16,16,14,22].forEach((w,j)=>tp.col(j,w));
+ return XW.write([nl,sp,sx,hc,cd,tp],sty)}
+
+window.__buildStyledXlsx=buildStyledXlsx;
+async function exportX(){let d=null,styled=true,why='';try{d=buildStyledXlsx()}catch(e){console.error(e);styled=false;why=String(e&&e.message||e)}
+if(d&&window.XLSX){try{const bad=verifyXlsx(d);if(bad){console.warn('Kiểm tra đọc lại file lỗi:',bad);d=null;styled=false;why=bad}}catch(e){console.warn(e);d=null;styled=false;why=String(e&&e.message||e)}}
+if(!d){if(!window.XLSX)return note('Chưa tải được thư viện Excel (cần kết nối mạng).');d=XLSX.write(buildWb(),{bookType:'xlsx',type:'array'})}
+try{const fn='Heineken-du-lieu.xlsx',dl=window.claude?await claude.use('downloads'):null;
 if(dl)await dl.save({filename:fn,data:d});
 else if(window.claude)return note('Trang này chưa cho tải file. Hãy dùng nút "Sao chép bảng" rồi dán vào Excel.');
 else{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([d]));a.download=fn;a.click()}
-note('Đã xuất '+S.P.length+' sản phẩm.'+over())}catch(e){if(!e||e.code!=='declined')note('Không xuất được: '+((e&&e.message)||e))}}
+note('Đã xuất '+S.P.length+' sản phẩm'+(styled?' (file có định dạng theo mẫu Heineken.xlsx, đã kiểm tra đọc lại khớp dữ liệu).':' bằng bản đơn giản'+(why?' (bản có định dạng không qua được bước kiểm tra: '+why+')':'')+'.')+over())}catch(e){if(!e||e.code!=='declined')note('Không xuất được: '+((e&&e.message)||e))}}
 async function importX(f){if(!window.XLSX)return note('Chưa tải được thư viện Excel (cần kết nối mạng).');
 try{const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),nf=mergeDefs(fieldDefs(wb)),r=parseWb(wb);applyData(r.P,r.C,r.foot,nf)}catch(e){note('Không đọc được file: '+(e.message||e))}}
-function editP(isNew,base){let warnedM=false,touched=!isNew,chkMiss=()=>[];const p=isNew?(base||{m:'',n:'',l:'',v:F.map(()=>null),x:'BÓN RỄ',t:'',h:false,c:'',d:''}):cur();if(!p)return;
+/* ===== Kiểm tra dữ liệu (cảnh báo, không chặn lưu) ===== */
+function valP(p){const w=[],nm=(p.n||'').trim().toLowerCase();
+ if(nm){const d=S.P.find(q=>q.m!==p.m&&(q.n||'').trim().toLowerCase()===nm);if(d)w.push('Trùng tên với MSPB '+d.m)}
+ const t=(p.t||'').trim();if(t&&!/^\d{1,3}:\d{4}\/UNI$/i.test(t))w.push('TCCS «'+t+'» khác dạng thường dùng (vd 06:2023/UNI)');
+ let sum=0;
+ (p.v||[]).forEach((v,i)=>{if(!F[i]||v==null||String(v).trim()==='')return;const s=split(v),n=s.n,u=s.u||F[i][3]||'',name=F[i][0];
+  const okNum=/^\d+(,\d+)?$/.test(n)||/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(n);
+  if(!okNum){w.push(/^\d*\.\d+$/.test(n)?name+': «'+n+'» dùng dấu chấm nhưng sau dấu chấm không đủ 3 số — web hiểu dấu chấm là hàng nghìn (1.5 = 15). Số thập phân hãy gõ dấu phẩy, vd 1,5':name+': «'+n+'» không phải số hợp lệ');return}
+  if(s.u&&!UN.includes(s.u))w.push(name+': đơn vị «'+s.u+'» lạ (thường là '+UN.join(', ')+')');
+  const x=num(n);if(u==='%'){if(x>100)w.push(name+': '+n+'% vượt 100%');if(F[i][1]===1)sum+=x}});
+ if(sum>100)w.push('Tổng nhóm Đa lượng '+String(Math.round(sum*100)/100).replace('.',',')+'% vượt 100%');
+ return w}
+function valDlg(){const R=S.P.map(p=>({p,w:valP(p)})).filter(x=>x.w.length);
+ openD('Kiểm tra dữ liệu',`<p class="e" style="margin-top:0">Đã soát ${S.P.length} sản phẩm: ${R.length?`<b>${R.length}</b> sản phẩm có cảnh báo`:'<b>không phát hiện vấn đề nào</b>'}. Đây chỉ là cảnh báo để bạn rà lại, không chặn việc lưu. Bấm MSPB để mở sản phẩm.</p>`+
+  R.slice(0,200).map(x=>`<div style="border-top:1px solid var(--line);padding:8px 0"><button type="button" class="lk" data-m="${esc(x.p.m)}">MSPB ${esc(x.p.m)}</button> <b>${esc(x.p.n||'(chưa có tên)')}</b><ul style="margin:4px 0 0 18px;padding:0">${x.w.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>`).join('')+(R.length>200?'<p class="e">… và '+(R.length-200)+' sản phẩm khác.</p>':''),null);
+ dlg.onclick=e=>{const b=e.target.closest('[data-m]');if(b){const m=b.dataset.m;dlg.close();pick(m);const li=document.querySelector('#list li.on');if(li)li.scrollIntoView({block:'nearest'})}};
+ dlg.addEventListener('close',()=>{dlg.onclick=null},{once:true})}
+/* ===== In nhiều sản phẩm: mỗi sản phẩm một trang ===== */
+function askPrintList(){const L=filt(),n=L.length;
+ openD('In danh sách đang lọc',n?`<p class="e" style="margin:0 0 10px">Sẽ in <b>${n}</b> sản phẩm đang hiện trong danh sách, mỗi sản phẩm một trang A4. Quốc gia và bản HDSD (nhãn / đầy đủ) lấy theo từng sản phẩm và chế độ đang bật.${n>60?' Danh sách dài nên có thể mất vài giây để chuẩn bị.':''}</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button id="plP" type="button" class="pri" style="flex:1 1 150px;justify-content:center;padding:12px">Giấy dọc</button><button id="plL" type="button" style="flex:1 1 150px;justify-content:center;padding:12px">Giấy ngang</button></div>`:'<p class="e" style="margin:0">Danh sách đang lọc không có sản phẩm nào để in.</p>',null,'','');
+ if(!n)return;
+ const go=o=>{let st=document.getElementById('pgsz');if(!st){st=document.createElement('style');st.id='pgsz';document.head.appendChild(st)}
+  st.textContent='@page{size:A4 '+o+';margin:10mm}';const rt=document.documentElement;rt.dataset.po=o;rt.dataset.pm='batch';
+  const keep={sel:S.sel,ctry:S.ctry},parts=[],when=new Date().toLocaleString('vi-VN');
+  try{for(const p of L){S.sel=p.m;renderPrev();parts.push('<section class="pbi">'+$('#prev').innerHTML+'<div class="pf2">Danh sách sản phẩm Grow More · MSPB '+esc(p.m)+' · Quốc gia nhãn: '+esc(S.ctry)+((p.d||'').trim()?' · HDSD: '+(hdMode()==='full'?'bản đầy đủ (gốc)':'bản nhãn'):'')+' · In lúc '+when+'</div></section>')}}
+  finally{S.sel=keep.sel;S.ctry=keep.ctry;renderPrev()}
+  $('#pbatch').innerHTML=parts.join('');dlg.close();setTimeout(()=>window.print(),300)};
+ $('#plP').onclick=()=>go('portrait');$('#plL').onclick=()=>go('landscape')}
+/* ===== Xác minh file Excel vừa dựng đọc lại được đúng (chạy trước khi tải về) ===== */
+function verifyXlsx(d){const wb=XLSX.read(d,{type:'array'}),r=parseWb(wb),defs=fieldDefs(wb),T=x=>String(x==null?'':x).trim();
+ if(r.P.length!==S.P.length)return'số sản phẩm đọc lại ('+r.P.length+') khác số đang có ('+S.P.length+')';
+ const mp=new Map(r.P.map(q=>[q.m,q]));
+ for(const p of S.P){const q=mp.get(p.m);if(!q)return'thiếu MSPB '+p.m;
+  for(const k of['n','l','x','t','c','d'])if(T(p[k])!==T(q[k]))return'MSPB '+p.m+': lệch trường '+k;
+  if(!!p.h!==!!q.h)return'MSPB '+p.m+': lệch cờ SP hay in';
+  for(let i=0;i<F.length;i++)if((cell(p.v[i])||null)!==(q.v[i]==null?null:q.v[i]))return'MSPB '+p.m+': lệch thành phần '+F[i][0]}
+ if(r.C.length!==S.C.length||S.C.some((c,i)=>T(c.n)!==T(r.C[i].n)||T(c.t)!==T(r.C[i].t)))return'lệch danh sách quốc gia sản xuất';
+ if(T(r.foot)!==T(S.foot))return'lệch câu kết thúc nhãn';
+ if(defs.length<F.length)return'thiếu thành phần ở sheet Thành phần';
+ return null}
+function editP(isNew,base){let warnedM=false,warnedV=false,touched=!isNew,chkMiss=()=>[],chkVal=()=>[];const p=isNew?(base||{m:'',n:'',l:'',v:F.map(()=>null),x:'BÓN RỄ',t:'',h:false,c:'',d:''}):cur();if(!p)return;
 const uniq=a=>[...new Set(a.filter(Boolean))].sort((a,b)=>a.localeCompare(b)),
 DL=(id,a)=>`<datalist id="${id}">${a.map(x=>`<option value="${esc(x)}">`).join('')}</datalist>`,
 I=(k,l,v,ex='')=>`<label>${l}<input data-k="${k}" value="${esc(v)}" ${ex}></label>`,
@@ -752,7 +1042,7 @@ ${DL('dl-l',uniq(S.P.map(q=>q.l)))}${DL('dl-x',uniq(['BÓN RỄ','BÓN LÁ',...S
 <label>Hướng dẫn sử dụng (HDSD) – dán từ trang tra cứu<textarea data-k="d" rows="5" spellcheck="false" placeholder="1. Cây công nghiệp (…). Liều lượng pha …">${esc(p.d||'')}</textarea></label>
 <label class="chk"><input type="checkbox" id="eh" ${p.h?'checked':''}> SP hay in (★)</label>
 <p class="e hint">Cần thêm chất mới? Bấm <b>＋ Thêm thành phần</b> ở nhóm tương ứng — thành phần mới có sẵn cho mọi sản phẩm, không cần làm lại tool. Mục đầu tiên của ô đơn vị là đơn vị mặc định.</p>
-${GN.map((n,gi)=>{const c=F.filter(f=>f[1]==gi+1).length;return`<div class="gh"><span>${n}</span><button type="button" class="ga" data-g="${gi+1}" title="Thêm thành phần mới vào nhóm ${n}">＋ Thêm thành phần</button></div><div class="cg" data-g="${gi+1}" style="--c:${cols(c)}">${F.map((f,i)=>f[1]==gi+1?CV(f,i,p.v[i]):'').join('')}</div><div class="addf" data-g="${gi+1}" hidden><input class="an" maxlength="60" placeholder="Tên thành phần mới, vd Natri (Na)" aria-label="Tên thành phần mới"><input class="au" list="dl-un" maxlength="12" value="${gi==2?'ppm':'%'}" placeholder="Đơn vị mặc định" aria-label="Đơn vị mặc định"><button type="button" class="pri ay">Thêm</button><button type="button" class="ax">Hủy</button></div>`}).join('')}`,()=>{
+${GN.map((n,gi)=>{const c=F.filter(f=>f[1]==gi+1).length;return`<div class="gh"><span>${n}</span><button type="button" class="ga" data-g="${gi+1}" title="Thêm thành phần mới vào nhóm ${n}">＋ Thêm thành phần</button></div><div class="cg" data-g="${gi+1}" style="--c:${cols(c)}">${F.map((f,i)=>f[1]==gi+1?CV(f,i,p.v[i]):'').join('')}</div><div class="addf" data-g="${gi+1}" hidden><input class="an" maxlength="60" placeholder="Tên thành phần mới, vd Natri (Na)" aria-label="Tên thành phần mới"><input class="au" list="dl-un" maxlength="12" value="${gi==2?'ppm':'%'}" placeholder="Đơn vị mặc định" aria-label="Đơn vị mặc định"><button type="button" class="pri ay">Thêm</button><button type="button" class="ax">Hủy</button></div>`}).join('')}<div id="mv" class="mwl" hidden></div>`,()=>{
 const open=[...dlg.querySelectorAll('.addf:not([hidden]) .an')].find(x=>x.value.trim());if(open){note(`Bạn đang nhập thành phần mới «${open.value.trim()}» — bấm «Thêm» (hoặc «Hủy») trước khi lưu sản phẩm.`);open.focus();return false}
 const g=k=>dlg.querySelector(`[data-k="${k}"]`).value.trim(),m=g('m');
 if(!/^\d{1,5}$/.test(m)){note('MSPB gồm 1–5 chữ số');return false}
@@ -760,7 +1050,7 @@ const id=pad(m);if(S.P.some(x=>x.m===id&&x!==p)){note('MSPB '+id+' đã tồn t�
 const v=[];for(let i=0;i<F.length;i++){const n=g('v'+i),u=dlg.querySelector(`[data-u="${i}"]`).value;
 if(n&&!/^\d[\d.,]*$/.test(n)){note(`"${F[i][0]}": chỉ nhập số (vd 4 · 0,5 · 30.000), đơn vị chọn ở ô bên cạnh`);return false}
 v.push(n?(u?n+' '+u:n):null)}
-const ML=chkMiss();if(ML.length&&!warnedM){warnedM=true;touched=true;chkMiss();note('Bấm Lưu lần nữa nếu vẫn muốn lưu khi còn thiếu thông tin.');return false}
+const ML=chkMiss(),VW=chkVal();if((ML.length&&!warnedM)||(VW.length&&!warnedV)){warnedM=true;warnedV=true;touched=true;chkMiss();note((ML.length&&VW.length?'Còn thiếu thông tin và có cảnh báo dữ liệu':ML.length?'Còn thiếu thông tin':'Có '+VW.length+' cảnh báo dữ liệu')+' — bấm Lưu lần nữa nếu vẫn muốn lưu.');return false}
 const np={m:id,n:g('n'),l:g('l'),x:g('x'),t:g('t'),c:g('c'),d:g('d'),h:$('#eh').checked,v};
 if(isNew)S.P.push(np);else S.P[S.P.indexOf(p)]=np;
 S.P.sort((a,b)=>a.m.localeCompare(b.m));S.sel=id;if(np.c&&S.fol!==false)S.ctry=np.c;save();renderCt();render()},
@@ -769,7 +1059,10 @@ const MQ=[['n','Tên sản phẩm'],['l','Loại phân bón'],['x','Phương th�
 chkMiss=()=>{const L=[];MQ.forEach(([k,t])=>{const e=dlg.querySelector(`[data-k="${k}"]`);if(!e)return;const emp=!e.value.trim();e.classList.toggle('need',touched&&emp);if(emp)L.push(t)});
 if(![...dlg.querySelectorAll('[data-k^="v"]')].some(e=>e.value.trim()))L.push('Thành phần');
 const w=$('#mw');w.innerHTML=L.length?ic('alert')+'Còn thiếu: '+L.join(', '):'';w.hidden=!L.length;return L};
-chkMiss();dlg.oninput=dlg.onchange=()=>{if(warnedM){warnedM=false;note('')}chkMiss()};
+chkVal=()=>{const g=k=>dlg.querySelector(`[data-k="${k}"]`).value.trim(),v=[];
+for(let i=0;i<F.length;i++){const e=dlg.querySelector(`[data-k="v${i}"]`),u=dlg.querySelector(`[data-u="${i}"]`);if(!e){v.push(null);continue}const n=e.value.trim();v.push(n?(u&&u.value?n+' '+u.value:n):null)}
+const W=valP({m:pad(g('m')||'0'),n:g('n'),t:g('t'),v}),w=$('#mv');if(w){w.innerHTML=W.length?ic('alert')+'<span>'+W.map(esc).join('<br>')+'</span>':'';w.hidden=!W.length}return W};
+chkMiss();chkVal();dlg.oninput=dlg.onchange=()=>{if(warnedM||warnedV){warnedM=false;warnedV=false;note('')}chkMiss();chkVal()};
 dlg.querySelectorAll('.ga').forEach(b=>b.onclick=()=>{const f=dlg.querySelector(`.addf[data-g="${b.dataset.g}"]`);f.hidden=!f.hidden;note('');if(!f.hidden)f.querySelector('.an').focus()});
 dlg.querySelectorAll('.addf').forEach(f=>{const g=+f.dataset.g,nm=f.querySelector('.an'),un=f.querySelector('.au'),
 go=()=>{const r=addField(nm.value,g,un.value);if(r.err){note(r.err);nm.focus();return}
@@ -821,7 +1114,7 @@ S.C=c;S.foot=$('#ft').value;if(!c.some(x=>x.n===S.ctry))S.ctry=c[0].n;save();ren
 $('#ca').onclick=()=>$('#cl').insertAdjacentHTML('beforeend',row({n:'',t:''}));
 const grow=t=>{t.style.height='auto';t.style.height=t.scrollHeight+2+'px'};
 dlg.querySelectorAll('[data-t]').forEach(grow);dlg.oninput=e=>{if(e.target.matches('[data-t]'))grow(e.target)}}
-function backup(){openD('Excel & sao lưu',`<p class="e">Website và file Excel dùng chung cấu trúc sheet <b>Short SP</b> (cột A:${colL(F.length+7)} – cột ${colL(F.length+7)} là Hướng dẫn sử dụng, ngay trước đó là quốc gia sản xuất đã xác nhận) và <b>Sản xuất</b>. Xuất ra để đưa vào Heineken.xlsx, hoặc nhập trực tiếp từ Heineken.xlsx / file đã xuất. File xuất có thêm sheet <b>Thành phần</b> ghi danh sách thành phần (kể cả thành phần bạn tự thêm) để nhập lại không bị mất.</p>
+function backup(){openD('Excel & sao lưu',`<p class="e">Website và file Excel dùng chung cấu trúc sheet <b>Short SP</b> (cột A:${colL(F.length+7)} – cột ${colL(F.length+7)} là Hướng dẫn sử dụng, ngay trước đó là quốc gia sản xuất đã xác nhận) và <b>Sản xuất</b>. Xuất ra để đưa vào Heineken.xlsx, hoặc nhập trực tiếp từ Heineken.xlsx / file đã xuất. File xuất được trang trí giống Heineken.xlsx, gồm các sheet <b>Nhập liệu</b> (chọn MSPB để xem thành phần và nội dung nhãn tự tính), <b>Short SP</b>, <b>Sản xuất</b>, <b>Heiniken hoàn chỉnh</b>, <b>Cài đặt</b> và <b>Thành phần</b> (danh sách thành phần, kể cả thành phần bạn tự thêm, để nhập lại không bị mất).</p>
 <label>Cách nhập<select id="im"><option value="m">Gộp theo MSPB (cập nhật SP trùng, thêm SP mới, giữ SP không có trong file)</option><option value="r">Thay thế toàn bộ bằng dữ liệu trong file</option></select></label>
 <div class="act" style="justify-content:flex-start;margin:0 0 8px"><button id="bx" class="pri">📤 Xuất ra Excel (.xlsx)</button><button id="bi">📥 Nhập từ Excel</button><button id="bt">📋 Sao chép bảng (dán vào sheet Short SP)</button></div>
 <input type="file" id="fi" accept=".xlsx,.xlsm,.xls" hidden>
@@ -843,7 +1136,11 @@ if(!b.dataset.a){b.dataset.a=1;b.textContent=`Bấm lần nữa để xác nhậ
 L.forEach(p=>p.c=S.ctry);save();render()};
 $('#list').onclick=e=>{const s=e.target.closest('[data-s]');if(s){const p=S.P.find(x=>x.m===s.dataset.s);p.h=!p.h;save();renderList();renderPrev();return}
 const li=e.target.closest('li[data-m]');if(li){pick(li.dataset.m);if(matchMedia('(max-width:900px)').matches)$('#prev').scrollIntoView({behavior:RM?'auto':'smooth',block:'start'})}};
-$('#bN').onclick=()=>editP(true);$('#bF').onclick=editF;$('#bC').onclick=editC;$('#bB').onclick=backup;$('#bS').onclick=subDlg;$('#bH').onclick=hdDlg;
+$('#bN').onclick=()=>editP(true);$('#bF').onclick=editF;$('#bC').onclick=editC;$('#bB').onclick=backup;$('#bS').onclick=subDlg;$('#bH').onclick=hdDlg;$('#bVal').onclick=valDlg;$('#bPAll').onclick=askPrintList;
+let instEv=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();instEv=e;$('#bInst').hidden=false});
+$('#bInst').onclick=async()=>{if(!instEv)return;instEv.prompt();try{await instEv.userChoice}catch(e){}instEv=null;$('#bInst').hidden=true};
+addEventListener('appinstalled',()=>{$('#bInst').hidden=true});
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 document.addEventListener('keydown',e=>{if(dlg.open||e.ctrlKey||e.metaKey||e.altKey)return;const t=e.target,g=t.tagName,typing=(g==='INPUT'&&t.type!=='checkbox')||g==='TEXTAREA'||g==='SELECT';
 if(e.key==='/'&&!typing){e.preventDefault();$('#q').focus();return}
 if((e.key==='ArrowDown'||e.key==='ArrowUp')&&g!=='SELECT'&&g!=='TEXTAREA'){const L=filt();if(!L.length)return;e.preventDefault();let i=L.findIndex(p=>p.m===S.sel);i=e.key==='ArrowDown'?Math.min(L.length-1,i+1):Math.max(0,i<0?0:i-1);pick(L[i].m);const li=$('#list li.on');if(li)li.scrollIntoView({block:'nearest',behavior:RM?'auto':'smooth'})}
@@ -1000,7 +1297,7 @@ try{
   fb={...a,...au,...fs};
  }
 }catch(e){status('off','Không tải được Firebase','Kiểm tra kết nối mạng rồi tải lại trang');return}
-const {initializeApp,getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,updateProfile,getFirestore,initializeFirestore,enableNetwork,collection,doc,onSnapshot,writeBatch,serverTimestamp,query,where,orderBy,limit,getDocs,getDoc}=fb;
+const {initializeApp,getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,updateProfile,getFirestore,initializeFirestore,enableNetwork,collection,doc,onSnapshot,writeBatch,serverTimestamp,query,where,orderBy,limit,getDocs,getDoc,getCountFromServer}=fb;
 const app=initializeApp(CFG),auth=getAuth(app);
 let db;
 /* Tự chuyển sang long-polling khi mạng/proxy chặn WebSocket → luôn nhận được cập nhật trực tiếp */
@@ -1058,7 +1355,7 @@ function sumC(bs,as){
 
 /* ---------- trạng thái đồng bộ ---------- */
 const base={P:new Map(),cfg:null};
-const remote={P:new Map(),cfg:null};
+const remote={P:new Map(),cfg:null};let remoteBy=new Map(),remoteCfgBy='';
 let gotP=false,gotC=false,fromCache=true,ready=false,applying=false,flushing=false,again=false,tm=null,pendingRemote=false,seedAsked=false;
 const kindMap=new Map();
 
@@ -1097,15 +1394,65 @@ function discardLocal(why){
  if(why==='guest')toast('Bạn cần đăng nhập để lưu chỉnh sửa. Thay đổi vừa rồi chưa được lưu.','Đăng nhập',login,9000);
  else toast('Tài khoản '+userEmail+' chưa có quyền chỉnh sửa nên thay đổi vừa rồi không được lưu. Nhờ quản lý thêm email này vào danh sách được phép.',null,null,10000);
  steady()}
+/* ---------- chống ghi đè khi hai người cùng sửa: gộp từng trường (3 bên: bản gốc · bản của tôi · bản mới nhất trên máy chủ) ---------- */
+const rNorm=m=>{const j=remote.P.get(m);if(j==null)return null;try{const c=remote.cfg?JSON.parse(remote.cfg):cfgO();return snapS(fromSnap(JSON.parse(j),c.F),c.F)}catch(e){return j}};
+const cfgNorm=j=>{try{const c=JSON.parse(j);return JSON.stringify({F:c.F,C:c.C,foot:c.foot||'',srt:c.srt||{}})}catch(e){return j}};
+const LAB={n:'Tên sản phẩm',l:'Loại phân bón',x:'Phương thức',t:'TCCS',c:'Quốc gia SX',d:'HDSD',h:'Hay in'};
+function merge3(Bs,As,Rs){const B=JSON.parse(Bs),A=JSON.parse(As),R=JSON.parse(Rs),out={...R,v:{...R.v}},conf=[];
+ const pk=(b,a,r)=>a===b?{x:r}:r===b?{x:a}:a===r?{x:a}:{c:1};
+ ['n','l','x','t','c','d','h'].forEach(k=>{const p=pk(B[k],A[k],R[k]);if(p.c){conf.push({k,a:A[k],r:R[k]})}else out[k]=p.x});
+ new Set([...Object.keys(B.v||{}),...Object.keys(A.v||{}),...Object.keys(R.v||{})]).forEach(k=>{const p=pk((B.v||{})[k],(A.v||{})[k],(R.v||{})[k]);
+  if(p.c)conf.push({k,a:(A.v||{})[k],r:(R.v||{})[k],v:1});else if(p.x==null)delete out.v[k];else out.v[k]=p.x});
+ out.v=sortO(out.v);return{out,conf}}
+function resolveConflicts(ops,cur){
+ const out=[],notes=[];let touched=false;
+ const setLocal=(m,snap)=>{const i=S.P.findIndex(p=>p.m===m);
+  if(snap==null){if(i>=0)S.P.splice(i,1)}else{const np=fromSnap(JSON.parse(snap),F);while(np.v.length<F.length)np.v.push(null);if(i>=0)S.P[i]=np;else S.P.push(np)}
+  S.P.sort((a,b)=>a.m.localeCompare(b.m));touched=true};
+ for(const o of ops){
+  const rj=rNorm(o.m);
+  if(o.b===null&&rj===null){out.push(o);continue}
+  if(o.b!==null&&rj===o.b){out.push(o);continue}
+  if(o.a!==null&&rj===o.a){cur.set(o.m,o.a);continue}
+  if(o.a===null&&rj===null){cur.delete(o.m);continue}
+  const who=remoteBy.get(o.m)||'người khác',nm=(()=>{try{return JSON.parse(o.a||rj||o.b).n||''}catch(e){return''}})(),tag='MSPB '+o.m+(nm?' ('+nm+')':'');
+  if(o.b!==null&&o.a!==null&&rj!==null){
+   const r=merge3(o.b,o.a,rj);
+   if(!r.conf.length){o.a=JSON.stringify(r.out);o.b=rj;cur.set(o.m,o.a);setLocal(o.m,o.a);notes.push(tag+': đã tự gộp thay đổi của '+who+' vào bản của bạn');out.push(o);continue}
+   const lines=r.conf.map(c=>'• '+(LAB[c.k]||c.k)+': bạn «'+cut(c.a)+'» — '+who+' «'+cut(c.r)+'»').join('\n');
+   if(confirm(tag+' vừa được '+who+' sửa trong lúc bạn đang sửa, và hai bên đổi cùng một mục:\n\n'+lines+'\n\nOK = giữ bản của BẠN cho các mục này (các mục khác đã tự gộp).\nHủy = lấy bản của '+who+' cho các mục này.')){
+    r.conf.forEach(c=>{if(c.v){if(c.a==null)delete r.out.v[c.k];else r.out.v[c.k]=c.a}else r.out[c.k]=c.a});r.out.v=sortO(r.out.v)}
+   const fin=JSON.stringify(r.out);
+   if(fin===rj){cur.set(o.m,rj);setLocal(o.m,rj);continue}
+   o.a=fin;o.b=rj;cur.set(o.m,fin);setLocal(o.m,fin);out.push(o);continue}
+  if(o.a===null){
+   if(confirm(tag+': bạn đã xóa sản phẩm này, nhưng '+who+' vừa sửa nó.\n\nOK = vẫn xóa.\nHủy = giữ lại bản mới của '+who+'.')){o.b=rj;out.push(o)}
+   else{cur.set(o.m,rj);setLocal(o.m,rj)}
+   continue}
+  if(rj===null){
+   if(confirm(tag+': '+who+' vừa xóa sản phẩm này, nhưng bạn đã sửa nó.\n\nOK = giữ và tạo lại bản của bạn.\nHủy = chấp nhận việc xóa.')){o.b=null;out.push(o)}
+   else{cur.delete(o.m);setLocal(o.m,null)}
+   continue}
+  if(confirm(tag+': '+who+' vừa thêm sản phẩm có cùng MSPB này.\n\nOK = ghi đè bằng bản của bạn.\nHủy = giữ bản của '+who+'.')){o.b=rj;out.push(o)}
+  else{cur.set(o.m,rj);setLocal(o.m,rj)}
+ }
+ return{ops:out,notes,touched}}
 async function flush(){
  tm=null;if(!ready||applying)return;
  if(flushing){again=true;return}
- const cur=curMap(),cs=cfgS(),ops=[];
+ let ops=[];const cur=curMap(),cs=cfgS();
  cur.forEach((s,m)=>{if(base.P.get(m)!==s)ops.push({m,b:base.P.get(m)||null,a:s})});
  base.P.forEach((s,m)=>{if(!cur.has(m))ops.push({m,b:s,a:null})});
  const cfgCh=cs!==base.cfg;
  if(!ops.length&&!cfgCh){if(pendingRemote)applyRemote();return}
  const why=editBlock();if(why){discardLocal(why);return}
+ if(cfgCh&&remote.cfg!=null){const rc=cfgNorm(remote.cfg);
+  if(rc!==base.cfg&&rc!==cs&&!confirm('Cài đặt chung (thành phần / quốc gia sản xuất / câu cuối nhãn) vừa được '+(remoteCfgBy||'người khác')+' thay đổi trong lúc bạn đang sửa.\n\nOK = lưu cài đặt của BẠN, ghi đè lên bản của họ.\nHủy = bỏ mọi thay đổi chưa lưu của bạn và lấy dữ liệu mới nhất.')){
+   clearTimeout(tm);tm=null;again=false;pendingRemote=false;applyRemote(true);toast('Đã bỏ thay đổi chưa lưu và lấy dữ liệu mới nhất của '+(remoteCfgBy||'người khác')+'.',null,null,7000);steady();return}}
+ const cres=resolveConflicts(ops,cur);ops=cres.ops;
+ if(cres.touched){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}render()}
+ if(cres.notes.length)toast(cres.notes.join('\n'),null,null,8000);
+ if(!ops.length&&!cfgCh){base.P=cur;if(pendingRemote)applyRemote();steady();return}
  flushing=true;status('conn','Đang lưu…');
  const by=userName||'?',em=userEmail,items=[];
  ops.forEach(o=>{
@@ -1152,8 +1499,8 @@ function listen(){
    else status('off','Chưa được cấp quyền: '+userEmail,'Email này chưa có trong danh sách được phép. Nhờ quản lý thêm email rồi tải lại trang.')}
   else status('off','Mất kết nối','Kiểm tra mạng hoặc Rules: '+(e&&e.code||e))};
  unsubs.push(
-  onSnapshot(collection(db,'products'),sn=>{remote.P=new Map();sn.forEach(d=>remote.P.set(d.id,d.data().json));gotP=true;fromCache=sn.metadata.fromCache;maybeApply()},er),
-  onSnapshot(doc(db,'meta','config'),sn=>{remote.cfg=sn.exists()?sn.data().json:null;gotC=true;maybeApply()},er));
+  onSnapshot(collection(db,'products'),sn=>{remote.P=new Map();remoteBy=new Map();sn.forEach(d=>{remote.P.set(d.id,d.data().json);remoteBy.set(d.id,d.data().by||'')});gotP=true;fromCache=sn.metadata.fromCache;maybeApply()},er),
+  onSnapshot(doc(db,'meta','config'),sn=>{remote.cfg=sn.exists()?sn.data().json:null;remoteCfgBy=sn.exists()?(sn.data().by||''):'';gotC=true;maybeApply()},er));
 }
 /* Giữ kết nối sống: quay lại tab / có mạng lại / mở lại từ bộ nhớ đệm → nối lại và áp dụng dữ liệu đang chờ */
 function wake(){
@@ -1176,7 +1523,7 @@ document.addEventListener('click',e=>{
  e.preventDefault();e.stopImmediatePropagation();deny(why)},true);
 
 /* ---------- nhật ký + khôi phục ---------- */
-const tmo=e=>e.at&&e.at.toDate?e.at.toDate():new Date();
+const tmo=e=>e.at&&e.at.toDate?e.at.toDate():new Date(),LOGMAX=5000;
 /* Quyền xóa nhật ký: chỉ email có trong tài liệu meta/admins (trường emails) và được Firestore Rules cho phép xóa */
 let isAdmin=false;
 async function loadAdmin(){isAdmin=false;if(!auth.currentUser||!userEmail)return;
@@ -1190,7 +1537,8 @@ function logRange(t,v){let a,b;v=String(v||'').trim();if(!v)return null;
  else{const y=parseInt(v,10);if(!y||y<2000||y>2200)return null;a=new Date(y,0,1);b=new Date(y+1,0,1)}
  const f=d=>d.toLocaleDateString('vi-VN');return{a,b,txt:t==='year'?'năm '+a.getFullYear():f(a)+(b-a>864e5*1.5?' – '+f(new Date(b-1)):'')}}
 function cleanerHTML(){const n=new Date(),iso=n.getFullYear()+'-'+pad2(n.getMonth()+1)+'-'+pad2(n.getDate());
- return '<details id="clr" style="margin-bottom:10px;border:1px solid var(--line);border-radius:10px;padding:8px 10px"><summary style="cursor:pointer;font-weight:600">Dọn nhật ký (dành cho quản lý)</summary>'+
+ return '<details id="clr" style="margin-bottom:10px;border:1px solid var(--line);border-radius:10px;padding:8px 10px"><summary style="cursor:pointer;font-weight:600">Dọn nhật ký (dành cho quản lý)<span id="cinfo" style="font-weight:400;color:var(--mut)"></span></summary>'+
+ '<p id="cwarn" hidden style="margin:6px 0;padding:6px 10px;border:1px solid var(--wl);background:var(--wbg);color:var(--wfg);border-radius:8px;font-weight:600"></p>'+
  '<p class="e" style="margin:6px 0">Xóa toàn bộ mục nhật ký trong một khoảng thời gian để nhật ký không quá dài. Các mục đã xóa không khôi phục được và không còn dùng để «Khôi phục về bản trước».</p>'+
  '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><select id="cm"><option value="day">Theo ngày</option><option value="week">Theo tuần</option><option value="month">Theo tháng</option><option value="year">Theo năm</option></select>'+
  '<input id="cv" type="date" value="'+iso+'" style="width:auto"><button id="cgo" type="button">'+ic('x')+'Xóa nhật ký</button></div><div id="cmsg" class="e" style="margin-top:6px"></div></details>'}
@@ -1233,7 +1581,8 @@ async function openLog(m){
    (e.changes||[]).slice(0,8).map(x=>'<div class="e" style="font-size:13.5px;word-break:break-word">• '+esc(x)+'</div>').join('')+((e.changes||[]).length>8?'<div class="e">… và '+(e.changes.length-8)+' thay đổi khác</div>':'')+
    (e.before&&e.m!=='_config'&&e.kind!=='create'?'<button data-r="'+esc(e.id)+'" style="margin-top:6px">'+ic('hist')+'Khôi phục về bản trước lần sửa này</button>':'')+(isAdmin?'<button data-d="'+esc(e.id)+'" style="margin-top:6px;margin-left:6px">'+ic('x')+'Xóa mục này</button>':'')+'</div>').join(''):'<p class="e">Chưa có thay đổi nào.</p>'};
  await loadAdmin();draw('');const q=$('#lgq');if(q)q.oninput=()=>draw(q.value);
- if(!m){const ad=$('#lgadm');if(ad&&isAdmin){ad.innerHTML=cleanerHTML();bindCleaner(L,()=>draw(q?q.value:''))}}
+ if(!m){const ad=$('#lgadm');if(ad&&isAdmin){ad.innerHTML=cleanerHTML();bindCleaner(L,()=>draw(q?q.value:''));
+  if(typeof getCountFromServer==='function')getCountFromServer(collection(db,'history')).then(r=>{const c=r.data().count,i=$('#cinfo'),dt=$('#clr'),w=$('#cwarn');if(i)i.textContent=' · '+c.toLocaleString('vi-VN')+' mục'+(c>LOGMAX?' — nên dọn bớt':'');if(c>LOGMAX){if(dt)dt.open=true;if(w){w.hidden=false;w.textContent='Nhật ký đã có '+c.toLocaleString('vi-VN')+' mục (quá '+LOGMAX.toLocaleString('vi-VN')+'). Nên dọn các tháng/năm cũ để trang tải nhanh hơn.'}}}).catch(()=>{})}}
  w.onclick=async ev=>{const d=ev.target.closest('[data-d]');
   if(d){if(!isAdmin)return;if(!sure(d,'Bấm lần nữa để xóa hẳn mục này'))return;d.disabled=true;
    try{await commit([bt=>bt.delete(doc(db,'history',d.dataset.d))]);const i=L.findIndex(x=>x.id===d.dataset.d);if(i>=0)L.splice(i,1);draw(q?q.value:'');toast('Đã xóa 1 mục nhật ký',null,null,3000)}

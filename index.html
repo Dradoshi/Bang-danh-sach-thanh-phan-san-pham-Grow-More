@@ -1045,13 +1045,17 @@ openD(isNew?'Thêm sản phẩm':'Sửa sản phẩm '+p.m,`<div class="fg">${I(
 ${DL('dl-l',uniq(S.P.map(q=>q.l)))}${DL('dl-x',uniq(['BÓN RỄ','BÓN LÁ',...S.P.map(q=>q.x)]))}${DL('dl-un',UN)}
 <label>Hướng dẫn sử dụng (HDSD) – dán từ trang tra cứu<textarea data-k="d" rows="5" spellcheck="false" placeholder="1. Cây công nghiệp (…). Liều lượng pha …">${esc(p.d||'')}</textarea></label>
 <label class="chk"><input type="checkbox" id="eh" ${p.h?'checked':''}> SP hay in (★)</label>
-<div class="offg"><b>Sản phẩm này có (bỏ tick = không in/không hiện và không báo thiếu):</b><div>${OFFK.map(k=>`<label class="chk"><input type="checkbox" data-off="${k}" ${p[k]?'':'checked'}> ${OFFL[k]}</label>`).join('')}</div></div>
+<div class="offg"><b>Sản phẩm này có (bỏ tick = không in/không hiện, không báo thiếu và không bắt nhập):</b><div>${OFFK.map(k=>`<label class="chk"><input type="checkbox" data-off="${k}" ${p[k]?'':'checked'}> ${OFFL[k]}</label>`).join('')}</div></div>
 <p class="e hint">Cần thêm chất mới? Bấm <b>＋ Thêm thành phần</b> ở nhóm tương ứng — thành phần mới có sẵn cho mọi sản phẩm, không cần làm lại tool. Mục đầu tiên của ô đơn vị là đơn vị mặc định.</p>
 ${GN.map((n,gi)=>{const c=F.filter(f=>f[1]==gi+1).length;return`<div class="gh"><span>${n}</span><button type="button" class="ga" data-g="${gi+1}" title="Thêm thành phần mới vào nhóm ${n}">＋ Thêm thành phần</button></div><div class="cg" data-g="${gi+1}" style="--c:${cols(c)}">${F.map((f,i)=>f[1]==gi+1?CV(f,i,p.v[i]):'').join('')}</div><div class="addf" data-g="${gi+1}" hidden><input class="an" maxlength="60" placeholder="Tên thành phần mới, vd Natri (Na)" aria-label="Tên thành phần mới"><input class="au" list="dl-un" maxlength="12" value="${gi==2?'ppm':'%'}" placeholder="Đơn vị mặc định" aria-label="Đơn vị mặc định"><button type="button" class="pri ay">Thêm</button><button type="button" class="ax">Hủy</button></div>`}).join('')}<div id="mv" class="mwl" hidden></div>`,()=>{
 const open=[...dlg.querySelectorAll('.addf:not([hidden]) .an')].find(x=>x.value.trim());if(open){note(`Bạn đang nhập thành phần mới «${open.value.trim()}» — bấm «Thêm» (hoặc «Hủy») trước khi lưu sản phẩm.`);open.focus();return false}
 const g=k=>dlg.querySelector(`[data-k="${k}"]`).value.trim(),m=g('m');
-if(!/^\d{1,5}$/.test(m)){note('MSPB gồm 1–5 chữ số');return false}
-const id=pad(m);if(S.P.some(x=>x.m===id&&x!==p)){note('MSPB '+id+' đã tồn tại');return false}
+const noM=!dlg.querySelector('[data-off="nm"]').checked;let id;
+if(noM&&!m){/* SP không có MSPB (bỏ tick): không bắt nhập, tự gán mã nội bộ 5 số chưa dùng (ưu tiên 00000, hết thì 99999 trở xuống) */
+const used=new Set(S.P.filter(x=>x!==p).map(x=>x.m));id=(!isNew&&p.m&&!used.has(p.m))?p.m:(!used.has('00000')?'00000':'');
+for(let n=99999;!id&&n>0;n--){const c=pad(n);if(!used.has(c))id=c}}
+else{if(!/^\d{1,5}$/.test(m)){note('MSPB gồm 1–5 chữ số (hoặc bỏ tick «MSPB» nếu sản phẩm không có MSPB)');return false}
+id=pad(m);if(S.P.some(x=>x.m===id&&x!==p)){note('MSPB '+id+' đã tồn tại');return false}}
 const v=[];for(let i=0;i<F.length;i++){const n=g('v'+i),u=dlg.querySelector(`[data-u="${i}"]`).value;
 if(n&&!/^\d[\d.,]*$/.test(n)){note(`"${F[i][0]}": chỉ nhập số (vd 4 · 0,5 · 30.000), đơn vị chọn ở ô bên cạnh`);return false}
 v.push(n?(u?n+' '+u:n):null)}
@@ -1061,7 +1065,8 @@ if(isNew)S.P.push(np);else S.P[S.P.indexOf(p)]=np;
 S.P.sort((a,b)=>a.m.localeCompare(b.m));S.sel=id;if(np.c&&S.fol!==false)S.ctry=np.c;save();renderCt();render()},
 isNew?'':'<button id="del">🗑 Xóa SP</button>','wide');
 const MQ=[['n','Tên sản phẩm'],['l','Loại phân bón'],['x','Phương thức sử dụng'],['t','TCCS'],['c','Quốc gia sản xuất'],['d','HDSD']];
-chkMiss=()=>{const L=[],oo=k=>{const c=dlg.querySelector('[data-off="'+k+'"]');return!!c&&!c.checked};MQ.forEach(([k,t])=>{const e=dlg.querySelector(`[data-k="${k}"]`);if(!e)return;const off=!!OFFOF[k]&&oo(OFFOF[k]),emp=!e.value.trim()&&!off,lb=e.closest('label');if(lb)lb.classList.toggle('nz',off);e.classList.toggle('need',touched&&emp);if(emp)L.push(t)});
+chkMiss=()=>{const L=[],oo=k=>{const c=dlg.querySelector('[data-off="'+k+'"]');return!!c&&!c.checked};
+{const em=dlg.querySelector('[data-k="m"]'),lb=em&&em.closest('label'),mo=oo('nm');if(lb)lb.classList.toggle('nz',mo);if(em)em.placeholder=mo?'Không có MSPB — để trống':''}MQ.forEach(([k,t])=>{const e=dlg.querySelector(`[data-k="${k}"]`);if(!e)return;const off=!!OFFOF[k]&&oo(OFFOF[k]),emp=!e.value.trim()&&!off,lb=e.closest('label');if(lb)lb.classList.toggle('nz',off);e.classList.toggle('need',touched&&emp);if(emp)L.push(t)});
 dlg.querySelectorAll('.cg').forEach(g=>g.classList.toggle('nz',oo('nv')));if(!oo('nv')&&![...dlg.querySelectorAll('[data-k^="v"]')].some(e=>e.value.trim()))L.push('Thành phần');
 const w=$('#mw');w.innerHTML=L.length?ic('alert')+'Còn thiếu: '+L.join(', '):'';w.hidden=!L.length;return L};
 chkVal=()=>{const g=k=>dlg.querySelector(`[data-k="${k}"]`).value.trim(),v=[],sk=dlg.querySelector('[data-off="nv"]'),skip=!!sk&&!sk.checked;
